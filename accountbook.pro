@@ -13,10 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    mainwidget.cpp
+    mainwidget.cpp \
+    settingstab.cpp \
+    paytab.cpp \
+    statisticstab.cpp
 
 HEADERS  += \
-    mainwidget.h
+    mainwidget.h \
+    settingstab.h \
+    paytab.h \
+    statisticstab.h
 
 FORMS    += \
-    mainwidget.ui
+    mainwidget.ui \
+    settingstab.ui \
+    paytab.ui \
+    statisticstab.ui
+
+OTHER_FILES +=
+
+RESOURCES += \
+    resource.qrc

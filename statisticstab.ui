@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StatisticsTab</class>
+ <widget class="QWidget" name="StatisticsTab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>782</width>
+    <height>482</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QRadioButton" name="ClassByYearRadioButton">
+         <property name="text">
+          <string>以年份分類</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="ClassByClassRadioButton">
+         <property name="text">
+          <string>以類別分類</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="ClassByDayRadioButton">
+         <property name="text">
+          <string>以日分類</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QTreeView" name="classTreeView"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="expandAllPushButton">
+         <property name="text">
+          <string>全部展開</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="collapseAllPushButton">
+         <property name="text">
+          <string>全部收合</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QTableView" name="PayTableView"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="maxShowNumLabel">
+         <property name="text">
+          <string>最大數目顯示(0為全部)：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="maxShowNumLineEdit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="changePushButton">
+         <property name="text">
+          <string>修改</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="deletePushButtom">
+         <property name="text">
+          <string>刪除</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
