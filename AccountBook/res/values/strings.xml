@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">累死雞記帳</string>
+    <string name="action_settings">設定</string>
+    <string name="section_pay">支出</string>
+    <string name="section_statistics">統計</string>
+
+    <string name="view_spend">金額</string>
+    <string name="view_date">時間</string>
+    <string name="view_class">分類</string>
+    <string name="view_note">筆記</string>
+</resources>

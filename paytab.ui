@@ -53,14 +53,14 @@
          <widget class="QDateEdit" name="DateEdit"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="commentLabel">
+         <widget class="QLabel" name="noteLabel">
           <property name="text">
            <string>備註：</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QTextEdit" name="commentTextEdit"/>
+         <widget class="QTextEdit" name="noteTextEdit"/>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="payLabel">
