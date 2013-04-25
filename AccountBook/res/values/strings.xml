@@ -6,8 +6,12 @@
     <string name="section_pay">支出</string>
     <string name="section_statistics">統計</string>
 
+    <string name="picture_description">累死雞</string>
     <string name="view_spend">金額</string>
     <string name="view_date">時間</string>
     <string name="view_class">分類</string>
     <string name="view_note">筆記</string>
+    
+    <string name="ok">確認</string>
+    <string name="cancel">取消</string>
 </resources>

@@ -8,16 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
 
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
+	SectionsPagerAdapter _sectionsPagerAdapter;
+	ViewPager _viewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -25,23 +21,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		findViews();
-		setActionBar();
+		_setViews();
+		_setActionBar();
 	}
 
-	private void findViews()
+	private void _setViews()
 	{
-		mViewPager = (ViewPager) findViewById(R.id.pager);	
+		_viewPager = (ViewPager) findViewById(R.id.pager);	
 	}
 	
-	private void setActionBar()
+	private void _setActionBar()
 	{
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		mViewPager.setOnPageChangeListener(
+		_sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		_viewPager.setAdapter(_sectionsPagerAdapter);
+		_viewPager.setOnPageChangeListener(
 			new ViewPager.SimpleOnPageChangeListener() 
 			{
 				@Override
@@ -52,12 +48,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		);
 
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) 
+		for (int i = 0; i < _sectionsPagerAdapter.getCount(); i++) 
 		{
 			actionBar.addTab(
 				actionBar.newTab()
-				.setText(mSectionsPagerAdapter.getPageTitle(i))
-				.setTabListener(this)
+					.setText(_sectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this)
 			);
 		}
 	}
@@ -75,7 +71,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
+		_viewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
@@ -106,20 +102,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();;
+			Fragment fragment = null;
 			Bundle args = new Bundle();
 			
 			switch(position)
 			{
 			case 0: 
-				fragment = new PayFragment(); 
+				fragment = new ExpenseFragment(); 
 				break;	
 			case 1: 
 				fragment = new StatisticsFragment(); 
 				break;	
 			default:
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
 				break;
 			}
 			
@@ -142,48 +136,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 			return null;
 		}
-	}
-
-	public static class DummySectionFragment extends Fragment 
-	{
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-		{
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy, container, false);
-			TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
-	
-	public static class PayFragment extends Fragment 
-	{
-		public PayFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-		{
-			View rootView = inflater.inflate(R.layout.fragment_pay, container, false);
-			return rootView;
-		}
-	}
-	
-	public static class StatisticsFragment extends Fragment 
-	{
-		public StatisticsFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-		{
-			View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
-			return rootView;
-		}
-	}
+	}	
 }
