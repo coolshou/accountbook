@@ -1,5 +1,6 @@
 package net.nctucs.lazchi.marco79423.accountbook;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -18,7 +19,7 @@ public class CategorySQLiteHelper extends SQLiteOpenHelper
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase database) 
+	public void onCreate(SQLiteDatabase database)
 	{
 		final String query = 
 			"CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
@@ -27,6 +28,20 @@ public class CategorySQLiteHelper extends SQLiteOpenHelper
 			CategoryData.ORDER_ID + " NUMERIC" +
 			");";
 		database.execSQL(query);
+		
+		_insertDefaultCategories(database);
+	}
+	
+	private void _insertDefaultCategories(SQLiteDatabase database)
+	{
+		//食
+		String[] categories = {"食", "衣", "住", "行", "育", "樂"};
+		for(String category : categories)
+		{
+			ContentValues values = new ContentValues();
+			values.put(CategoryData.CATEGORY, category);
+			database.insert(TABLE, null, values);
+		}
 	}
 
 	@Override

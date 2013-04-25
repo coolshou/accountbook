@@ -24,26 +24,24 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000d;
-        public static final int button_cancel=0x7f08000c;
-        public static final int button_ok=0x7f08000b;
-        public static final int datepicker=0x7f080006;
-        public static final int edittext_note=0x7f08000a;
-        public static final int edittext_spend=0x7f080004;
-        public static final int imageView1=0x7f080002;
+        public static final int action_settings=0x7f08000c;
+        public static final int button_cancel=0x7f08000b;
+        public static final int button_ok=0x7f08000a;
+        public static final int datepicker=0x7f080005;
+        public static final int edittext_note=0x7f080009;
+        public static final int edittext_spend=0x7f080003;
+        public static final int imageView1=0x7f080001;
         public static final int pager=0x7f080000;
-        public static final int section_label=0x7f080001;
-        public static final int spinner_class=0x7f080008;
-        public static final int textview_class=0x7f080007;
-        public static final int textview_date=0x7f080005;
-        public static final int textview_note=0x7f080009;
-        public static final int textview_spend=0x7f080003;
+        public static final int spinner_expense=0x7f080007;
+        public static final int textview_class=0x7f080006;
+        public static final int textview_date=0x7f080004;
+        public static final int textview_note=0x7f080008;
+        public static final int textview_spend=0x7f080002;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_main_dummy=0x7f030001;
-        public static final int fragment_pay=0x7f030002;
-        public static final int fragment_statistics=0x7f030003;
+        public static final int fragment_expense=0x7f030001;
+        public static final int fragment_statistics=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f070000;

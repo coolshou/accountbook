@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			Fragment fragment = null;
-			Bundle args = new Bundle();
+			//Bundle args = new Bundle();
 			
 			switch(position)
 			{
