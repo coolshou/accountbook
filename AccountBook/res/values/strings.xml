@@ -13,5 +13,8 @@
     <string name="view_note">筆記</string>
     
     <string name="ok">確認</string>
+    <string name="save_successfully">儲存成功！</string>
+    <string name="save_failed">資料儲存失敗</string>
     <string name="cancel">取消</string>
+    
 </resources>

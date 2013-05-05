@@ -1,35 +1,33 @@
 package net.nctucs.lazchi.marco79423.accountbook;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 
-public class ExpenseDataSource 
+
+public class ExpenseDatabaseAdapter extends AbstractDatabaseAdapter 
 {
-	private SQLiteDatabase database;
-	private ExpenseSQLiteHelper dbHelper;
+	static final String TABLE = "expenses";
 	
-	public ExpenseDataSource(Context context)
+	static final String CREATE_TABLE = 
+		"CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
+		ExpenseData.ID + " INTEGER NOT NULL PRIMARY KEY," +
+		ExpenseData.PICTURE + " BLOB," +
+		ExpenseData.SPEND + " NUMERIC," +
+		ExpenseData.DATE + " DATE," +
+		ExpenseData.CATEGORY_ID + " NUMERIC," +
+		ExpenseData.NOTE + " TEXT" +
+		");";
+	static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE;
+	
+	public ExpenseDatabaseAdapter(Context context) 
 	{
-		dbHelper = new ExpenseSQLiteHelper(context);
+		super(context);
 	}
-	
-	public void open() throws SQLException 
-	{
-		database = dbHelper.getWritableDatabase();
-	}
-	
-	public void close()
-	{
-		dbHelper.close();
-	}
-	
-	public void addExpense(byte[] picture, long spend, String date, long categoryId, String note)
+
+	public long addExpense(byte[] picture, long spend, String date, long categoryId, String note)
 	{
 		ContentValues values = new ContentValues();
 		values.put(ExpenseData.PICTURE, picture);
@@ -37,19 +35,19 @@ public class ExpenseDataSource
 		values.put(ExpenseData.DATE, date);
 		values.put(ExpenseData.CATEGORY_ID, categoryId);
 		values.put(ExpenseData.NOTE, note);
-		database.insert(ExpenseSQLiteHelper.TABLE, null, values);
+		return _database.insert(TABLE, null, values);
 	}
 
 	public void deleteExpense(ExpenseData data)
 	{
-		database.delete(ExpenseSQLiteHelper.TABLE, "_id = " + data.getId(), null);
+		_database.delete(TABLE, "_id = " + data.getId(), null);
 	}
 	
 	public List<ExpenseData> getAllExpenses()
 	{
 		List<ExpenseData> expenses = new ArrayList<ExpenseData>();
 		
-		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE, ExpenseData.ALL_FIELDS, null, null, null, null, null);
+		Cursor cursor = _database.query(TABLE, ExpenseData.ALL_FIELDS, null, null, null, null, null);
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())
 		{
