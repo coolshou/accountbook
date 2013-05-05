@@ -12,15 +12,17 @@ import android.view.Menu;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
 
-	SectionsPagerAdapter _sectionsPagerAdapter;
-	ViewPager _viewPager;
-
+	private SectionsPagerAdapter _sectionsPagerAdapter;
+	private ViewPager _viewPager;
+	private Fragment[] _fragment; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		_fragment = new Fragment[]{ new ExpenseFragment(), new StatisticsFragment() };
 		_setViews();
 		_setActionBar();
 	}
@@ -71,6 +73,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
+		if(tab.getPosition() == 1)
+			((StatisticsFragment)_fragment[1]).update();
 		_viewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -102,22 +106,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = null;
 			//Bundle args = new Bundle();
 			
-			switch(position)
-			{
-			case 0: 
-				fragment = new ExpenseFragment(); 
-				break;	
-			case 1: 
-				fragment = new StatisticsFragment(); 
-				break;	
-			default:
-				break;
-			}
-			
-			return fragment;
+			return _fragment[position];
 		}
 
 		@Override
