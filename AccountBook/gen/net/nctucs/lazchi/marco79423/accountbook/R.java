@@ -24,23 +24,26 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080010;
-        public static final int button_cancel=0x7f08000b;
-        public static final int button_ok=0x7f08000a;
-        public static final int edittext_date=0x7f080005;
-        public static final int edittext_note=0x7f080009;
-        public static final int edittext_spend=0x7f080003;
-        public static final int imageView1=0x7f080001;
-        public static final int imageview_picture=0x7f08000e;
-        public static final int linearLayout1=0x7f08000d;
-        public static final int listview_expenses=0x7f08000c;
+        public static final int action_settings=0x7f080013;
+        public static final int expense_button_cancel=0x7f08000c;
+        public static final int expense_button_capture=0x7f080002;
+        public static final int expense_button_ok=0x7f08000b;
+        public static final int expense_edittext_date=0x7f080006;
+        public static final int expense_edittext_note=0x7f08000a;
+        public static final int expense_edittext_spend=0x7f080004;
+        public static final int expense_imageview_picture=0x7f080001;
+        public static final int expense_spinner_expense=0x7f080008;
+        public static final int expense_textview_category=0x7f080007;
+        public static final int expense_textview_date=0x7f080005;
+        public static final int expense_textview_note=0x7f080009;
+        public static final int expense_textview_spend=0x7f080003;
+        public static final int linearLayout1=0x7f08000e;
+        public static final int listitem_imageview_picture=0x7f08000f;
+        public static final int listitem_textview_category=0x7f080012;
+        public static final int listitem_textview_date=0x7f080011;
+        public static final int listitem_textview_spend=0x7f080010;
         public static final int pager=0x7f080000;
-        public static final int spinner_expense=0x7f080007;
-        public static final int textview_category=0x7f08000f;
-        public static final int textview_class=0x7f080006;
-        public static final int textview_date=0x7f080004;
-        public static final int textview_note=0x7f080008;
-        public static final int textview_spend=0x7f080002;
+        public static final int statistics_listview_expenses=0x7f08000d;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -54,17 +57,20 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int cancel=0x7f05000c;
-        public static final int ok=0x7f050009;
-        public static final int picture_description=0x7f050004;
-        public static final int save_failed=0x7f05000b;
-        public static final int save_successfully=0x7f05000a;
+        public static final int expense_button_cancel=0x7f05000a;
+        public static final int expense_button_capture=0x7f050008;
+        public static final int expense_button_ok=0x7f050009;
+        public static final int expense_capture_failed=0x7f05000f;
+        public static final int expense_picture_description=0x7f05000b;
+        public static final int expense_save_failed=0x7f05000e;
+        public static final int expense_save_successfully=0x7f05000d;
+        public static final int expense_textview_category=0x7f050006;
+        public static final int expense_textview_date=0x7f050005;
+        public static final int expense_textview_note=0x7f050007;
+        public static final int expense_textview_spend=0x7f050004;
+        public static final int listitem_picture_description=0x7f05000c;
         public static final int section_pay=0x7f050002;
         public static final int section_statistics=0x7f050003;
-        public static final int view_class=0x7f050007;
-        public static final int view_date=0x7f050006;
-        public static final int view_note=0x7f050008;
-        public static final int view_spend=0x7f050005;
     }
     public static final class style {
         /** 

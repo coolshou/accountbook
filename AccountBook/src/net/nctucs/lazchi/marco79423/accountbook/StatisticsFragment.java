@@ -35,7 +35,7 @@ public class StatisticsFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 		
-		_expensesListView = (ListView) view.findViewById(R.id.listview_expenses);
+		_expensesListView = (ListView) view.findViewById(R.id.statistics_listview_expenses);
 		
 		Assert.assertNotNull("_expensesListView is null", _expensesListView);
 		
@@ -94,7 +94,12 @@ public class StatisticsFragment extends Fragment
 			expenseList,
 			R.layout.listitem_expense,
 			new String[] {"picture", "spend", "date", "category"},
-			new int[] {R.id.imageview_picture, R.id.textview_spend, R.id.textview_date, R.id.textview_category}
+			new int[] {
+				R.id.listitem_imageview_picture, 
+				R.id.listitem_textview_spend, 
+				R.id.listitem_textview_date, 
+				R.id.listitem_textview_category
+			}
 		);
 		
 		Assert.assertNotNull("_expensesListView is null", _expensesListView);

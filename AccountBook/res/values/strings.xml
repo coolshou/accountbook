@@ -6,15 +6,20 @@
     <string name="section_pay">支出</string>
     <string name="section_statistics">統計</string>
 
-    <string name="picture_description">累死雞</string>
-    <string name="view_spend">金額</string>
-    <string name="view_date">時間</string>
-    <string name="view_class">分類</string>
-    <string name="view_note">筆記</string>
+    <string name="expense_textview_spend">金額</string>
+    <string name="expense_textview_date">時間</string>
+    <string name="expense_textview_category">分類</string>
+    <string name="expense_textview_note">筆記</string>
     
-    <string name="ok">確認</string>
-    <string name="save_successfully">儲存成功！</string>
-    <string name="save_failed">資料儲存失敗</string>
-    <string name="cancel">取消</string>
+    <string name="expense_button_capture">拍照</string>
+    <string name="expense_button_ok">確認</string>
+    <string name="expense_button_cancel">取消</string>
+    
+    <string name="expense_picture_description">消費證明</string>
+    <string name="listitem_picture_description">消費證明</string>
+    
+    <string name="expense_save_successfully">儲存成功！</string>
+    <string name="expense_save_failed">資料儲存失敗</string>
+    <string name="expense_capture_failed">拍照失敗</string>
     
 </resources>

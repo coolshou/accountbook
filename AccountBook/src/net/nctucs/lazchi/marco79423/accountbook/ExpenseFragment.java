@@ -1,5 +1,6 @@
 package net.nctucs.lazchi.marco79423.accountbook;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,8 +9,12 @@ import junit.framework.Assert;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.app.Activity;
+import android.content.Intent;
 import android.database.SQLException;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +22,16 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ExpenseFragment extends Fragment implements OnClickListener
 {
+	final private int CAPTURE_REQUEST = 0;
+	
+	private ImageView _pictureImageView;
+	private Button _captureButton;
 	private EditText _spendEditText;
 	private EditText _dateEditText; 
 	private Spinner _categorySpinner;
@@ -45,13 +55,17 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 	{
 		View view = inflater.inflate(R.layout.fragment_expense, container, false);
 
-		_spendEditText = (EditText) view.findViewById(R.id.edittext_spend);	
-		_dateEditText = (EditText) view.findViewById(R.id.edittext_date); 
-		_categorySpinner = (Spinner) view.findViewById(R.id.spinner_expense);
-		_noteEditText = (EditText) view.findViewById(R.id.edittext_note);			
-		_okButton = (Button) view.findViewById(R.id.button_ok);
-		_cancelButton = (Button) view.findViewById(R.id.button_cancel);
+		_pictureImageView = (ImageView) view.findViewById(R.id.expense_imageview_picture);
+		_captureButton = (Button) view.findViewById(R.id.expense_button_capture);
+		_spendEditText = (EditText) view.findViewById(R.id.expense_edittext_spend);	
+		_dateEditText = (EditText) view.findViewById(R.id.expense_edittext_date); 
+		_categorySpinner = (Spinner) view.findViewById(R.id.expense_spinner_expense);
+		_noteEditText = (EditText) view.findViewById(R.id.expense_edittext_note);			
+		_okButton = (Button) view.findViewById(R.id.expense_button_ok);
+		_cancelButton = (Button) view.findViewById(R.id.expense_button_cancel);
 	
+		Assert.assertNotNull("_pictureImageView is null", _pictureImageView);
+		Assert.assertNotNull("_captureButton is null", _captureButton);
 		Assert.assertNotNull("_spendEditText is null", _spendEditText);
 		Assert.assertNotNull("_dateEditText is null", _dateEditText);
 		Assert.assertNotNull("_categorySpinner is null", _categorySpinner);
@@ -59,6 +73,7 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 		Assert.assertNotNull("_okButton is null", _okButton);
 		Assert.assertNotNull("_cancelButton is null", _cancelButton);
 		
+		_captureButton.setOnClickListener(this);
 		_dateEditText.setOnClickListener(this);
 		_okButton.setOnClickListener(this);
 		_cancelButton.setOnClickListener(this);
@@ -98,6 +113,7 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 	
 	private void _resetTheForm() 
 	{
+		//_pictureImageView.setImageBitmap(null);
 		_spendEditText.setText("");
 		_dateEditText.setText(DateFormat.getDateFormat(getActivity()).format(Calendar.getInstance().getTime()));
 		_noteEditText.setText("");	
@@ -131,12 +147,33 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 	{
 		switch(view.getId())
 		{
+		case R.id.expense_button_capture: _takePicture(); break;
 		//case R.id.edittext_date: _showDatePicker(); break;
-		case R.id.button_ok: _onClickOkButton(); break;
-		case R.id.button_cancel: _resetTheForm(); break;
+		case R.id.expense_button_ok: _onClickOkButton(); break;
+		case R.id.expense_button_cancel: _resetTheForm(); break;
 		}
 	} 
 	
+	private void _takePicture() 
+	{
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takePictureIntent, CAPTURE_REQUEST);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
+		if(resultCode == Activity.RESULT_OK && requestCode == CAPTURE_REQUEST)
+		{
+			Bundle extras = data.getExtras();
+			_pictureImageView.setImageBitmap((Bitmap)extras.get("data"));
+		}
+		else
+		{
+			Toast.makeText(getActivity(), R.string.expense_capture_failed, Toast.LENGTH_LONG).show();
+		}
+	}
+
 	/*
 	private void _showDatePicker()
 	{
@@ -153,13 +190,13 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 		Calendar c = Calendar.getInstance();
 		new DatePickerDialog(getActivity(), listener, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 	}*/
-	
+
 	private void _onClickOkButton()
 	{
 		if(_saveTheExpense())
-			Toast.makeText(getActivity(), R.string.save_successfully, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.expense_save_successfully, Toast.LENGTH_LONG).show();
 		else
-			Toast.makeText(getActivity(), R.string.save_failed, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.expense_save_failed, Toast.LENGTH_LONG).show();
 		_resetTheForm();
 	}
 	
@@ -172,6 +209,20 @@ public class ExpenseFragment extends Fragment implements OnClickListener
 		String note = "";
 
 		boolean error = false;
+		
+		try
+		{
+			_pictureImageView.setDrawingCacheEnabled(true);
+			Bitmap bitmap = Bitmap.createBitmap(_pictureImageView.getDrawingCache());
+			_pictureImageView.setDrawingCacheEnabled(false);
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+			
+			picture = outStream.toByteArray();
+		} 
+		catch(NullPointerException exception)
+		{
+		}
 		
 		try
 		{
