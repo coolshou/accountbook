@@ -14,21 +14,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     mainwidget.cpp \
-    settingstab.cpp \
-    paytab.cpp \
-    statisticstab.cpp
+    statisticstab.cpp \
+    settingtab.cpp \
+    expensetab.cpp
 
 HEADERS  += \
     mainwidget.h \
-    settingstab.h \
-    paytab.h \
-    statisticstab.h
+    statisticstab.h \
+    settingtab.h \
+    expensetab.h
 
 FORMS    += \
     mainwidget.ui \
-    settingstab.ui \
-    paytab.ui \
-    statisticstab.ui
+    statisticstab.ui \
+    expensetab.ui \
+    settingtab.ui
 
 OTHER_FILES +=
 

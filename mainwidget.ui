@@ -36,9 +36,9 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
-     <widget class="PayTab" name="payTab">
+     <widget class="ExpenseTab" name="epenseTab">
       <attribute name="title">
        <string>支出</string>
       </attribute>
@@ -48,7 +48,7 @@
        <string>統計</string>
       </attribute>
      </widget>
-     <widget class="SettingsTab" name="settingsTab">
+     <widget class="SettingTab" name="settingTab">
       <attribute name="title">
        <string>設定</string>
       </attribute>
@@ -59,21 +59,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SettingsTab</class>
-   <extends>QWidget</extends>
-   <header>settingstab.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PayTab</class>
-   <extends>QWidget</extends>
-   <header>paytab.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>StatisticsTab</class>
    <extends>QWidget</extends>
    <header>statisticstab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ExpenseTab</class>
+   <extends>QWidget</extends>
+   <header>expensetab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SettingTab</class>
+   <extends>QWidget</extends>
+   <header>settingtab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

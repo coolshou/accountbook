@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PayTab</class>
- <widget class="QWidget" name="PayTab">
+ <class>ExpenseTab</class>
+ <widget class="QWidget" name="ExpenseTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -56,7 +56,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="picturePushButton">
+           <widget class="QPushButton" name="capturePushButton">
             <property name="text">
              <string>新增照片</string>
             </property>
@@ -65,7 +65,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="pictureLabel">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/images/logo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -77,17 +77,17 @@
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
-           <widget class="QLabel" name="payLabel">
+           <widget class="QLabel" name="expenseLabel">
             <property name="text">
              <string>金額：</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="payLineEdit"/>
+           <widget class="QLineEdit" name="expenseLineEdit"/>
           </item>
           <item>
-           <widget class="QPushButton" name="payButtom">
+           <widget class="QPushButton" name="expensePushButtom">
             <property name="text">
              <string>花費</string>
             </property>
@@ -133,7 +133,7 @@
          <layout class="QHBoxLayout" name="horizontalLayout"/>
         </item>
         <item row="1" column="1">
-         <widget class="QTreeView" name="classTreeView">
+         <widget class="QTreeView" name="categoryTreeView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -143,9 +143,9 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="classLabel">
+         <widget class="QLabel" name="categoryLabel">
           <property name="text">
-           <string>類別：</string>
+           <string>分類：</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -188,7 +188,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableView" name="payTableView">
+    <widget class="QTableView" name="expenseTableView">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
