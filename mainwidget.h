@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-namespace Ui {
-class MainWidget;
+namespace Ui
+{
+    class MainWidget;
 }
 
 class MainWidget : public QWidget
@@ -14,9 +15,11 @@ class MainWidget : public QWidget
 public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
-    
+
 private:
-    Ui::MainWidget *ui;
+    Ui::MainWidget *_ui;
+
+    void _checkSettings();
 };
 
 #endif // MAINWIDGET_H

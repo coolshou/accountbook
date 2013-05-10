@@ -22,7 +22,8 @@ HEADERS  += \
     mainwidget.h \
     statisticstab.h \
     settingtab.h \
-    expensetab.h
+    expensetab.h \
+    globals.h
 
 FORMS    += \
     mainwidget.ui \

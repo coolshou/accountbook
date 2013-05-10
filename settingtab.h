@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-namespace Ui {
-class SettingTab;
+namespace Ui
+{
+    class SettingTab;
 }
 
 class SettingTab : public QWidget
@@ -13,10 +14,15 @@ class SettingTab : public QWidget
     
 public:
     explicit SettingTab(QWidget *parent = 0);
+
     ~SettingTab();
-    
+
+public slots:
+
+    void onChangeDatabasePushButtonClicked();
+
 private:
-    Ui::SettingTab *ui;
+    Ui::SettingTab *_ui;
 };
 
 #endif // SETTINGTAB_H
