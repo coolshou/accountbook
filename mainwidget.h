@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class Core;
+
 namespace Ui
 {
     class MainWidget;
@@ -18,8 +20,7 @@ public:
 
 private:
     Ui::MainWidget *_ui;
-
-    void _checkSettings();
+    Core *_core;
 };
 
 #endif // MAINWIDGET_H

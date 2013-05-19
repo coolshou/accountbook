@@ -15,13 +15,17 @@ class SettingTab : public QWidget
 public:
     explicit SettingTab(QWidget *parent = 0);
 
-    ~SettingTab();
-
-public slots:
-
+    void setDatabasePath(const QString &databasePath);
     void onChangeDatabasePushButtonClicked();
 
+    ~SettingTab();
+
+signals:
+
+    void databasePathChanged(const QString&);
+
 private:
+
     Ui::SettingTab *_ui;
 };
 

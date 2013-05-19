@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS expenses(
+    _id INTEGER NOT NULL PRIMARY KEY,
+	picture BLOB,
+    spend NUMERIC,
+    data DATE,
+    category_id NUMERIC,
+    note TEXT
+);
+
+CREATE TABLE IF NOT EXISTS categories(
+    _id INTEGER NOT NULL PRIMARY KEY,
+	category TEXT,
+	order_id NUMERIC
+);
+
+
+CREATE TABLE IF NOT EXISTS info(
+    _id INTEGER NOT NULL PRIMARY KEY,
+	app_version TEXT
+);
+
+        
+        

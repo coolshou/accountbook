@@ -1,20 +1,37 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-const char ORGANIZATION[] = "兩大類 x 兩大類 = 四大類";
-const char ORGANIZATION_DOMAIN[] = "marco79423.lazchi.nctucs.net";
-const char APPLICATION[] = "累死雞記帳";
+namespace AccountBook
+{
+    const int EXPENSE_TAB = 0;
+    const int STATISTICS_TAB = 1;
+    const int SETTING_TAB = 2;
 
-const int EXPENSE_TAB = 0;
-const int STATISTICS_TAB = 1;
-const int SETTING_TAB = 2;
+    const char SETTINGS_DATABASE_PATH[] = "databasePath";
+    
+    const char CREATE_EXPENSES_TABLE[] =
+        "CREATE TABLE IF NOT EXISTS expenses( "
+        "   _id INTEGER NOT NULL PRIMARY KEY, "
+        "   picture BLOB, "
+        "   spend NUMERIC, "
+        "   data DATE, "
+        "   category_id NUMERIC, "
+        "   note TEXT"
+        ");";
 
-const char SETTING_DATABASE_PATH[] = "databasePath";
+    const char CREATE_CATEGORYIES_TABLE[] =
+        "CREATE TABLE IF NOT EXISTS categories( "
+        "   _id INTEGER NOT NULL PRIMARY KEY, "
+        "   category TEXT, "
+        "   order_id NUMERIC "
+        ");";
 
-const char WELCOME_MESSAGE_TITLE[] = "歡迎使用累死雞記帳";
-const char WELCOME_MESSAGE_CONTENT[] =
-    "廢話不多說，使用記帳前請先指定資料庫存放的位置\n\n"
-    "P.S. 建議時常要備份喔~";
+    const char CREATE_INFO_TABLE[] =
+        "CREATE TABLE IF NOT EXISTS info( "
+        "   _id INTEGER NOT NULL PRIMARY KEY, "
+        "    app_version TEXT "
+        ");";
+}
 
 
 #endif // GLOBALS_H

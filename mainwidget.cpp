@@ -1,31 +1,37 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "globals.h"
+#include "strings.h"
+#include "core.h"
 #include "settingtab.h"
 
 #include <QSettings>
 #include <QMessageBox>
 
-MainWidget::MainWidget(QWidget *parent) :
-    QWidget(parent),
-    _ui(new Ui::MainWidget)
+MainWidget::MainWidget(QWidget *parent)
+    :QWidget(parent), _ui(new Ui::MainWidget), _core(new Core(parent))
 {
     _ui->setupUi(this);
-    _checkSettings();
+
+    connect(_core, &Core::databasePathChanged, _ui->settingTab, &SettingTab::setDatabasePath);
+    connect(_ui->settingTab, &SettingTab::databasePathChanged, _core, &Core::setDatabasePath);
+
+    _core->loadSettings();
+
+    //檢查資料庫路徑
+    if(_core->getDatabasePath() == "")
+    {
+        QMessageBox::about(NULL, AccountBook::welcomeMessageTitle(), AccountBook::welcomeMessageContent());
+        _ui->tabWidget->setCurrentIndex(AccountBook::SETTING_TAB);
+        _ui->settingTab->onChangeDatabasePushButtonClicked();
+    }
+
+    //讀取資料庫
+    _core->loadDatabase();
+
 }
 
 MainWidget::~MainWidget()
 {
     delete _ui;
-}
-
-void MainWidget::_checkSettings()
-{
-    QSettings settings;
-    if(!settings.contains(SETTING_DATABASE_PATH))
-    {
-        QMessageBox::about(NULL, WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE_CONTENT);
-        _ui->tabWidget->setCurrentIndex(SETTING_TAB);
-        _ui->settingTab->onChangeDatabasePushButtonClicked();
-    }
 }

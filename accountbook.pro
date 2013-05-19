@@ -4,26 +4,31 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = accountbook
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += main.cpp\
     mainwidget.cpp \
     statisticstab.cpp \
     settingtab.cpp \
-    expensetab.cpp
+    expensetab.cpp \
+    strings.cpp \
+    core.cpp
 
 HEADERS  += \
     mainwidget.h \
     statisticstab.h \
     settingtab.h \
     expensetab.h \
-    globals.h
+    globals.h \
+    strings.h \
+    core.h
 
 FORMS    += \
     mainwidget.ui \

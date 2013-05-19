@@ -183,13 +183,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="titleLabel">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;累死雞工作室&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLabel" name="nameLabel">
            <property name="text">
             <string>作者：兩大類</string>
