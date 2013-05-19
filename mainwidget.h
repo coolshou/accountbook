@@ -21,6 +21,10 @@ public:
 private:
     Ui::MainWidget *_ui;
     Core *_core;
+
+    void _onDatabasePathChanged();
+    void _onloadingSettingsFailed();
+    void _onDatabaseLoad();
 };
 
 #endif // MAINWIDGET_H

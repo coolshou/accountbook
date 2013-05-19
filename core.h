@@ -5,6 +5,8 @@
 #include <QSqlDatabase>
 
 class QString;
+class QSqlQueryModel;
+class QSqlTableModel;
 
 class Core : public QObject
 {
@@ -15,7 +17,9 @@ public:
     explicit Core(QObject *parent = 0);
 
     void loadSettings();
-	void loadDatabase();
+    void loadDatabase();
+
+    QSqlQueryModel *getCategoryModel() const;
 
     QString getDatabasePath() const;
     void setDatabasePath(const QString& databasePath);
@@ -23,14 +27,18 @@ public:
     ~Core();
 
 signals:
-    
+
+    void loadingSettingsFailed();
     void databasePathChanged(const QString& databasePath);
+    void databaseOnLoad();
 
 private:
 
     QString _databasePath;
     QSqlDatabase _database;
-    
+
+    QSqlQueryModel *_categoryModel;
+
     void _createTables();
 };
 

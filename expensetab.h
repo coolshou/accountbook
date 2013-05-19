@@ -3,8 +3,11 @@
 
 #include <QWidget>
 
-namespace Ui {
-class ExpenseTab;
+class QSqlQueryModel;
+
+namespace Ui
+{
+    class ExpenseTab;
 }
 
 class ExpenseTab : public QWidget
@@ -13,10 +16,13 @@ class ExpenseTab : public QWidget
     
 public:
     explicit ExpenseTab(QWidget *parent = 0);
+
+    void setCategoryModel(QSqlQueryModel *categoryModel);
+
     ~ExpenseTab();
     
 private:
-    Ui::ExpenseTab *ui;
+    Ui::ExpenseTab *_ui;
 };
 
 #endif // EXPENSETAB_H

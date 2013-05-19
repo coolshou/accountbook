@@ -1,14 +1,21 @@
 #include "expensetab.h"
 #include "ui_expensetab.h"
 
-ExpenseTab::ExpenseTab(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ExpenseTab)
+#include <QDebug>
+#include <QSqlQueryModel>
+
+ExpenseTab::ExpenseTab(QWidget *parent)
+    :QWidget(parent), _ui(new Ui::ExpenseTab)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
+}
+
+void ExpenseTab::setCategoryModel(QSqlQueryModel *categoryModel)
+{
+    _ui->categoryListView->setModel(categoryModel);
 }
 
 ExpenseTab::~ExpenseTab()
 {
-    delete ui;
+    delete _ui;
 }
