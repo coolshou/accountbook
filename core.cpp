@@ -10,7 +10,7 @@
 #include <QSqlQueryModel>
 
 Core::Core(QObject *parent) 
-    :QObject(parent), _categoryModel(new QSqlQueryModel(this))
+    :QObject(parent)
 {
     _database = QSqlDatabase::addDatabase("QSQLITE");
 }
@@ -45,14 +45,7 @@ void Core::loadDatabase()
     if(_database.tables().isEmpty())
         _createTables();
 
-    _categoryModel->setQuery("SELECT category FROM categories");
-
     emit databaseOnLoad();
-}
-
-QSqlQueryModel *Core::getCategoryModel() const
-{
-    return _categoryModel;
 }
 
 QString Core::getDatabasePath() const

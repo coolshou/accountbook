@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class QSqlQueryModel;
+class QSqlRelationalTableModel;
 
 namespace Ui
 {
@@ -17,12 +18,15 @@ class ExpenseTab : public QWidget
 public:
     explicit ExpenseTab(QWidget *parent = 0);
 
-    void setCategoryModel(QSqlQueryModel *categoryModel);
+    void loadData();
 
     ~ExpenseTab();
     
 private:
     Ui::ExpenseTab *_ui;
+
+    QSqlQueryModel *_categoryModel;
+    QSqlRelationalTableModel *_expenseModel;
 };
 
 #endif // EXPENSETAB_H

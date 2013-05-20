@@ -25,8 +25,6 @@ MainWidget::MainWidget(QWidget *parent)
     _core->loadSettings();
 }
 
-
-
 MainWidget::~MainWidget()
 {
     delete _ui;
@@ -47,5 +45,5 @@ void MainWidget::_onloadingSettingsFailed()
 
 void MainWidget::_onDatabaseLoad()
 {
-    _ui->epenseTab->setCategoryModel(_core->getCategoryModel());
+    _ui->epenseTab->loadData();
 }
