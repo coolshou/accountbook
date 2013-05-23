@@ -25,8 +25,11 @@ public:
 private:
     Ui::ExpenseTab *_ui;
 
-    QSqlQueryModel *_categoryModel;
-    QSqlRelationalTableModel *_expenseModel;
+    QPixmap _currentPicture;
+
+    void _onCapturePushButtonClicked();
+    void _onExpensePushButtonClicked();
+    void _onDeletePushButtomClicked();
 };
 
 #endif // EXPENSETAB_H

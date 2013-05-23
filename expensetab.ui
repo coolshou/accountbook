@@ -87,7 +87,7 @@
            <widget class="QLineEdit" name="expenseLineEdit"/>
           </item>
           <item>
-           <widget class="QPushButton" name="expensePushButtom">
+           <widget class="QPushButton" name="expensePushButton">
             <property name="text">
              <string>花費</string>
             </property>
@@ -202,26 +202,6 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetFixedSize</enum>
      </property>
-     <item>
-      <widget class="QLabel" name="maxShowNumLabel">
-       <property name="text">
-        <string>最大數目顯示(0為全部)：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="maxShowNumlineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>50</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

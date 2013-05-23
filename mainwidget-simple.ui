@@ -26,9 +26,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -39,16 +36,11 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="ExpenseTab" name="epenseTab">
       <attribute name="title">
        <string>支出</string>
-      </attribute>
-     </widget>
-     <widget class="StatisticsTab" name="statisticsTab">
-      <attribute name="title">
-       <string>統計</string>
       </attribute>
      </widget>
      <widget class="SettingTab" name="settingTab">
@@ -61,12 +53,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>StatisticsTab</class>
-   <extends>QWidget</extends>
-   <header>statisticstab.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>ExpenseTab</class>
    <extends>QWidget</extends>

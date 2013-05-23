@@ -4,8 +4,9 @@
 namespace AccountBook
 {
     const int EXPENSE_TAB = 0;
-    const int STATISTICS_TAB = 1;
-    const int SETTING_TAB = 2;
+    //const int STATISTICS_TAB = 1;
+    const int SETTING_TAB = 1;
+    //const int SETTING_TAB = 2;
 
     const char SETTINGS_DATABASE_PATH[] = "databasePath";
     

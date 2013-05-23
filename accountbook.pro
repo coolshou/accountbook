@@ -19,7 +19,7 @@ SOURCES += main.cpp\
     settingtab.cpp \
     expensetab.cpp \
     strings.cpp \
-    core.cpp
+    expensemodel.cpp
 
 HEADERS  += \
     mainwidget.h \
@@ -28,13 +28,14 @@ HEADERS  += \
     expensetab.h \
     globals.h \
     strings.h \
-    core.h
+    expensemodel.h
 
 FORMS    += \
     mainwidget.ui \
     statisticstab.ui \
     expensetab.ui \
-    settingtab.ui
+    settingtab.ui \
+    mainwidget-simple.ui
 
 OTHER_FILES +=
 

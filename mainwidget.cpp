@@ -1,49 +1,120 @@
 #include "mainwidget.h"
-#include "ui_mainwidget.h"
+#include "ui_mainwidget-simple.h"
 #include "globals.h"
 #include "strings.h"
-#include "core.h"
 #include "settingtab.h"
 
 #include <QDebug>
 #include <QSettings>
 #include <QMessageBox>
+#include <QFileDialog>
+
+#include <QtSql>
+
 
 MainWidget::MainWidget(QWidget *parent)
-    :QWidget(parent), _ui(new Ui::MainWidget), _core(new Core(parent))
+    :QWidget(parent), _ui(new Ui::MainWidget)
 {
     _ui->setupUi(this);
 
-    connect(_core, &Core::databasePathChanged, _ui->settingTab, &SettingTab::setDatabasePath);
-    connect(_ui->settingTab, &SettingTab::databasePathChanged, _core, &Core::setDatabasePath);
+    _database = QSqlDatabase::addDatabase("QSQLITE");
 
-    connect(_core, &Core::loadingSettingsFailed, this, &MainWidget::_onloadingSettingsFailed);
-    connect(_core, &Core::databasePathChanged, this, &MainWidget::_onDatabasePathChanged);
-    connect(_core, &Core::databaseOnLoad, this, &MainWidget::_onDatabaseLoad);
+    QSettings settings;
+    QString databasePath;
+    if(settings.contains(AccountBook::SETTINGS_DATABASE_PATH))
+        databasePath = settings.value(AccountBook::SETTINGS_DATABASE_PATH).toString();
+    while(databasePath.isEmpty())
+    {
+        QMessageBox::about(NULL, AccountBook::welcomeMessageTitle(), AccountBook::welcomeMessageContent());
+        databasePath = QFileDialog::getSaveFileName(this, "選擇資料庫的位置和名稱", QDir::homePath() + "/accountbook.db");
+    }
+    setDatabase(databasePath);
 
-    //讀取設定
-    _core->loadSettings();
+    connect(_ui->settingTab, &SettingTab::databasePathChanged, this, &MainWidget::setDatabase);
+}
+
+void MainWidget::setDatabase(const QString &databasePath)
+{
+    //避免 loop
+    if(_databasePath == databasePath)
+        return;
+
+    _databasePath = databasePath;
+    QSettings settings;
+    settings.setValue(AccountBook::SETTINGS_DATABASE_PATH, _databasePath);
+
+    _ui->settingTab->setDatabasePath(_databasePath);
+    _loadDatabase();
 }
 
 MainWidget::~MainWidget()
 {
+    if(_database.isOpen())
+        _database.close();
     delete _ui;
 }
 
-void MainWidget::_onDatabasePathChanged()
+void MainWidget::_loadDatabase()
 {
-    //讀取資料庫
-    _core->loadDatabase();
-}
+    if(_database.isOpen())
+        _database.close();
 
-void MainWidget::_onloadingSettingsFailed()
-{
-    QMessageBox::about(NULL, AccountBook::welcomeMessageTitle(), AccountBook::welcomeMessageContent());
-    _ui->tabWidget->setCurrentIndex(AccountBook::SETTING_TAB);
-    _ui->settingTab->onChangeDatabasePushButtonClicked();
-}
+    _database.setDatabaseName(_databasePath);
 
-void MainWidget::_onDatabaseLoad()
-{
+    if(!_database.open())
+    {
+        qDebug() << _database.lastError();
+        return;
+    }
+
+    if(_database.tables().isEmpty())
+        _createTables();
+    _loadDatabaseInfo();
+
     _ui->epenseTab->loadData();
 }
+
+void MainWidget::_createTables()
+{
+    QSqlQuery query;
+    if(!query.exec(AccountBook::CREATE_EXPENSES_TABLE))
+        qDebug() << _database.lastError();
+
+    if(!query.exec(AccountBook::CREATE_CATEGORYIES_TABLE))
+        qDebug() << _database.lastError();
+
+    if(!query.exec(AccountBook::CREATE_INFO_TABLE))
+        qDebug() << _database.lastError();
+
+    //設定 default category
+    if(!query.exec("insert into categories(category) values('食');"))
+        qDebug() << _database.lastError();
+    if(!query.exec("insert into categories(category) values('衣');"))
+        qDebug() << _database.lastError();
+    if(!query.exec("insert into categories(category) values('住');"))
+        qDebug() << _database.lastError();
+    if(!query.exec("insert into categories(category) values('行');"))
+        qDebug() << _database.lastError();
+    if(!query.exec("insert into categories(category) values('育');"))
+        qDebug() << _database.lastError();
+    if(!query.exec("insert into categories(category) values('樂');"))
+        qDebug() << _database.lastError();
+
+}
+
+void MainWidget::_loadDatabaseInfo()
+{
+    QFile file(_databasePath);
+    _databaseInfo["fileSize"] = file.size();
+
+    QSqlTableModel model(this, _database);
+    model.setTable("expenses");
+    model.select();
+    _databaseInfo["expenseNum"] = model.rowCount();
+    model.setTable("categories");
+    model.select();
+    _databaseInfo["categoryNum"] = model.rowCount();
+
+    qDebug() << _databaseInfo;
+}
+

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFileDialog>
 
+
 SettingTab::SettingTab(QWidget *parent) :
     QWidget(parent),
     _ui(new Ui::SettingTab)
@@ -30,10 +31,11 @@ SettingTab::~SettingTab()
 
 void SettingTab::onChangeDatabasePushButtonClicked()
 {
-    QString databasePath = QFileDialog::getOpenFileName(this, "選擇資料庫的位置和名稱", QDir::homePath() + "/accountbook.db");
+    QString databasePath = QFileDialog::getSaveFileName(this, "選擇資料庫的位置和名稱", QDir::homePath() + "/accountbook.db");
 
     if(!databasePath.isEmpty())
         setDatabasePath(databasePath);
+
 }
 
 

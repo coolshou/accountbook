@@ -2,8 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
-
-class Core;
+#include <QSqlDatabase>
 
 namespace Ui
 {
@@ -16,15 +15,24 @@ class MainWidget : public QWidget
     
 public:
     explicit MainWidget(QWidget *parent = 0);
+    void setDatabase(const QString &databasePath);
     ~MainWidget();
+
+signals:
+
+    void databasePathChanged(const QString& databasePath);
+    void databaseOnLoad();
 
 private:
     Ui::MainWidget *_ui;
-    Core *_core;
 
-    void _onDatabasePathChanged();
-    void _onloadingSettingsFailed();
-    void _onDatabaseLoad();
+    QString _databasePath;
+    QSqlDatabase _database;
+    QHash<QString, int> _databaseInfo;
+
+    void _loadDatabase();
+    void _createTables();
+    void _loadDatabaseInfo();
 };
 
 #endif // MAINWIDGET_H
