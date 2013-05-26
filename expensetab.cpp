@@ -13,9 +13,10 @@
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QBuffer>
+#include <QKeyEvent>
 
 ExpenseTab::ExpenseTab(QWidget *parent)
-    :QWidget(parent), _ui(new Ui::ExpenseTab)
+    :QWidget(parent), _ui(new Ui::ExpenseTab), _editMode(false)
 {
     _ui->setupUi(this);
 
@@ -23,13 +24,19 @@ ExpenseTab::ExpenseTab(QWidget *parent)
     connect(_ui->expensePushButton, &QPushButton::clicked, this, &ExpenseTab::_onExpensePushButtonClicked);
     connect(_ui->deletePushButtom, &QPushButton::clicked, this, &ExpenseTab::_onDeletePushButtomClicked);
 
-    _ui->dateEdit->setDate(QDate::currentDate());
+    connect(_ui->expenseTableView, &QTableView::clicked, this, &ExpenseTab::_onExpenseTableViewClicked);
+
+    _clearExpense();
+
+    _ui->dateEdit->setCalendarPopup(true);
 
     _ui->expenseTableView->setEditTriggers(QTableView::NoEditTriggers);
     _ui->expenseTableView->setSelectionBehavior(QTableView::SelectRows);
     _ui->expenseTableView->setSelectionMode(QTableView::SingleSelection);
     _ui->expenseTableView->verticalHeader()->hide();
     _ui->expenseTableView->horizontalHeader()->setStretchLastSection(true);
+
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 void ExpenseTab::loadData()
@@ -64,6 +71,26 @@ ExpenseTab::~ExpenseTab()
     delete _ui;
 }
 
+void ExpenseTab::keyPressEvent(QKeyEvent *keyEvent)
+{
+    switch(keyEvent->key())
+    {
+    case Qt::Key_Escape: _clearExpense(); break;
+    }
+}
+
+void ExpenseTab::_clearExpense()
+{
+    _ui->pictureLabel->clear();
+    _ui->expenseLineEdit->clear();
+    _ui->dateEdit->setDate(QDate::currentDate());
+    _ui->categoryListView->clearSelection();
+    _ui->noteTextEdit->clear();
+
+    _ui->expensePushButton->setText("新增");
+    _editMode = false;
+}
+
 void ExpenseTab::_onCapturePushButtonClicked()
 {
     QString picturePath = QFileDialog::getOpenFileName(this, "選擇照片", QDir::homePath(), "照片 (*.jpg)");
@@ -81,29 +108,67 @@ void ExpenseTab::_onCapturePushButtonClicked()
 
 void ExpenseTab::_onExpensePushButtonClicked()
 {
-    QSqlRelationalTableModel *expenseModel = qobject_cast<ExpenseModel*>(_ui->expenseTableView->model());
-    expenseModel->insertRow(0);
+    ExpenseModel *expenseModel = qobject_cast<ExpenseModel*>(_ui->expenseTableView->model());
+
+    int row = 0;
+    if(_editMode)
+        row = _ui->expenseTableView->currentIndex().row();
+
+    if(!_editMode)
+        expenseModel->insertRow(row);
 
     QByteArray bytes;
     QBuffer buffer(&bytes);
     buffer.open(QIODevice::WriteOnly);
     _currentPicture.save(&buffer, "JPG");
 
-    expenseModel->setData(expenseModel->index(0, 1), bytes);
-    expenseModel->setData(expenseModel->index(0, 2),  _ui->expenseLineEdit->text().toUInt());
-    expenseModel->setData(expenseModel->index(0, 3), _ui->dateEdit->text());
-    expenseModel->setData(expenseModel->index(0, 4), _ui->categoryListView->currentIndex().row() + 1);
-    expenseModel->setData(expenseModel->index(0, 5), _ui->noteTextEdit->toPlainText());
+    expenseModel->setData(expenseModel->index(row, 1), bytes);
+    expenseModel->setData(expenseModel->index(row, 2),  _ui->expenseLineEdit->text().toUInt());
+    expenseModel->setData(expenseModel->index(row, 3), _ui->dateEdit->text().trimmed());
+    expenseModel->setData(expenseModel->index(row, 4), _ui->categoryListView->currentIndex().row() + 1);
+    expenseModel->setData(expenseModel->index(row, 5), _ui->noteTextEdit->toPlainText());
 
     if(!expenseModel->submitAll())
         qDebug() << expenseModel->lastError();
+
+    _clearExpense();
 }
 
 void ExpenseTab::_onDeletePushButtomClicked()
 {
-    QSqlRelationalTableModel *expenseModel = qobject_cast<ExpenseModel*>(_ui->expenseTableView->model());
+    ExpenseModel *expenseModel = qobject_cast<ExpenseModel*>(_ui->expenseTableView->model());
     int row = _ui->expenseTableView->currentIndex().row();
     expenseModel->removeRow(row);
     if(!expenseModel->submitAll())
         qDebug() << expenseModel->lastError();
+}
+
+void ExpenseTab::_onExpenseTableViewClicked()
+{
+    ExpenseModel *expenseModel = qobject_cast<ExpenseModel*>(_ui->expenseTableView->model());
+    QSqlQueryModel *categoryModel = qobject_cast<QSqlQueryModel*>(_ui->categoryListView->model());
+
+    int currentRow = _ui->expenseTableView->currentIndex().row();
+
+    _currentPicture = expenseModel->data(expenseModel->index(currentRow, 1), Qt::DecorationRole).value<QPixmap>();
+    if(!_currentPicture.isNull())
+        _ui->pictureLabel->setPixmap(_currentPicture.scaled(300, 180, Qt::KeepAspectRatio));
+    else
+        _ui->pictureLabel->clear();
+
+    unsigned int expense = expenseModel->data(expenseModel->index(currentRow, 2)).toUInt();
+    _ui->expenseLineEdit->setText(QString::number(expense));
+
+
+    QString date = expenseModel->data(expenseModel->index(currentRow, 3)).toString();
+    _ui->dateEdit->setDate(QDate::fromString(date, "yyyy/M/d"));
+
+    int categoryRow = expenseModel->data(expenseModel->index(currentRow, 4)).toInt() - 1;
+    _ui->categoryListView->setCurrentIndex(categoryModel->index(categoryRow, 0));
+
+    QString note = expenseModel->data(expenseModel->index(currentRow, 5)).toString();
+    _ui->noteTextEdit->setPlainText(note);
+
+    _editMode = true;
+    _ui->expensePushButton->setText("修改");
 }

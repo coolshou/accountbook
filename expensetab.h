@@ -21,15 +21,23 @@ public:
     void loadData();
 
     ~ExpenseTab();
-    
+
+protected:
+    void keyPressEvent(QKeyEvent *keyEvent);
+
 private:
     Ui::ExpenseTab *_ui;
 
+    bool _editMode;
     QPixmap _currentPicture;
+
+    void _clearExpense();
 
     void _onCapturePushButtonClicked();
     void _onExpensePushButtonClicked();
     void _onDeletePushButtomClicked();
+
+    void _onExpenseTableViewClicked();
 };
 
 #endif // EXPENSETAB_H
