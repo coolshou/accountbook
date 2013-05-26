@@ -32,7 +32,6 @@ private:
 
     void _loadDatabase();
     void _createTables();
-    void _loadDatabaseInfo();
 };
 
 #endif // MAINWIDGET_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
-    <height>482</height>
+    <width>775</width>
+    <height>447</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,11 +19,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="6,4,1">
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -31,58 +31,94 @@
      <property name="title">
       <string>新增一筆支出</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetFixedSize</enum>
-      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="capturePushButton">
-            <property name="text">
-             <string>新增照片</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
          <widget class="QLabel" name="pictureLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/images/logo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
-        <item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout" rowstretch="1,3,3,1,0">
+        <item row="3" column="0">
+         <widget class="QLabel" name="noteLabel">
+          <property name="text">
+           <string>筆記：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="dateLabel">
+          <property name="text">
+           <string>日期：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="expenseLabel">
+          <property name="text">
+           <string>金額：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDateEdit" name="dateEdit"/>
+        </item>
+        <item row="3" column="1">
+         <widget class="QTextEdit" name="noteTextEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="categoryLabel">
+          <property name="text">
+           <string>分類：</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QListView" name="categoryListView">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
-          <item>
-           <widget class="QLabel" name="expenseLabel">
-            <property name="text">
-             <string>金額：</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QLineEdit" name="expenseLineEdit"/>
           </item>
@@ -95,102 +131,31 @@
           </item>
          </layout>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="dateLabel">
-          <property name="text">
-           <string>日期：</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
-         <widget class="QDateEdit" name="dateEdit"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="noteLabel">
+         <widget class="QPushButton" name="capturePushButton">
           <property name="text">
-           <string>筆記：</string>
+           <string>新增照片</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QTextEdit" name="noteTextEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="categoryLabel">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>分類：</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QListView" name="categoryListView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+           <string>照片：</string>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QCalendarWidget" name="calendarWidget">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="contextMenuPolicy">
-         <enum>Qt::DefaultContextMenu</enum>
-        </property>
-        <property name="firstDayOfWeek">
-         <enum>Qt::Monday</enum>
-        </property>
-        <property name="gridVisible">
-         <bool>false</bool>
-        </property>
-        <property name="horizontalHeaderFormat">
-         <enum>QCalendarWidget::ShortDayNames</enum>
-        </property>
-        <property name="verticalHeaderFormat">
-         <enum>QCalendarWidget::NoVerticalHeader</enum>
-        </property>
-        <property name="navigationBarVisible">
-         <bool>true</bool>
-        </property>
-       </widget>
       </item>
      </layout>
-     <zorder>calendarWidget</zorder>
+     <zorder></zorder>
      <zorder></zorder>
     </widget>
    </item>
    <item>
     <widget class="QTableView" name="expenseTableView">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>

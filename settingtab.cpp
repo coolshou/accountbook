@@ -3,6 +3,8 @@
 
 #include <QDebug>
 #include <QFileDialog>
+#include <QSqlTableModel>
+#include <QSqlError>
 
 
 SettingTab::SettingTab(QWidget *parent) :
@@ -13,6 +15,11 @@ SettingTab::SettingTab(QWidget *parent) :
 
     //connect(_ui->changeDatabasePushButton, SIGNAL(clicked()), SLOT(onChangeDatabasePushButtonClicked()));
     connect(_ui->changeDatabasePushButton, &QPushButton::clicked, this, &SettingTab::onChangeDatabasePushButtonClicked);
+
+    connect(_ui->addCategoryPushButton, &QPushButton::clicked, this, &SettingTab::_onAddCategoryPushButtonClicked);
+    connect(_ui->deleteCategoryPushButton, &QPushButton::clicked, this, &SettingTab::_onDeleteCategoryPushButtonClicked);
+
+    _ui->categoryListView->setEditTriggers(QListView::NoEditTriggers);
 }
 
 void SettingTab::setDatabasePath(const QString &databasePath)
@@ -22,6 +29,17 @@ void SettingTab::setDatabasePath(const QString &databasePath)
 
     _ui->databasePathLineEdit->setText(databasePath);
     emit databasePathChanged(databasePath);
+}
+
+void SettingTab::loadData()
+{
+    //category
+    QSqlTableModel *categoryModel= new QSqlTableModel(this);
+    categoryModel->setTable("categories");
+    categoryModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    categoryModel->select();
+    _ui->categoryListView->setModel(categoryModel);
+    _ui->categoryListView->setModelColumn(1);
 }
 
 SettingTab::~SettingTab()
@@ -38,4 +56,30 @@ void SettingTab::onChangeDatabasePushButtonClicked()
 
 }
 
+
+void SettingTab::_onAddCategoryPushButtonClicked()
+{
+    QString category = _ui->categoryLineEdit->text();
+    if(category.isEmpty())
+        return;
+
+    QSqlTableModel *categoryModel = qobject_cast<QSqlTableModel*>(_ui->categoryListView->model());
+
+    int row = categoryModel->rowCount();
+    categoryModel->insertRow(row);
+
+    categoryModel->setData(categoryModel->index(row, 1), category);
+
+    if(!categoryModel->submitAll())
+        qDebug() << categoryModel->lastError();
+}
+
+void SettingTab::_onDeleteCategoryPushButtonClicked()
+{
+    QSqlTableModel *categoryModel = qobject_cast<QSqlTableModel*>(_ui->categoryListView->model());
+    int row = _ui->categoryListView->currentIndex().row();
+    categoryModel->removeRow(row);
+    if(!categoryModel->submitAll())
+        qDebug() << categoryModel->lastError();
+}
 

@@ -34,8 +34,7 @@ FORMS    += \
     mainwidget.ui \
     statisticstab.ui \
     expensetab.ui \
-    settingtab.ui \
-    mainwidget-simple.ui
+    settingtab.ui
 
 OTHER_FILES +=
 

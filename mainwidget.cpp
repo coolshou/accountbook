@@ -1,5 +1,5 @@
 #include "mainwidget.h"
-#include "ui_mainwidget-simple.h"
+#include "ui_mainwidget.h"
 #include "globals.h"
 #include "strings.h"
 #include "settingtab.h"
@@ -69,9 +69,9 @@ void MainWidget::_loadDatabase()
 
     if(_database.tables().isEmpty())
         _createTables();
-    _loadDatabaseInfo();
 
     _ui->epenseTab->loadData();
+    _ui->settingTab->loadData();
 }
 
 void MainWidget::_createTables()
@@ -100,21 +100,5 @@ void MainWidget::_createTables()
     if(!query.exec("insert into categories(category) values('樂');"))
         qDebug() << _database.lastError();
 
-}
-
-void MainWidget::_loadDatabaseInfo()
-{
-    QFile file(_databasePath);
-    _databaseInfo["fileSize"] = file.size();
-
-    QSqlTableModel model(this, _database);
-    model.setTable("expenses");
-    model.select();
-    _databaseInfo["expenseNum"] = model.rowCount();
-    model.setTable("categories");
-    model.select();
-    _databaseInfo["categoryNum"] = model.rowCount();
-
-    qDebug() << _databaseInfo;
 }
 

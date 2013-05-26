@@ -19,9 +19,6 @@ ExpenseTab::ExpenseTab(QWidget *parent)
 {
     _ui->setupUi(this);
 
-    connect(_ui->calendarWidget, &QCalendarWidget::clicked, _ui->dateEdit, &QDateEdit::setDate);
-    connect(_ui->dateEdit, &QDateEdit::dateChanged, _ui->calendarWidget, &QCalendarWidget::setSelectedDate);
-
     connect(_ui->capturePushButton, &QPushButton::clicked, this, &ExpenseTab::_onCapturePushButtonClicked);
     connect(_ui->expensePushButton, &QPushButton::clicked, this, &ExpenseTab::_onExpensePushButtonClicked);
     connect(_ui->deletePushButtom, &QPushButton::clicked, this, &ExpenseTab::_onDeletePushButtomClicked);
@@ -78,7 +75,7 @@ void ExpenseTab::_onCapturePushButtonClicked()
         return;
 
     // 5:3
-    _ui->pictureLabel->setPixmap(_currentPicture.scaled(235, 141, Qt::KeepAspectRatio));
+    _ui->pictureLabel->setPixmap(_currentPicture.scaled(300, 180, Qt::KeepAspectRatio));
 }
 
 

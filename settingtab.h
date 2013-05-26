@@ -17,6 +17,7 @@ public:
 
     void setDatabasePath(const QString &databasePath);
     void onChangeDatabasePushButtonClicked();
+    void loadData();
 
     ~SettingTab();
 
@@ -27,6 +28,9 @@ signals:
 private:
 
     Ui::SettingTab *_ui;
+
+    void _onAddCategoryPushButtonClicked();
+    void _onDeleteCategoryPushButtonClicked();
 };
 
 #endif // SETTINGTAB_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
-    <height>482</height>
+    <width>756</width>
+    <height>447</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,67 +47,64 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_4">
-       <property name="title">
-        <string>資料庫狀態</string>
-       </property>
-       <layout class="QFormLayout" name="formLayout_2">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="databaseSizeLabel">
-          <property name="text">
-           <string>資料庫大小：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="databaseSizeDataLabel">
-          <property name="text">
-           <string>0 KB</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="expenseNumLabel">
-          <property name="text">
-           <string>花費次數：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="expenseNumDataLabel">
-          <property name="text">
-           <string>0 筆</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="categoryNumLabel">
-          <property name="text">
-           <string>類別：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="categoryNumDataLabel">
-          <property name="text">
-           <string>0 筆</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
         <string>設定分類</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QListView" name="classListView"/>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="categoryLineEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addCategoryPushButton">
+            <property name="text">
+             <string>新增分類</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QListView" name="categoryListView"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="deleteCategoryPushButton">
+            <property name="text">
+             <string>刪除分類</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
