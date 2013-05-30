@@ -1,0 +1,4 @@
+syntax: glob
+AccountBook/bin/
+ExpenseBook/gen/
+ExpenseBook/bin/
