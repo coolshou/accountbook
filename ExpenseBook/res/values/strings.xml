@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">累死雞記帳</string>
+    <string name="menu_link_to_dropbox">連接 Dropbox</string>
+    <string name="link_to_dropbox_successful">成功連接 Dropbox 帳號</string>
+    
+    <string name="link_to_dropbox_failed">Dropbox 連接失敗！</string><string name="hello_world">Hello world!</string>
+
+</resources>
