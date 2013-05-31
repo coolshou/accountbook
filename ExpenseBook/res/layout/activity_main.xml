@@ -6,37 +6,63 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:background="@color/background"
+    android:clipChildren="true">
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:inputType="textMultiLine" >
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/chicken"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="27dp"/>
 
-        <requestFocus />
-    </EditText>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_margin="@dimen/activity_vertical_margin">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="187dp"
-        android:text="儲存" />
+	    <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mainoptions_create_new_epense"
+                android:id="@+id/main_button_new_expense"
+                android:layout_above="@+id/button2"
+                android:layout_marginBottom="15dp"
+                android:layout_alignLeft="@+id/button3"
+                android:clickable="false"
+                android:background="@color/main"
+                android:textColor="@color/font_white"
+                android:layout_gravity="center"
+                android:drawableLeft="@android:drawable/ic_menu_camera"
+                />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignTop="@+id/button1"
-        android:layout_marginTop="52dp"
-        android:text="同步" />
-    
+	    <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mainoptions_browse_statistics"
+                android:id="@+id/main_browse_statistics"
+                android:layout_above="@+id/button3"
+                android:layout_alignLeft="@+id/button"
+                android:layout_marginBottom="15dp"
+                android:background="@color/main"
+                android:textColor="@color/font_white"
+                android:layout_gravity="center"
+                android:drawableLeft="@android:drawable/ic_menu_view"/>
+
+	    <Button
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="@string/mainoptions_sync_with_dropbox"
+	            android:id="@+id/main_button_sync"
+	            android:background="@color/main"
+	            android:textColor="@color/font_white"
+	            android:drawableLeft="@android:drawable/ic_menu_upload"
+	            android:clickable="false"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

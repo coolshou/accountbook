@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.nctucs.lazchi.marco79423.ExpenseBook"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="0.1" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -18,11 +22,14 @@
         
         <activity
             android:name="net.nctucs.lazchi.marco79423.ExpenseBook.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
@@ -36,8 +43,10 @@
 		    	<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        <service
+        <activity android:name=".CameraActivity"/>
+	    <activity android:name=".ExpenseActivity"/>
+
+	    <service
 		  	android:name="com.dropbox.sync.android.DbxSyncService"
 		  	android:enabled="true"
 		  	android:exported="false"

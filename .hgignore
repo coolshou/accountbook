@@ -2,3 +2,4 @@ syntax: glob
 AccountBook/bin/
 ExpenseBook/gen/
 ExpenseBook/bin/
+ExpenseBook/out/

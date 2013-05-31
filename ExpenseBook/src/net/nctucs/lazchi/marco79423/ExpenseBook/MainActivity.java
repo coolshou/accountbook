@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 
-//§∂≠±
+//‰ªãÈù¢
+import android.provider.MediaStore;
 import android.view.View;
 
 import android.view.Menu;
@@ -19,31 +20,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-//§u®„
+//Â∑•ÂÖ∑
 import android.util.Log;
 
-//•\Ø‡
-import com.dropbox.sync.android.DbxAccountManager;
-import com.dropbox.sync.android.DbxException;
-import com.dropbox.sync.android.DbxFile;
-import com.dropbox.sync.android.DbxFileSystem;
-import com.dropbox.sync.android.DbxPath;
+//ÂäüËÉΩ
 
 
-public class MainActivity extends Activity 
+
+public class MainActivity extends Activity implements OnClickListener
 {
 	private static final int _REQUEST_LINK_TO_DROPBOX = 0;
-	private static final String TEST_FILE_NAME = "hello_dropbox.txt";
-	
-	private EditText editText;
-	private Button button1;
-	private Button button2;	
-	
-	private DbxAccountManager _dbxAccountManager;
-	private DbxFile _file;
-	
+
+	private Button _createNewExpenseButton;
+	private Button _browseStatisticsButton;
+	private Button _syncWithDropboxButton;
+
 	/*
-	 * •Õ©R∂g¥¡
+	 * ÁîüÂëΩÈÄ±Êúü
 	 */
 	
     @Override
@@ -51,184 +44,54 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        editText = (EditText) findViewById(R.id.editText1);
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        
-        button1.setOnClickListener(new OnClickListener()
-        {
-        	 @Override
-             public void onClick(View v) {
-        		 MainActivity.this._saveToDropbox();
-             }
-        });
-        button2.setOnClickListener(new OnClickListener()
-        {
-        	@Override
-        	public void onClick(View v) {
-        		MainActivity.this._loadFromDropbox();
-        	}
-        });
-        
-        
-        //Dropbox
-        _dbxAccountManager = DbxAccountManager.getInstance(
-        	getApplicationContext(), 
-        	Globals.DROPBOX_KEY , 
-        	Globals.DROPBOX_SECRET
-        );
+
+	    _createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
+	    _browseStatisticsButton = (Button) findViewById(R.id.main_browse_statistics);
+	    _syncWithDropboxButton = (Button) findViewById(R.id.main_button_sync);
+
+	    _createNewExpenseButton.setOnClickListener(this);
+	    _browseStatisticsButton.setOnClickListener(this);
+	    _syncWithDropboxButton.setOnClickListener(this);
     }
     
     @Override
 	protected void onResume() 
     {
 		super.onResume();
-		if(_dbxAccountManager.hasLinkedAccount())
-			_openLinkFile();	
 	}
     
     @Override
 	protected void onPause() 
     {
-		super.onPause();
-		if(_dbxAccountManager.hasLinkedAccount())
-			_closeLinkFile();	
+	    super.onPause();
 	}
 
 
 	/*
-     * Menu
-     */
+	 * ‰∫ã‰ª∂
+	 */
+
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) 
-    {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-    	switch(item.getItemId())
-    	{
-    	case R.id.link_to_dropbox: _onLinkToDropboxClicked(); break;
-    	default: return false;
-    	}
-    	return true;
-    }
-    
-    /*
-     * ®∆•Û
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-    	switch(requestCode)
-    	{
-    	case _REQUEST_LINK_TO_DROPBOX:
-    		if(resultCode == Activity.RESULT_OK)
-    			Toast.makeText(this, R.string.link_to_dropbox_successful, Toast.LENGTH_LONG).show();
-    		else
-    			Toast.makeText(this, R.string.link_to_dropbox_failed, Toast.LENGTH_LONG).show();
-    		break;
-    	}
-    }
-    
-    /*
-     * Dropbox ¨€√ˆ
-     */
-    
-    private void _onLinkToDropboxClicked()
-    {
-    	_dbxAccountManager.startLink(this, _REQUEST_LINK_TO_DROPBOX);
-    }
-    
-    private void _openLinkFile()
-    {
-    	try 
-    	{
-			DbxFileSystem dbxFileSystem = DbxFileSystem.forAccount(_dbxAccountManager.getLinkedAccount());
-			DbxPath testPath = new DbxPath(DbxPath.ROOT, TEST_FILE_NAME);
-			if(!dbxFileSystem.exists(testPath))
-			{
-				_file = dbxFileSystem.create(testPath);
-			}
-			else
-			{
-				_file = dbxFileSystem.open(testPath);
-				try 
-				{
-					editText.setText(_file.readString());
-				} catch (IOException e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		} catch (DbxException e){
-			e.printStackTrace();
-			return;
+	public void onClick(View view)
+	{
+		switch(view.getId())
+		{
+			case R.id.main_button_new_expense: _onCreateNewExpenseButtonClicked();
 		}
-    	
-    	_file.addListener(
-    		new DbxFile.Listener() 
-	    	{	
-				@Override
-				public void onFileChange(DbxFile file) 
-				{
-	                Toast.makeText(MainActivity.this, "¶P®B", Toast.LENGTH_LONG).show();
-				}
-			}
-    	);
 	}
-    
-    private void _closeLinkFile() 
-    {
-    	_file.close();
+
+
+	/*
+	 * ÂäüËÉΩ
+	 */
+
+	private void _onCreateNewExpenseButtonClicked()
+	{
+		Intent intent = new Intent();
+		intent.setClass(this, CameraActivity.class);
+		startActivity(intent);
 	}
-    
-    private void _loadFromDropbox()
-    {
-    	try 
-        {
-    		_file.update();
-            editText.setText(_file.readString());
-        } 
-        catch(DbxException e)
-        {
-            Toast.makeText(this,  e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        catch(DbxFile.StreamExclusionException e)
-        {
-            Toast.makeText(this,  e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        catch(IOException e)
-        {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        } 
-    	catch(Exception e)
-    	{
-    		Log.e("why", e.getMessage());
-    	}
-    }
-    
-    private void _saveToDropbox()
-    {
-    	try 
-    	{
-        	_file.writeString(editText.getText().toString());
-    	} 
-    	catch(DbxException e)
-    	{
-    		Toast.makeText(this,  e.getMessage(), Toast.LENGTH_LONG).show();
-    	}
-    	catch(DbxFile.StreamExclusionException e)
-    	{
-    		Toast.makeText(this,  e.getMessage(), Toast.LENGTH_LONG).show();
-    	}
-    	catch(IOException e)
-        {
-        	Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
+
+
+
 }
