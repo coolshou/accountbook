@@ -2,8 +2,15 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 public class Globals 
 {
+	public static final String LOG_TAG = "累死雞記帳";
+
+	public static final String DATABASE_NAME = "accountbook.db";
+	public static final int DATABASE_VERSION = 1;
+
 	public static final String DROPBOX_KEY = "7hrz989zzhcyr9t";
 	public static final String DROPBOX_SECRET = "zcyop6imgp7oq5i";
+
+
 
 	public static class ExpenseTable
 	{

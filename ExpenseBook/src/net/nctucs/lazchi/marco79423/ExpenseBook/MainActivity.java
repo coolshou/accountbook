@@ -46,15 +46,15 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.activity_main);
 
 	    _createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
-	    _browseStatisticsButton = (Button) findViewById(R.id.main_browse_statistics);
+	    _browseStatisticsButton = (Button) findViewById(R.id.main_button_browse_statistics);
 	    _syncWithDropboxButton = (Button) findViewById(R.id.main_button_sync);
 
 	    _createNewExpenseButton.setOnClickListener(this);
 	    _browseStatisticsButton.setOnClickListener(this);
 	    _syncWithDropboxButton.setOnClickListener(this);
-    }
-    
-    @Override
+	}
+
+	@Override
 	protected void onResume() 
     {
 		super.onResume();
@@ -76,7 +76,8 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		switch(view.getId())
 		{
-			case R.id.main_button_new_expense: _onCreateNewExpenseButtonClicked();
+			case R.id.main_button_new_expense: _onCreateNewExpenseButtonClicked(); break;
+			case R.id.main_button_browse_statistics: _onBrowseStatisticsButtonClicked(); break;
 		}
 	}
 
@@ -92,6 +93,10 @@ public class MainActivity extends Activity implements OnClickListener
 		startActivity(intent);
 	}
 
-
-
+	private void _onBrowseStatisticsButtonClicked()
+	{
+		Intent intent = new Intent();
+		intent.setClass(this, StatisticsActivity.class);
+		startActivity(intent);
+	}
 }

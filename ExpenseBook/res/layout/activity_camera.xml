@@ -14,28 +14,30 @@
 	<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal|bottom"
-			android:layout_marginBottom="@dimen/activity_vertical_margin"
-			>
+			android:layout_gravity="right|bottom">
 
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="fill_parent"
-				android:text="@string/camera_textview_save"
+				android:text="@string/camera_button_save"
 				android:id="@+id/camera_button_save"
 				android:textColor="@color/font_white"
 				android:background="@color/main"
-				android:layout_margin="10dp"/>
+				android:layout_margin="10dp"
+				android:textSize="30dp"
+				android:padding="10dp"/>
 
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/camera_textview_continue"
+				android:text="@string/camera_button_continue"
 				android:id="@+id/camera_button_continue"
 				android:layout_gravity="center"
 				android:background="@color/main"
 				android:textColor="@color/font_white"
-				android:layout_margin="10dp"/>
+				android:layout_margin="10dp"
+				android:textSize="30dp"
+				android:padding="10dp"/>
 	</LinearLayout>
 
 </FrameLayout>

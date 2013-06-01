@@ -16,19 +16,23 @@
             android:id="@+id/imageView"
             android:src="@drawable/chicken"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="27dp"/>
+            android:layout_alignParentLeft="true"/>
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_margin="@dimen/activity_vertical_margin">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imageView">
 
 	    <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/mainoptions_create_new_epense"
+                android:text="@string/main_button_create_new_epense"
                 android:id="@+id/main_button_new_expense"
                 android:layout_above="@+id/button2"
                 android:layout_marginBottom="15dp"
@@ -43,8 +47,8 @@
 	    <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/mainoptions_browse_statistics"
-                android:id="@+id/main_browse_statistics"
+                android:text="@string/main_button_browse_statistics"
+                android:id="@+id/main_button_browse_statistics"
                 android:layout_above="@+id/button3"
                 android:layout_alignLeft="@+id/button"
                 android:layout_marginBottom="15dp"
@@ -56,7 +60,7 @@
 	    <Button
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:text="@string/mainoptions_sync_with_dropbox"
+	            android:text="@string/main_button_sync_with_dropbox"
 	            android:id="@+id/main_button_sync"
 	            android:background="@color/main"
 	            android:textColor="@color/font_white"

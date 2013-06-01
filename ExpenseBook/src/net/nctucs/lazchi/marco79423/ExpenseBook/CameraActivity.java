@@ -5,8 +5,7 @@ import java.io.IOException;
 
 //Android
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.ImageFormat;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 
@@ -15,10 +14,10 @@ import android.view.View;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
+import android.widget.Toast;
 
 //工具
-import android.util.Log;
-import android.widget.Toast;
+
 
 
 public class CameraActivity extends Activity implements View.OnClickListener
@@ -54,15 +53,9 @@ public class CameraActivity extends Activity implements View.OnClickListener
 	{
 		switch(view.getId())
 		{
-		case R.id.camera_button_save: _takeThePicture(); break;
-		case R.id.camera_button_continue: _takeThePicture(); break;
+		//case R.id.camera_button_save: _takeThePicture(); break;
+		case R.id.camera_button_continue: _camera.takePicture(null, null, _pictureCallback); break;
 		}
-	}
-
-	private void _takeThePicture()
-	{
-		//拍照
-		_camera.takePicture(null, null, _pictureCallback);
 	}
 
 	SurfaceHolder.Callback _surfaceCallBack = new SurfaceHolder.Callback()
@@ -140,7 +133,12 @@ public class CameraActivity extends Activity implements View.OnClickListener
 		@Override
 		public void onPictureTaken(byte[] bytes, Camera camera)
 		{
-			Toast.makeText(CameraActivity.this, "保存照片！", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent();
+			intent.setClass(CameraActivity.this, ExpenseActivity.class);
+			intent.putExtra("picture", bytes);
+			startActivity(intent);
+
+			CameraActivity.this.finish();
 		}
 	};
 

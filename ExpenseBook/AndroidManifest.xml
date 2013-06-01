@@ -31,7 +31,14 @@
             </intent-filter>
 
         </activity>
-        
+
+	    <activity
+			android:name=".CameraActivity"
+			android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"
+			android:screenOrientation="landscape"/>
+
+	    <activity android:name=".ExpenseActivity"/>
+
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
@@ -43,8 +50,7 @@
 		    	<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".CameraActivity"/>
-	    <activity android:name=".ExpenseActivity"/>
+	    <activity android:name=".StatisticsActivity"/>
 
 	    <service
 		  	android:name="com.dropbox.sync.android.DbxSyncService"
