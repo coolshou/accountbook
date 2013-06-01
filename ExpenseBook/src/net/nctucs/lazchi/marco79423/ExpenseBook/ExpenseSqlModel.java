@@ -33,10 +33,17 @@ public class ExpenseSqlModel extends AbstractSqlModel
 		ContentValues values = new ContentValues();
 		values.put(Globals.ExpenseTable.PICTURE, pictureOutStream.toByteArray());
 		values.put(Globals.ExpenseTable.SPEND, spend);
-		values.put(Globals.ExpenseTable.DATE, dateString);
+		if(dateString.length() != 0)
+			values.put(Globals.ExpenseTable.DATE, dateString);
 		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
-		values.put(Globals.ExpenseTable.NOTE, note);
+		if(note.length() != 0)
+			values.put(Globals.ExpenseTable.NOTE, note);
 		return _database.insert(Globals.ExpenseTable.TABLE, null, values);
+	}
+
+	public long addExpense(Bitmap picture)
+	{
+		return addExpense(picture, 0, new Date(), 0, new String());
 	}
 
 	public List<ContentValues> getAllExpenses()
@@ -46,6 +53,7 @@ public class ExpenseSqlModel extends AbstractSqlModel
 		final String[] ALL_FIELDS = {
 			Globals.ExpenseTable.ID,
 			Globals.ExpenseTable.PICTURE,
+			Globals.ExpenseTable.SPEND,
 			Globals.ExpenseTable.DATE,
 			Globals.ExpenseTable.CATEGORY_ID,
 			Globals.ExpenseTable.NOTE

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -121,7 +122,14 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		String note = "";
 
 		//設定金額
-		spend = Long.getLong(_spendEditText.getText().toString(), 0);
+		try
+		{
+			spend = Long.parseLong(_spendEditText.getText().toString());
+		}
+		catch(NumberFormatException e)
+		{
+			spend = 0;
+		}
 
 		//設定時間
 		try
@@ -151,6 +159,12 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		_expenseSqlModel.addExpense(_picture, spend, date, categoryId, note);
 		Toast.makeText(this, resource.getString(R.string.message_save_successfully), Toast.LENGTH_LONG).show();
+
+		//移動到統計頁面
+		Intent intent = new Intent();
+		intent.setClass(this, StatisticsActivity.class);
+		startActivity(intent);
+
 		finish();
 	}
 }

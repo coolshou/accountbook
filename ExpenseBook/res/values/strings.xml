@@ -19,6 +19,8 @@
     <string name="camera_button_save">儲存</string>
     <string name="camera_button_continue">繼續</string>
 
+	<string name="statics_view_spend">金額：</string>
+
     <string name="message_save_successfully">儲存成功！</string>
     <string name="message_save_failed">資料儲存失敗</string>
 

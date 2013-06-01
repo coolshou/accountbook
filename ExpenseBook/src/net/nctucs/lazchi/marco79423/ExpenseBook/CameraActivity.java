@@ -6,6 +6,8 @@ import java.io.IOException;
 //Android
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
 
@@ -28,6 +30,8 @@ public class CameraActivity extends Activity implements View.OnClickListener
 
 	private Camera _camera;
 	private SurfaceHolder _surfaceHolder;
+
+	private boolean _isQuickSave = false;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -53,9 +57,32 @@ public class CameraActivity extends Activity implements View.OnClickListener
 	{
 		switch(view.getId())
 		{
-		//case R.id.camera_button_save: _takeThePicture(); break;
-		case R.id.camera_button_continue: _camera.takePicture(null, null, _pictureCallback); break;
+		case R.id.camera_button_save: _onSaveButtonClicked(); break;
+		case R.id.camera_button_continue:  _onContinueButtonClicked(); break;
 		}
+	}
+
+	private void _onSaveButtonClicked()
+	{
+		_isQuickSave = true;
+		_camera.takePicture(null, null, _pictureCallback);
+	}
+
+	private void _onContinueButtonClicked()
+	{
+		_isQuickSave = false;
+		_camera.takePicture(null, null, _pictureCallback);
+	}
+
+	private void _quickSaveExpense(byte[] bytes)
+	{
+		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(this);
+		expenseSqlModel.open();
+
+		Bitmap picture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		expenseSqlModel.addExpense(picture);
+
+		expenseSqlModel.close();
 	}
 
 	SurfaceHolder.Callback _surfaceCallBack = new SurfaceHolder.Callback()
@@ -134,12 +161,18 @@ public class CameraActivity extends Activity implements View.OnClickListener
 		public void onPictureTaken(byte[] bytes, Camera camera)
 		{
 			Intent intent = new Intent();
-			intent.setClass(CameraActivity.this, ExpenseActivity.class);
-			intent.putExtra("picture", bytes);
+			if(_isQuickSave)
+			{
+				_quickSaveExpense(bytes);
+				intent.setClass(CameraActivity.this, StatisticsActivity.class);
+			}
+			else
+			{
+				intent.setClass(CameraActivity.this, ExpenseActivity.class);
+				intent.putExtra("picture", bytes);
+			}
 			startActivity(intent);
-
 			CameraActivity.this.finish();
 		}
 	};
-
 }

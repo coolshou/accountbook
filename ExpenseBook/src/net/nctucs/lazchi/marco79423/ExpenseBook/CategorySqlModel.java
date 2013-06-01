@@ -21,7 +21,7 @@ public class CategorySqlModel extends AbstractSqlModel
 	public List<String> addDefaultCategories()
 	{
 		//設定預設類別
-		String[] categories = {"食", "衣", "住", "行", "育", "樂"};
+		String[] categories = {"未分類", "食", "衣", "住", "行", "育", "樂"};
 		for(String category : categories)
 			addCategory(category, 0);
 		return getAllCategoryNames();
@@ -53,6 +53,23 @@ public class CategorySqlModel extends AbstractSqlModel
 
 		cursor.moveToFirst();
 		return cursor.getLong(0);
+	}
+
+	public String getCategoryName(long categoryId)
+	{
+		Cursor cursor = _database.query(
+				Globals.CategoryTable.TABLE,
+				new String[]{Globals.CategoryTable.CATEGORY},
+				Globals.CategoryTable.ID + " = ?",
+				new String[]{String.valueOf(categoryId)},
+				null,
+				null,
+				null,
+				null
+		);
+
+		cursor.moveToFirst();
+		return cursor.getString(0);
 	}
 
 	public List<String> getAllCategoryNames()
