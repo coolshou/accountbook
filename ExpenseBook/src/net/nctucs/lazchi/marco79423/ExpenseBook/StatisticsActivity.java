@@ -2,12 +2,17 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,7 +94,28 @@ public class StatisticsActivity extends Activity
 				R.id.statistics_item_view_category
 			}
 		);
-
+		adapter.setViewBinder(_simepleViewBinder);
 		_expenseListView.setAdapter(adapter);
 	}
+
+	SimpleAdapter.ViewBinder _simepleViewBinder = new SimpleAdapter.ViewBinder()
+	{
+
+		@Override
+		public boolean setViewValue(View view, Object data, String text)
+		{
+			if((view instanceof ImageView) && (data instanceof Bitmap))
+			{
+				ImageView imageView = (ImageView) view;
+				imageView.setImageBitmap((Bitmap) data);
+				return true;
+			}
+			else if((view instanceof TextView) && (data instanceof String))
+			{
+				TextView textView = (TextView) view;
+				textView.setText((String) data);
+			}
+			return false;
+		}
+	};
 }

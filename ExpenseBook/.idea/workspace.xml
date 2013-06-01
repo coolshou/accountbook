@@ -2,7 +2,9 @@
 <project version="4">
   <component name="AndroidLayoutPreviewToolWindow">
     <option name="state">
-      <GlobalState />
+      <GlobalState>
+        <option name="visible" value="false" />
+      </GlobalState>
     </option>
   </component>
   <component name="AndroidLayouts">
@@ -31,7 +33,9 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af733909-1fe5-4721-b217-44f13478c509" name="Default" comment="" />
+    <list default="true" id="af733909-1fe5-4721-b217-44f13478c509" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java" afterPath="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java" />
+    </list>
     <ignored path="ExpenseBook.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1369976897231" ignored="false" />
@@ -54,7 +58,7 @@
     <file path="/DatabaseHelper.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1370080577917" ignored="false" />
     <file path="/CategorySqlModel.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1370101393204" ignored="false" />
     <file path="/ExpenseSqlModel.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1370103787423" ignored="false" />
-    <file path="/StatisticsActivity.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1370103896144" ignored="false" />
+    <file path="/StatisticsActivity.java" changelist="af733909-1fe5-4721-b217-44f13478c509" time="1370105957570" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,26 +133,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="statistics_item_expense.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/statistics_item_expense.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="StatisticsActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="48" selection-start="402" selection-end="402" vertical-scroll-proportion="10.620689">
-              <folding />
+            <state line="77" column="42" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#1450#1475#0" expanded="true" />
+                <element signature="e#1653#1668#0" expanded="true" />
+                <element signature="e#2743#3218#0" expanded="true" />
+                <element signature="e#3214#3215#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExpenseActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="140" column="9" selection-start="3662" selection-end="3662" vertical-scroll-proportion="0.9188192">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2922#2930#0" expanded="true" />
-              </folding>
+      <file leaf-file-name="statistics_item_expense.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/statistics_item_expense.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state line="6" column="4" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -187,10 +193,10 @@
         <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/CameraActivity.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/CategorySqlModel.java" />
-        <option value="$PROJECT_DIR$/res/layout/statistics_item_expense.xml" />
         <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseSqlModel.java" />
-        <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java" />
         <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseActivity.java" />
+        <option value="$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/statistics_item_expense.xml" />
       </list>
     </option>
   </component>
@@ -198,8 +204,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="923" />
-    <option name="height" value="1080" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1863" />
+    <option name="height" value="1092" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -487,21 +495,21 @@
       <workItem from="1369976829823" duration="4717000" />
       <workItem from="1369984356862" duration="22603000" />
       <workItem from="1370065728662" duration="41000" />
-      <workItem from="1370065805974" duration="28239000" />
+      <workItem from="1370065805974" duration="29798000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55600000" />
+    <option name="totallyTimeSpent" value="57159000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="923" height="1080" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1863" height="1092" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16008894" sideWeight="0.64140874" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22901613" sideWeight="0.64140874" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15953307" sideWeight="0.63987136" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22846025" sideWeight="0.63987136" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44549498" sideWeight="0.64140874" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4449388" sideWeight="0.63987136" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -509,12 +517,12 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32017076" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36482084" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3601286" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2495831" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298109" sideWeight="0.64140874" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20733741" sideWeight="0.64140874" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20689656" sideWeight="0.63987136" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33831376" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -680,16 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="56" selection-start="2007" selection-end="2007" vertical-scroll-proportion="0.7250438">
-          <folding>
-            <element signature="e#1284#1309#0" expanded="true" />
-            <element signature="e#1487#1502#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseSqlModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="68" column="51" selection-start="2170" selection-end="2170" vertical-scroll-proportion="0.0">
@@ -700,13 +698,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/statistics_item_expense.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="48" selection-start="402" selection-end="402" vertical-scroll-proportion="10.620689">
-          <folding />
+        <state line="169" column="1" selection-start="4423" selection-end="4423" vertical-scroll-proportion="2.095941">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2922#2930#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -717,13 +715,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/ExpenseActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/net/nctucs/lazchi/marco79423/ExpenseBook/StatisticsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="9" selection-start="3662" selection-end="3662" vertical-scroll-proportion="0.9188192">
+        <state line="77" column="42" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2922#2930#0" expanded="true" />
+            <element signature="e#1450#1475#0" expanded="true" />
+            <element signature="e#1653#1668#0" expanded="true" />
+            <element signature="e#2743#3218#0" expanded="true" />
+            <element signature="e#3214#3215#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/statistics_item_expense.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state line="6" column="4" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
