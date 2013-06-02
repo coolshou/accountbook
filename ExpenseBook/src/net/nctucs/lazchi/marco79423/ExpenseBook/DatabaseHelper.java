@@ -2,6 +2,8 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 import android.content.Context;
 
+import android.content.ContextWrapper;
+import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,6 +13,16 @@ public class DatabaseHelper extends SQLiteOpenHelper
 {
 	public DatabaseHelper(Context context)
 	{
+		/*super(
+			new ContextWrapper(context)
+			{
+				@Override
+				public SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory, DatabaseErrorHandler errorHandler)
+				{
+					return super.openOrCreateDatabase("/sdcard/mydata/accountbook.db", mode, factory, errorHandler);
+				}
+			},
+			Globals.DATABASE_NAME, null, Globals.DATABASE_VERSION);*/
 		super(context, Globals.DATABASE_NAME, null, Globals.DATABASE_VERSION);
 	}
 

@@ -43,7 +43,7 @@ public class ExpenseSqlModel extends AbstractSqlModel
 
 	public long addExpense(Bitmap picture)
 	{
-		return addExpense(picture, 0, new Date(), 0, new String());
+		return addExpense(picture, 0, new Date(), 1, new String());
 	}
 
 	public List<ContentValues> getAllExpenses()

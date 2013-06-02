@@ -4,10 +4,13 @@
     <string name="app_name">累死雞記帳</string>
 
     <string name="menu_link_to_dropbox">連接 Dropbox</string>
+	<string name="menu_logout_from_dropbox">登出</string>
+	<string name="menu_download_database_from_dropbox">下載帳本</string>
+	<string name="menu_exit">離開程式</string>
 
-    <string name="main_button_create_new_epense">新增支出</string>
-    <string name="main_button_browse_statistics">瀏覽帳本</string>
-    <string name="main_button_sync_with_dropbox">同步帳本</string>
+    <string name="main_button_create_new_epense">新增</string>
+    <string name="main_button_browse_statistics">瀏覽</string>
+    <string name="main_button_upload_database">上傳</string>
 
     <string name="expense_view_spend">金額：</string>
     <string name="expense_view_date">時間：</string>
@@ -26,5 +29,11 @@
 
     <string name="message_link_to_dropbox_successful">成功連接 Dropbox 帳號</string>
     <string name="message_link_to_dropbox_failed">Dropbox 連接失敗！</string><string name="hello_world">Hello world!</string>
+	<string name="message_must_link_to_dropbox">請先與 Dropbox 連接</string>
+	<string name="message_upload_successful">帳本上傳 Dropbox 成功！</string>
+	<string name="message_upload_failed">帳本上傳 Dropbox 失敗！</string>
+	<string name="message_download_successful">帳本下載成功！</string>
+	<string name="message_no_database">Dropbox 上沒有帳本！？</string>
+	<string name="message_download_failed">帳本下載失敗！</string>
 
 </resources>

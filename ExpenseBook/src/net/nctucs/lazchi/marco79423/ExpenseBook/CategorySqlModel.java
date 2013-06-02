@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 
 /**
@@ -18,13 +19,12 @@ public class CategorySqlModel extends AbstractSqlModel
 		super(context);
 	}
 
-	public List<String> addDefaultCategories()
+	@Override
+	public void open()
 	{
-		//設定預設類別
-		String[] categories = {"未分類", "食", "衣", "住", "行", "育", "樂"};
-		for(String category : categories)
-			addCategory(category, 0);
-		return getAllCategoryNames();
+		super.open();
+		if(getAllCategoryNames().isEmpty())
+			_addDefaultCategories();
 	}
 
 	public long addCategory(String category, long orderId)
@@ -67,7 +67,6 @@ public class CategorySqlModel extends AbstractSqlModel
 				null,
 				null
 		);
-
 		cursor.moveToFirst();
 		return cursor.getString(0);
 	}
@@ -88,5 +87,12 @@ public class CategorySqlModel extends AbstractSqlModel
 		return categoryNames;
 	}
 
-
+	public List<String> _addDefaultCategories()
+	{
+		//設定預設類別
+		String[] categories = {"未分類", "食", "衣", "住", "行", "育", "樂"};
+		for(String category : categories)
+			addCategory(category, 0);
+		return getAllCategoryNames();
+	}
 }

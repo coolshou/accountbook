@@ -101,9 +101,6 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		//設定分類
 		List<String> categoryNames = _categorySqlModel.getAllCategoryNames();
-		if(categoryNames.isEmpty())
-			categoryNames = _categorySqlModel.addDefaultCategories();
-
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
 		for(String categoryName : categoryNames)
 			adapter.add(categoryName);

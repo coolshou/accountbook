@@ -73,7 +73,7 @@ public class StatisticsActivity extends Activity
 
 			final long spend = expenseValue.getAsLong(Globals.ExpenseTable.SPEND);
 			final String date = expenseValue.getAsString(Globals.ExpenseTable.DATE);
-			final String category = _categorySqlModel.getCategoryName(expenseValue.getAsLong(Globals.CategoryTable.ID));
+			final String category = _categorySqlModel.getCategoryName(expenseValue.getAsLong(Globals.ExpenseTable.CATEGORY_ID));
 
 			expense.put("picture", picture);
 			expense.put("spend", String.valueOf(spend));
@@ -86,7 +86,7 @@ public class StatisticsActivity extends Activity
 			this,
 			expenses,
 			R.layout.statistics_item_expense,
-			new String[] { "picture", "spend", "date", "category"},
+			new String[] {"picture", "spend", "date", "category"},
 			new int[] {
 				R.id.statistics_item_view_picture,
 				R.id.statistics_item_spend,

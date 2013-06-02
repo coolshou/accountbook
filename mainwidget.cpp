@@ -26,7 +26,7 @@ MainWidget::MainWidget(QWidget *parent)
     while(databasePath.isEmpty())
     {
         QMessageBox::about(NULL, AccountBook::welcomeMessageTitle(), AccountBook::welcomeMessageContent());
-        databasePath = QFileDialog::getSaveFileName(this, "選擇資料庫的位置和名稱", QDir::homePath() + "/accountbook.db");
+        databasePath = QFileDialog::getOpenFileName(this, "選擇資料庫的位置和名稱", QDir::homePath() + "/accountbook.db");
     }
     setDatabase(databasePath);
 
