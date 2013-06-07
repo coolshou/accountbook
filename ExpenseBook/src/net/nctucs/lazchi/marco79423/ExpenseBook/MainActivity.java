@@ -30,6 +30,7 @@ import com.dropbox.sync.android.DbxPath;
 
 //工具
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,7 +43,9 @@ public class MainActivity extends Activity implements OnClickListener
 	private Button _createNewExpenseButton;
 	private Button _browseStatisticsButton;
 	private Button _syncWithDropboxButton;
+	private TextView _talkTextView;
 
+	private ExpenseSqlModel _expenseSqlModel;
 	private DbxAccountManager _dbxAccountManager;
 
 	/*
@@ -58,10 +61,13 @@ public class MainActivity extends Activity implements OnClickListener
 	    _createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
 	    _browseStatisticsButton = (Button) findViewById(R.id.main_button_browse_statistics);
 	    _syncWithDropboxButton = (Button) findViewById(R.id.main_button_upload_database);
+	    _talkTextView = (TextView) findViewById(R.id.main_view_talk);
 
 	    _createNewExpenseButton.setOnClickListener(this);
 	    _browseStatisticsButton.setOnClickListener(this);
 	    _syncWithDropboxButton.setOnClickListener(this);
+
+	    _expenseSqlModel = new ExpenseSqlModel(this);
 
 	    //Dropbox
 	    _dbxAccountManager = DbxAccountManager.getInstance(
@@ -71,6 +77,20 @@ public class MainActivity extends Activity implements OnClickListener
 	    );
 	}
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		_expenseSqlModel.open();
+		_setTalkTextView();
+	}
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		_expenseSqlModel.close();
+	}
 	/*
      * Menu
      */
@@ -152,6 +172,7 @@ public class MainActivity extends Activity implements OnClickListener
 			return;
 		}
 
+		_expenseSqlModel.close();
 		try
 		{
 			DbxFileSystem dbxFileSystem = DbxFileSystem.forAccount(_dbxAccountManager.getLinkedAccount());
@@ -182,10 +203,16 @@ public class MainActivity extends Activity implements OnClickListener
 			dbxDatabaseFile.close();
 
 			Toast.makeText(this, resource.getString(R.string.message_download_successful), Toast.LENGTH_LONG).show();
+
+			_setTalkTextView();
 		}
 		catch(Exception e)
 		{
 			Toast.makeText(this, resource.getString(R.string.message_download_failed), Toast.LENGTH_LONG).show();
+		}
+		finally
+		{
+			_expenseSqlModel.open();
 		}
 	}
 
@@ -198,6 +225,7 @@ public class MainActivity extends Activity implements OnClickListener
 			return;
 		}
 
+		_expenseSqlModel.close();
 		try
 		{
 			DbxFileSystem dbxFileSystem = DbxFileSystem.forAccount(_dbxAccountManager.getLinkedAccount());
@@ -225,6 +253,10 @@ public class MainActivity extends Activity implements OnClickListener
 		{
 			Toast.makeText(this, resource.getString(R.string.message_upload_failed), Toast.LENGTH_LONG).show();
 		}
+		finally
+		{
+			_expenseSqlModel.open();
+		}
 	}
 
 	private void _onCreateNewExpenseButtonClicked()
@@ -239,5 +271,12 @@ public class MainActivity extends Activity implements OnClickListener
 		Intent intent = new Intent();
 		intent.setClass(this, StatisticsActivity.class);
 		startActivity(intent);
+	}
+
+	private void _setTalkTextView()
+	{
+		Resources resource = getResources();
+		long sum = _expenseSqlModel.getSumOfMonthlyExpenses();
+		_talkTextView.setText(String.format(resource.getString(R.string.main_view_talk), sum));
 	}
 }

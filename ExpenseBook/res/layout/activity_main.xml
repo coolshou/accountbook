@@ -54,11 +54,49 @@
 	</LinearLayout>
 
 	<ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="138dp"
+            android:layout_height="128dp"
             android:id="@+id/imageView"
             android:src="@drawable/chicken"
+            android:layout_gravity="left|bottom"
+            android:adjustViewBounds="false"
+            android:scaleType="fitXY"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"/>
+
+	<FrameLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_below="@+id/linearLayout"
+			android:layout_above="@+id/imageView"
+			android:layout_alignParentRight="false"
+			android:layout_margin="10dp">
+
+		<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/imageView2"
+				android:layout_gravity="center"
+				android:src="@drawable/dialog"
+				android:cropToPadding="false"
+				android:adjustViewBounds="false"
+				android:scaleType="fitXY"
+				android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				/>
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:text="@string/main_view_talk"
+				android:id="@+id/main_view_talk"
+				android:layout_gravity="center"
+				android:autoText="false"
+				android:singleLine="false"
+				android:layout_margin="25dp"
+				android:textStyle="italic"
+				/>
+	</FrameLayout>
 
 </RelativeLayout>

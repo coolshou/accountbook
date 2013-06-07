@@ -1,7 +1,9 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +79,41 @@ public class ExpenseSqlModel extends AbstractSqlModel
 
 		cursor.close();
 		return expenses;
+	}
+
+	public long getSumOfMonthlyExpenses()
+	{
+		long sum = 0;
+
+		final String[] FIELDS = {
+				Globals.ExpenseTable.SPEND,
+				Globals.ExpenseTable.DATE,
+		};
+
+		Calendar calendar = Calendar.getInstance();
+		int currentYear = calendar.get(Calendar.YEAR);
+		int currentMonth = calendar.get(Calendar.MONTH);
+
+		Cursor cursor = _database.query(Globals.ExpenseTable.TABLE, FIELDS, null, null, null, null, null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast())
+		{
+			try
+			{
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
+				Date date = formatter.parse(cursor.getString(1));
+				calendar.setTime(date);
+				if(currentYear == calendar.get(Calendar.YEAR) && currentMonth == calendar.get(Calendar.MONTH))
+					sum += cursor.getLong(0);
+			}
+			catch(ParseException e)
+			{
+				e.printStackTrace();
+			}
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		return sum;
 	}
 }
