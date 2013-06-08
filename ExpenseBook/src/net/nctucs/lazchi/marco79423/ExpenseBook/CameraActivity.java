@@ -79,10 +79,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 	{
 		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(this);
 		expenseSqlModel.open();
-
-		Bitmap picture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-		expenseSqlModel.addExpense(picture);
-
+		expenseSqlModel.addExpense(bytes);
 		expenseSqlModel.close();
 	}
 

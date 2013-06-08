@@ -138,6 +138,8 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		}
 		_expenses.remove(_selectedPosition);
 		_dataAdapter.notifyDataSetChanged();
+		_selectedPosition = -1;
+
 		Toast.makeText(this, resources.getString(R.string.message_delete_item_successful), Toast.LENGTH_LONG).show();
 	}
 
@@ -170,20 +172,16 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			HashMap<String,Object> expense = new HashMap<String,Object>();
 
 			byte [] pictureBytes = expenseValue.getAsByteArray(Globals.ExpenseTable.PICTURE);
-			Bitmap picture = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
-
 			final long id = expenseValue.getAsLong(Globals.ExpenseTable.ID);
-
 			final long spend = expenseValue.getAsLong(Globals.ExpenseTable.SPEND);
-			final String date = expenseValue.getAsString(Globals.ExpenseTable.DATE);
+			final String dateString = expenseValue.getAsString(Globals.ExpenseTable.DATE);
 			final String category = _categorySqlModel.getCategoryName(expenseValue.getAsLong(Globals.ExpenseTable.CATEGORY_ID));
 			final String note = expenseValue.getAsString(Globals.ExpenseTable.NOTE);
 
 			expense.put("id", id);
 			expense.put("pictureBytes", pictureBytes);
-			expense.put("picture", picture);
 			expense.put("spend", spend);
-			expense.put("date", date);
+			expense.put("dateString", dateString);
 			expense.put("category", category);
 			expense.put("note", note);
 			_expenses.add(expense);
@@ -193,7 +191,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			this,
 			_expenses,
 			R.layout.statistics_item_expense,
-			new String[] {"picture", "spend", "date", "category"},
+			new String[] {"pictureBytes", "spend", "dateString", "category"},
 			new int[] {
 				R.id.statistics_item_view_picture,
 				R.id.statistics_item_spend,
@@ -211,10 +209,12 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		@Override
 		public boolean setViewValue(View view, Object data, String text)
 		{
-			if((view instanceof ImageView) && (data instanceof Bitmap))
+			if((view instanceof ImageView) && (data instanceof byte[]))
 			{
+				byte [] pictureBytes = (byte[]) data;
+				Bitmap picture = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
 				ImageView imageView = (ImageView) view;
-				imageView.setImageBitmap((Bitmap) data);
+				imageView.setImageBitmap(picture);
 				return true;
 			}
 			else if((view instanceof TextView) && (data instanceof String))

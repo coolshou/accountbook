@@ -23,50 +23,42 @@ public class ExpenseSqlModel extends AbstractSqlModel
 		super(context);
 	}
 
-	public long addExpense(Bitmap picture, long spend, Date date, long categoryId, String note)
+	public long addExpense(byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
 	{
-		ByteArrayOutputStream pictureOutStream = new ByteArrayOutputStream();
-		picture.compress(Bitmap.CompressFormat.JPEG, 100, pictureOutStream);
-
-		String dateString = "";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
-		dateString = formatter.format(date);
-
-		ContentValues values = new ContentValues();
-		values.put(Globals.ExpenseTable.PICTURE, pictureOutStream.toByteArray());
-		values.put(Globals.ExpenseTable.SPEND, spend);
-		if(dateString.length() != 0)
-			values.put(Globals.ExpenseTable.DATE, dateString);
-		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
-		if(note.length() != 0)
-			values.put(Globals.ExpenseTable.NOTE, note);
+		ContentValues values = _prepareContentValues(pictureBytes, spend, dateString, categoryId, note);
 		return _database.insert(Globals.ExpenseTable.TABLE, null, values);
 	}
 
-	public int editExpense(long id, Bitmap picture, long spend, Date date, long categoryId, String note)
+	public int editExpense(long id, byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
 	{
-		ByteArrayOutputStream pictureOutStream = new ByteArrayOutputStream();
-		picture.compress(Bitmap.CompressFormat.JPEG, 100, pictureOutStream);
-
-		String dateString = "";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
-		dateString = formatter.format(date);
-
-		ContentValues values = new ContentValues();
-		values.put(Globals.ExpenseTable.PICTURE, pictureOutStream.toByteArray());
-		values.put(Globals.ExpenseTable.SPEND, spend);
-		if(dateString.length() != 0)
-			values.put(Globals.ExpenseTable.DATE, dateString);
-		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
-		if(note.length() != 0)
-			values.put(Globals.ExpenseTable.NOTE, note);
-
+		ContentValues values = _prepareContentValues(pictureBytes, spend, dateString, categoryId, note);
 		return _database.update(Globals.ExpenseTable.TABLE, values, Globals.ExpenseTable.ID + "=" + id, null);
 	}
 
-	public long addExpense(Bitmap picture)
+	private ContentValues _prepareContentValues(byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
 	{
-		return addExpense(picture, 0, new Date(), 1, new String());
+		ContentValues values = new ContentValues();
+
+		values.put(Globals.ExpenseTable.PICTURE, pictureBytes);
+		values.put(Globals.ExpenseTable.SPEND, spend);
+
+		if(dateString.length() != 0)
+			values.put(Globals.ExpenseTable.DATE, dateString);
+
+		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
+
+		if(note.length() != 0)
+			values.put(Globals.ExpenseTable.NOTE, note);
+
+		return values;
+	}
+
+	public long addExpense(byte[] pictureBytes)
+	{
+		SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+		String dateString = formatter.format(new Date());
+
+		return addExpense(pictureBytes, 0, dateString, 1, "");
 	}
 
 	public int removeExpense(long id)
@@ -87,7 +79,7 @@ public class ExpenseSqlModel extends AbstractSqlModel
 			Globals.ExpenseTable.NOTE
 		};
 
-		Cursor cursor = _database.query(Globals.ExpenseTable.TABLE, ALL_FIELDS, null, null, null, null, null);
+		Cursor cursor = _database.query(Globals.ExpenseTable.TABLE, ALL_FIELDS, null, null, null, null, Globals.ExpenseTable.DATE + " DESC");
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())
 		{
@@ -126,7 +118,7 @@ public class ExpenseSqlModel extends AbstractSqlModel
 		{
 			try
 			{
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
+				SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
 				Date date = formatter.parse(cursor.getString(1));
 				calendar.setTime(date);
 				if(currentYear == calendar.get(Calendar.YEAR) && currentMonth == calendar.get(Calendar.MONTH))

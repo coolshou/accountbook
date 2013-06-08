@@ -1,6 +1,7 @@
 #include "expensetab.h"
 #include "ui_expensetab.h"
 #include "expensemodel.h"
+#include "globals.h"
 
 #include <QDebug>
 
@@ -28,6 +29,7 @@ ExpenseTab::ExpenseTab(QWidget *parent)
 
     _clearExpense();
 
+    _ui->dateEdit->setDisplayFormat(AccountBook::DATE_FORMAT);
     _ui->dateEdit->setCalendarPopup(true);
 
     _ui->expenseTableView->setEditTriggers(QTableView::NoEditTriggers);
@@ -161,7 +163,7 @@ void ExpenseTab::_onExpenseTableViewClicked()
 
 
     QString date = expenseModel->data(expenseModel->index(currentRow, 3)).toString();
-    _ui->dateEdit->setDate(QDate::fromString(date, "yyyy/M/d"));
+    _ui->dateEdit->setDate(QDate::fromString(date, AccountBook::DATE_FORMAT));
 
     int categoryRow = expenseModel->data(expenseModel->index(currentRow, 4)).toInt() - 1;
     _ui->categoryListView->setCurrentIndex(categoryModel->index(categoryRow, 0));

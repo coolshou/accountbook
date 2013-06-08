@@ -36,7 +36,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	private CategorySqlModel _categorySqlModel;
 	private ExpenseSqlModel _expenseSqlModel;
 
-	private Bitmap _picture;
+	private byte[] _pictureBytes;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -92,9 +92,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		Bundle bundle = getIntent().getExtras();
 
 		//設定照片
-		byte [] bytes = bundle.getByteArray("pictureBytes");
-		_picture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-		_pictureImageView.setImageBitmap(_picture);
+		_pictureBytes = bundle.getByteArray("pictureBytes");
+		Bitmap picture = BitmapFactory.decodeByteArray(_pictureBytes, 0, _pictureBytes.length);
+		_pictureImageView.setImageBitmap(picture);
 
 		//設定花費
 		long spend = bundle.getLong("spend", -1);
@@ -102,13 +102,13 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			_spendEditText.setText(String.valueOf(spend));
 
 		//設定時間
-		String date = bundle.getString("date");
-		if(date == null)
+		String dateString = bundle.getString("dateString");
+		if(dateString == null)
 		{
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
-			date = formatter.format(new Date());
+			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+			dateString = formatter.format(new Date());
 		}
-		_dateEditText.setText(date);
+		_dateEditText.setText(dateString);
 
 		//設定分類
 		List<String> categoryNames = _categorySqlModel.getAllCategoryNames();
@@ -137,7 +137,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		Resources resource = getResources();
 
 		long spend = 0;
-		Date date = null;
+		String dateString = null;
 		long categoryId = 0;
 		String note = "";
 
@@ -152,16 +152,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		}
 
 		//設定時間
-		try
-		{
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
-			date = formatter.parse(_dateEditText.getText().toString());
-		}
-		catch(ParseException e)
-		{
-			Toast.makeText(this, resource.getString(R.string.message_save_failed), Toast.LENGTH_LONG).show();
-			return;
-		}
+		dateString = _dateEditText.getText().toString();
 
 		//設定分類
 		try
@@ -182,9 +173,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		//新增或是編輯
 		if(id == -1)
-			_expenseSqlModel.addExpense(_picture, spend, date, categoryId, note);
+			_expenseSqlModel.addExpense(_pictureBytes, spend, dateString, categoryId, note);
 		else
-			_expenseSqlModel.editExpense(id, _picture, spend, date, categoryId, note);
+			_expenseSqlModel.editExpense(id, _pictureBytes, spend, dateString, categoryId, note);
 
 		Toast.makeText(this, resource.getString(R.string.message_save_successfully), Toast.LENGTH_LONG).show();
 

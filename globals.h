@@ -8,6 +8,7 @@ namespace AccountBook
     const int SETTING_TAB = 1;
     //const int SETTING_TAB = 2;
 
+    const char DATE_FORMAT[] = "yyyy/MM/dd";
     const char SETTINGS_DATABASE_PATH[] = "databasePath";
     
     const char CREATE_EXPENSES_TABLE[] =
