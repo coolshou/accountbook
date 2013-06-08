@@ -23,7 +23,9 @@
     <string name="camera_button_save">儲存</string>
     <string name="camera_button_continue">繼續</string>
 
-	<string name="statics_view_spend">金額：</string>
+	<string name="statistics_button_edit">編輯</string>
+	<string name="statistics_button_delete">刪除</string>
+	<string name="statistics_view_spend">金額：</string>
 
     <string name="message_save_successfully">儲存成功！</string>
     <string name="message_save_failed">資料儲存失敗</string>
@@ -36,5 +38,9 @@
 	<string name="message_download_successful">帳本下載成功！</string>
 	<string name="message_no_database">Dropbox 上沒有帳本！？</string>
 	<string name="message_download_failed">帳本下載失敗！</string>
+
+	<string name="message_select_item_first">請先選擇一項支出</string>
+	<string name="message_delete_item_failed">刪除失敗</string>
+	<string name="message_delete_item_successful">刪除成功！</string>
 
 </resources>

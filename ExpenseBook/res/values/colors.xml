@@ -4,4 +4,6 @@
     <color name="background">#c8c8c8</color>
     <color name="font">#666666</color>
     <color name="font_white">#ffffff</color>
+
+	<color name="white">#ffffff</color>
 </resources>

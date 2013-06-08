@@ -43,9 +43,35 @@ public class ExpenseSqlModel extends AbstractSqlModel
 		return _database.insert(Globals.ExpenseTable.TABLE, null, values);
 	}
 
+	public int editExpense(long id, Bitmap picture, long spend, Date date, long categoryId, String note)
+	{
+		ByteArrayOutputStream pictureOutStream = new ByteArrayOutputStream();
+		picture.compress(Bitmap.CompressFormat.JPEG, 100, pictureOutStream);
+
+		String dateString = "";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
+		dateString = formatter.format(date);
+
+		ContentValues values = new ContentValues();
+		values.put(Globals.ExpenseTable.PICTURE, pictureOutStream.toByteArray());
+		values.put(Globals.ExpenseTable.SPEND, spend);
+		if(dateString.length() != 0)
+			values.put(Globals.ExpenseTable.DATE, dateString);
+		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
+		if(note.length() != 0)
+			values.put(Globals.ExpenseTable.NOTE, note);
+
+		return _database.update(Globals.ExpenseTable.TABLE, values, Globals.ExpenseTable.ID + "=" + id, null);
+	}
+
 	public long addExpense(Bitmap picture)
 	{
 		return addExpense(picture, 0, new Date(), 1, new String());
+	}
+
+	public int removeExpense(long id)
+	{
+		return _database.delete(Globals.ExpenseTable.TABLE, Globals.ExpenseTable.ID + "=" + id, null);
 	}
 
 	public List<ContentValues> getAllExpenses()

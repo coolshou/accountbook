@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 
@@ -123,15 +124,15 @@ public class CameraActivity extends Activity implements View.OnClickListener
 			}
 
 			// 取得相機參數
-			//Camera.Parameters parameters = _camera.getParameters();
+			Camera.Parameters parameters = _camera.getParameters();
 			// 設定照片大小
-			//parameters.setPreviewSize(width, height);
+			parameters.setPreviewSize(width, height);
 			// 設定照片格式
-			//parameters.setPictureFormat(ImageFormat.JPEG);
+			parameters.setPictureFormat(ImageFormat.JPEG);
 			// 設定相機參數
-			//_camera.setParameters(parameters);
-			// 開始預覽
+			_camera.setParameters(parameters);
 
+			// 開始預覽
 			try
 			{
 				_camera.setPreviewDisplay(holder);
@@ -169,7 +170,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 			else
 			{
 				intent.setClass(CameraActivity.this, ExpenseActivity.class);
-				intent.putExtra("picture", bytes);
+				intent.putExtra("pictureBytes", bytes);
 			}
 			startActivity(intent);
 			CameraActivity.this.finish();

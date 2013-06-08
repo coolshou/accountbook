@@ -89,15 +89,26 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 	private void _prepareExpenseForm()
 	{
+		Bundle bundle = getIntent().getExtras();
+
 		//設定照片
-		byte [] bytes = getIntent().getExtras().getByteArray("picture");
+		byte [] bytes = bundle.getByteArray("pictureBytes");
 		_picture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 		_pictureImageView.setImageBitmap(_picture);
 
+		//設定花費
+		long spend = bundle.getLong("spend", -1);
+		if(spend != -1)
+			_spendEditText.setText(String.valueOf(spend));
+
 		//設定時間
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
-		String currentDate = formatter.format(new Date());
-		_dateEditText.setText(currentDate);
+		String date = bundle.getString("date");
+		if(date == null)
+		{
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
+			date = formatter.format(new Date());
+		}
+		_dateEditText.setText(date);
 
 		//設定分類
 		List<String> categoryNames = _categorySqlModel.getAllCategoryNames();
@@ -107,6 +118,18 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		_categorySpinner.setAdapter(adapter);
+
+		String category = bundle.getString("category");
+		if(category != null)
+		{
+			int categoryId = categoryNames.indexOf(category);
+			_categorySpinner.setSelection(categoryId);
+		}
+
+		//設定筆記
+		String note = bundle.getString("note");
+		if(note != null)
+			_noteEditText.setText(note);
 	}
 
 	private void _onSaveButtonClicked()
@@ -154,7 +177,15 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		//設定筆記
 		note = _noteEditText.getText().toString();
 
-		_expenseSqlModel.addExpense(_picture, spend, date, categoryId, note);
+		Bundle bundle = getIntent().getExtras();
+		long id = bundle.getLong("id", -1);
+
+		//新增或是編輯
+		if(id == -1)
+			_expenseSqlModel.addExpense(_picture, spend, date, categoryId, note);
+		else
+			_expenseSqlModel.editExpense(id, _picture, spend, date, categoryId, note);
+
 		Toast.makeText(this, resource.getString(R.string.message_save_successfully), Toast.LENGTH_LONG).show();
 
 		//移動到統計頁面
