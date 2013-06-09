@@ -2,19 +2,25 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -24,6 +30,8 @@ import android.util.Log;
 
 public class ExpenseActivity extends Activity implements View.OnClickListener
 {
+	private static final int _DATE_DIALOG_ID = 0;
+
 	private Button _saveButton;
 	private Button _cancelButton;
 
@@ -57,6 +65,16 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		_categorySqlModel = new CategorySqlModel(this);
 		_expenseSqlModel = new ExpenseSqlModel(this);
+
+		_dateEditText.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent)
+			{
+				showDialog(_DATE_DIALOG_ID);
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -85,6 +103,31 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			case R.id.expense_button_cancel: finish(); break;
 			case R.id.expense_button_save: _onSaveButtonClicked(); break;
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+
+		if(id == _DATE_DIALOG_ID)
+		{
+			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+			try
+			{
+				Date date = formatter.parse(_dateEditText.getText().toString());
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				int year = calendar.get(Calendar.YEAR);
+				int month = calendar.get(Calendar.MONTH);
+				int day = calendar.get(Calendar.DAY_OF_MONTH);
+				return new DatePickerDialog(this, _dateSetListener, year, month, day);
+			}
+			catch(ParseException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	private void _prepareExpenseForm()
@@ -186,4 +229,15 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		finish();
 	}
+
+	private DatePickerDialog.OnDateSetListener _dateSetListener = new DatePickerDialog.OnDateSetListener()
+	{
+		@Override
+		public void onDateSet(DatePicker datePicker, int year, int month, int day)
+		{
+			GregorianCalendar calender = new GregorianCalendar(year, month, day);
+			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+			_dateEditText.setText(formatter.format(calender.getTime()));
+		}
+	};
 }
