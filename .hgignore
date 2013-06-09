@@ -3,3 +3,4 @@ AccountBook/bin/
 ExpenseBook/gen/
 ExpenseBook/bin/
 ExpenseBook/out/
+ExpenseBook/proguard_logs/
