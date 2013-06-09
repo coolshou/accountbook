@@ -1,6 +1,6 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
-public class Globals 
+class Globals
 {
 	public static final String LOG_TAG = "累死雞記帳";
 
@@ -63,5 +63,15 @@ public class Globals
 			ID + " _id INTEGER NOT NULL PRIMARY KEY," +
 			APP_VERSION + " TEXT);";
 		static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE;
+	}
+
+	public static class Expense
+	{
+		public static String ID = "_id";
+		public static String PICTURE_BYTES = "pictureBytes";
+		public static String SPEND = "spend";
+		public static String DATE_STRING = "dateString";
+		public static String CATEGORY = "category";
+		public static String NOTE = "note";
 	}
 }

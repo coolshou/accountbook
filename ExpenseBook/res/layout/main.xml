@@ -62,7 +62,9 @@
             android:adjustViewBounds="false"
             android:scaleType="fitXY"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
 	<FrameLayout
 			android:layout_width="fill_parent"
@@ -70,7 +72,9 @@
 			android:layout_below="@+id/linearLayout"
 			android:layout_above="@+id/imageView"
 			android:layout_alignParentRight="false"
-			android:layout_margin="10dp">
+			android:layout_marginLeft="@dimen/activity_horizontal_margin"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:layout_marginTop="@dimen/activity_vertical_margin">
 
 		<ImageView
 				android:layout_width="match_parent"
@@ -80,10 +84,7 @@
 				android:src="@drawable/dialog"
 				android:cropToPadding="false"
 				android:adjustViewBounds="false"
-				android:scaleType="fitXY"
-				android:layout_alignParentBottom="true"
-				android:layout_alignParentRight="true"
-				/>
+				android:scaleType="fitXY"/>
 
 		<TextView
 				android:layout_width="wrap_content"
@@ -92,10 +93,9 @@
 				android:text="@string/main_view_talk"
 				android:id="@+id/main_view_talk"
 				android:layout_gravity="center"
-				android:autoText="false"
 				android:singleLine="false"
-				android:layout_margin="25dp"
 				android:textStyle="italic"
+				android:textColor="@color/font"
 				/>
 	</FrameLayout>
 

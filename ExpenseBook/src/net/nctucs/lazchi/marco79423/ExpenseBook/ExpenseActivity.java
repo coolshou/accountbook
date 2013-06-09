@@ -26,14 +26,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import android.util.Log;
-
 public class ExpenseActivity extends Activity implements View.OnClickListener
 {
 	private static final int _DATE_DIALOG_ID = 0;
-
-	private Button _saveButton;
-	private Button _cancelButton;
 
 	private ImageView _pictureImageView;
 	private EditText _spendEditText;
@@ -49,10 +44,10 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_expense);
+		setContentView(R.layout.expense);
 
-		_saveButton = (Button) findViewById(R.id.expense_button_save);
-		_cancelButton = (Button) findViewById(R.id.expense_button_cancel);
+		Button saveButton = (Button) findViewById(R.id.expense_button_save);
+		Button cancelButton = (Button) findViewById(R.id.expense_button_cancel);
 
 		_pictureImageView = (ImageView) findViewById(R.id.expense_view_picture);
 		_spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
@@ -60,8 +55,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		_categorySpinner = (Spinner) findViewById(R.id.expense_edit_category);
 		_noteEditText = (EditText) findViewById(R.id.expense_edit_note);
 
-		_saveButton.setOnClickListener(this);
-		_cancelButton.setOnClickListener(this);
+		saveButton.setOnClickListener(this);
+		cancelButton.setOnClickListener(this);
 
 		_categorySqlModel = new CategorySqlModel(this);
 		_expenseSqlModel = new ExpenseSqlModel(this);
@@ -135,17 +130,17 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		Bundle bundle = getIntent().getExtras();
 
 		//設定照片
-		_pictureBytes = bundle.getByteArray("pictureBytes");
+		_pictureBytes = bundle.getByteArray(Globals.Expense.PICTURE_BYTES);
 		Bitmap picture = BitmapFactory.decodeByteArray(_pictureBytes, 0, _pictureBytes.length);
 		_pictureImageView.setImageBitmap(picture);
 
 		//設定花費
-		long spend = bundle.getLong("spend", -1);
+		long spend = bundle.getLong(Globals.Expense.SPEND, -1);
 		if(spend != -1)
 			_spendEditText.setText(String.valueOf(spend));
 
 		//設定時間
-		String dateString = bundle.getString("dateString");
+		String dateString = bundle.getString(Globals.Expense.DATE_STRING);
 		if(dateString == null)
 		{
 			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
@@ -155,14 +150,14 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		//設定分類
 		List<String> categoryNames = _categorySqlModel.getAllCategoryNames();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expense_spinner);
 		for(String categoryName : categoryNames)
 			adapter.add(categoryName);
 
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(R.layout.expense_spinner);
 		_categorySpinner.setAdapter(adapter);
 
-		String category = bundle.getString("category");
+		String category = bundle.getString(Globals.Expense.CATEGORY);
 		if(category != null)
 		{
 			int categoryId = categoryNames.indexOf(category);
@@ -170,7 +165,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		}
 
 		//設定筆記
-		String note = bundle.getString("note");
+		String note = bundle.getString(Globals.Expense.NOTE);
 		if(note != null)
 			_noteEditText.setText(note);
 	}
@@ -212,7 +207,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		note = _noteEditText.getText().toString();
 
 		Bundle bundle = getIntent().getExtras();
-		long id = bundle.getLong("id", -1);
+		long id = bundle.getLong(Globals.Expense.ID, -1);
 
 		//新增或是編輯
 		if(id == -1)
@@ -230,7 +225,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		finish();
 	}
 
-	private DatePickerDialog.OnDateSetListener _dateSetListener = new DatePickerDialog.OnDateSetListener()
+	private final DatePickerDialog.OnDateSetListener _dateSetListener = new DatePickerDialog.OnDateSetListener()
 	{
 		@Override
 		public void onDateSet(DatePicker datePicker, int year, int month, int day)

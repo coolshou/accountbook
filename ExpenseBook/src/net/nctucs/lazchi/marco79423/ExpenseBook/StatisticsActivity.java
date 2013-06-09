@@ -1,21 +1,21 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.DialogPreference;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,40 +25,36 @@ import java.util.List;
 
 import static android.widget.AdapterView.*;
 
-/**
- * Created by Marco on 2013/6/1.
- */
 public class StatisticsActivity extends Activity implements View.OnClickListener, OnItemClickListener
 {
 	private ListView _expenseListView;
-	private Button _editButton;
-	private Button _deleteButton;
 
 	private ExpenseSqlModel _expenseSqlModel;
 	private CategorySqlModel _categorySqlModel;
 
 	private View _selectedView;
 	private int _selectedPosition = -1;
-	SimpleAdapter _dataAdapter;
+	private SimpleAdapter _dataAdapter;
 
-	ArrayList<HashMap<String, Object>> _expenses;
+	private ArrayList<HashMap<String, Object>> _expenses;
 
 
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_statistics);
+		setContentView(R.layout.statistics);
 
 		_expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
-		_editButton = (Button) findViewById(R.id.statistics_button_edit);
-		_deleteButton = (Button) findViewById(R.id.statistics_button_delete);
-
 		_expenseListView.setOnItemClickListener(this);
-		_editButton.setOnClickListener(this);
-		_deleteButton.setOnClickListener(this);
 
 		_expenseSqlModel = new ExpenseSqlModel(this);
 		_categorySqlModel = new CategorySqlModel(this);
+
+		Button editButton = (Button) findViewById(R.id.statistics_button_edit);
+		editButton.setOnClickListener(this);
+
+		Button deleteButton = (Button) findViewById(R.id.statistics_button_delete);
+		deleteButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -108,12 +104,12 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
 		//移動到統計頁面
 		Intent intent = new Intent();
-		intent.putExtra("id", (Long)expense.get("id"));
-		intent.putExtra("pictureBytes", (byte[])expense.get("pictureBytes"));
-		intent.putExtra("spend", (Long)expense.get("spend"));
-		intent.putExtra("date", (String)expense.get("date"));
-		intent.putExtra("category", (String)expense.get("category"));
-		intent.putExtra("note", (String)expense.get("note"));
+		intent.putExtra(Globals.Expense.ID, (Long)expense.get(Globals.Expense.ID));
+		intent.putExtra(Globals.Expense.PICTURE_BYTES, (byte[])expense.get(Globals.Expense.PICTURE_BYTES));
+		intent.putExtra(Globals.Expense.SPEND, (Long)expense.get(Globals.Expense.SPEND));
+		intent.putExtra(Globals.Expense.DATE_STRING, (String)expense.get(Globals.Expense.DATE_STRING));
+		intent.putExtra(Globals.Expense.CATEGORY, (String)expense.get(Globals.Expense.CATEGORY));
+		intent.putExtra(Globals.Expense.NOTE, (String)expense.get(Globals.Expense.NOTE));
 
 		intent.setClass(this, ExpenseActivity.class);
 		startActivity(intent);
@@ -130,17 +126,22 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			return;
 		}
 
-		long id = (Long)_expenses.get(_selectedPosition).get("id");
-		if(_expenseSqlModel.removeExpense(id) == 0)
+		//確認視窗
+		AlertDialog.Builder builder = new AlertDialog.Builder(StatisticsActivity.this);
+		builder.setTitle(R.string.statistics_dialog_delete_title);
+		builder.setMessage(R.string.statistics_dialog_delete_message);
+		builder.setPositiveButton(R.string.statistics_dialog_delete_confirm, new DialogInterface.OnClickListener()
 		{
-			Toast.makeText(this, resources.getString(R.string.message_delete_item_failed), Toast.LENGTH_LONG).show();
-			return;
-		}
-		_expenses.remove(_selectedPosition);
-		_dataAdapter.notifyDataSetChanged();
-		_selectedPosition = -1;
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i)
+			{
+				long id = (Long)_expenses.get(_selectedPosition).get(Globals.Expense.ID);
+				_deleteExpense(id);
+			}
+		});
 
-		Toast.makeText(this, resources.getString(R.string.message_delete_item_successful), Toast.LENGTH_LONG).show();
+		builder.setNegativeButton(R.string.statistics_dialog_delete_cancel, null);
+		builder.create().show();
 	}
 
 	@Override
@@ -178,12 +179,12 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			final String category = _categorySqlModel.getCategoryName(expenseValue.getAsLong(Globals.ExpenseTable.CATEGORY_ID));
 			final String note = expenseValue.getAsString(Globals.ExpenseTable.NOTE);
 
-			expense.put("id", id);
-			expense.put("pictureBytes", pictureBytes);
-			expense.put("spend", spend);
-			expense.put("dateString", dateString);
-			expense.put("category", category);
-			expense.put("note", note);
+			expense.put(Globals.Expense.ID, id);
+			expense.put(Globals.Expense.PICTURE_BYTES, pictureBytes);
+			expense.put(Globals.Expense.SPEND, spend);
+			expense.put(Globals.Expense.DATE_STRING, dateString);
+			expense.put(Globals.Expense.CATEGORY, category);
+			expense.put(Globals.Expense.NOTE, note);
 			_expenses.add(expense);
 		}
 
@@ -191,7 +192,12 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			this,
 			_expenses,
 			R.layout.statistics_item_expense,
-			new String[] {"pictureBytes", "spend", "dateString", "category"},
+			new String[] {
+				Globals.Expense.PICTURE_BYTES,
+				Globals.Expense.SPEND,
+				Globals.Expense.DATE_STRING,
+				Globals.Expense.NOTE
+			},
 			new int[] {
 				R.id.statistics_item_view_picture,
 				R.id.statistics_item_spend,
@@ -203,7 +209,25 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		_expenseListView.setAdapter(_dataAdapter);
 	}
 
-	SimpleAdapter.ViewBinder _simepleViewBinder = new SimpleAdapter.ViewBinder()
+	private void _deleteExpense(long id)
+	{
+		Resources resources = getResources();
+		if(_expenseSqlModel.removeExpense(id) == 0)
+		{
+			Toast.makeText(this, resources.getString(R.string.message_delete_item_failed), Toast.LENGTH_LONG).show();
+			return;
+		}
+		_expenses.remove(_selectedPosition);
+		_dataAdapter.notifyDataSetChanged();
+
+		_selectedView.setBackgroundResource(R.color.background);
+		_selectedView = null;
+		_selectedPosition = -1;
+
+		Toast.makeText(this, resources.getString(R.string.message_delete_item_successful), Toast.LENGTH_LONG).show();
+	}
+
+	private final SimpleAdapter.ViewBinder _simepleViewBinder = new SimpleAdapter.ViewBinder()
 	{
 
 		@Override

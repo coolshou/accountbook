@@ -8,10 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-
-/**
- * Created by Marco on 2013/6/1.
- */
 public class CategorySqlModel extends AbstractSqlModel
 {
 	public CategorySqlModel(Context context)
@@ -27,7 +23,7 @@ public class CategorySqlModel extends AbstractSqlModel
 			_addDefaultCategories();
 	}
 
-	public long addCategory(String category, long orderId)
+	long addCategory(String category, long orderId)
 	{
 		if(!_database.isOpen())
 			return -1;
@@ -87,7 +83,7 @@ public class CategorySqlModel extends AbstractSqlModel
 		return categoryNames;
 	}
 
-	public List<String> _addDefaultCategories()
+	List<String> _addDefaultCategories()
 	{
 		//設定預設類別
 		String[] categories = {"未分類", "食", "衣", "住", "行", "育", "樂"};

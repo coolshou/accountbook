@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import android.util.Log;
 
-public class ExpenseSqlModel extends AbstractSqlModel
+class ExpenseSqlModel extends AbstractSqlModel
 {
 	public ExpenseSqlModel(Context context)
 	{
@@ -79,7 +79,16 @@ public class ExpenseSqlModel extends AbstractSqlModel
 			Globals.ExpenseTable.NOTE
 		};
 
-		Cursor cursor = _database.query(Globals.ExpenseTable.TABLE, ALL_FIELDS, null, null, null, null, Globals.ExpenseTable.DATE + " DESC");
+		Cursor cursor = _database.query(
+			Globals.ExpenseTable.TABLE,
+			ALL_FIELDS,
+			null,
+			null,
+			null,
+			null,
+			Globals.ExpenseTable.DATE + " DESC, " + Globals.ExpenseTable.ID + " DESC"
+		);
+		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())
 		{

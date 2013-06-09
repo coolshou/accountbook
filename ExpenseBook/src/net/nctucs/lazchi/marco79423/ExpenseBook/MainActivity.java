@@ -4,7 +4,6 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 //Android
 import android.content.res.Resources;
@@ -23,13 +22,11 @@ import android.widget.Button;
 
 //Dropbox
 import com.dropbox.sync.android.DbxAccountManager;
-import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 //工具
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,9 +37,6 @@ public class MainActivity extends Activity implements OnClickListener
 {
 	private static final int _REQUEST_LINK_TO_DROPBOX = 0;
 
-	private Button _createNewExpenseButton;
-	private Button _browseStatisticsButton;
-	private Button _syncWithDropboxButton;
 	private TextView _talkTextView;
 
 	private ExpenseSqlModel _expenseSqlModel;
@@ -56,16 +50,16 @@ public class MainActivity extends Activity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
 
-	    _createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
-	    _browseStatisticsButton = (Button) findViewById(R.id.main_button_browse_statistics);
-	    _syncWithDropboxButton = (Button) findViewById(R.id.main_button_upload_database);
+	    Button createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
+	    Button browseStatisticsButton = (Button) findViewById(R.id.main_button_browse_statistics);
+	    Button syncWithDropboxButton = (Button) findViewById(R.id.main_button_upload_database);
 	    _talkTextView = (TextView) findViewById(R.id.main_view_talk);
 
-	    _createNewExpenseButton.setOnClickListener(this);
-	    _browseStatisticsButton.setOnClickListener(this);
-	    _syncWithDropboxButton.setOnClickListener(this);
+	    createNewExpenseButton.setOnClickListener(this);
+	    browseStatisticsButton.setOnClickListener(this);
+	    syncWithDropboxButton.setOnClickListener(this);
 
 	    _expenseSqlModel = new ExpenseSqlModel(this);
 

@@ -6,8 +6,6 @@ import java.io.IOException;
 //Android
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
-import android.widget.Toast;
 
 //工具
 
@@ -25,10 +22,6 @@ import android.widget.Toast;
 
 public class CameraActivity extends Activity implements View.OnClickListener
 {
-	private Button _saveButton;
-	private Button _continueButton;
-	private SurfaceView _surfacePreview;
-
 	private Camera _camera;
 	private SurfaceHolder _surfaceHolder;
 
@@ -37,19 +30,17 @@ public class CameraActivity extends Activity implements View.OnClickListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_camera);
+		setContentView(R.layout.camera);
 
-		_saveButton = (Button) findViewById(R.id.camera_button_save);
-		_continueButton = (Button) findViewById(R.id.camera_button_continue);
-		_surfacePreview = (SurfaceView) findViewById(R.id.camera_surface);
+		Button saveButton = (Button) findViewById(R.id.camera_button_save);
+		Button continueButton = (Button) findViewById(R.id.camera_button_continue);
+		SurfaceView surfacePreview = (SurfaceView) findViewById(R.id.camera_surface);
 
-		_saveButton.setOnClickListener(this);
-		_continueButton.setOnClickListener(this);
+		saveButton.setOnClickListener(this);
+		continueButton.setOnClickListener(this);
 
-		_surfaceHolder = _surfacePreview.getHolder();
+		_surfaceHolder = surfacePreview.getHolder();
 		_surfaceHolder.addCallback(_surfaceCallBack);
-		// deprecated setting, but required on Android versions prior to 3.0
-		_surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 
 
@@ -83,7 +74,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 		expenseSqlModel.close();
 	}
 
-	SurfaceHolder.Callback _surfaceCallBack = new SurfaceHolder.Callback()
+	private final SurfaceHolder.Callback _surfaceCallBack = new SurfaceHolder.Callback()
 	{
 		@Override
 		public void surfaceCreated(SurfaceHolder surfaceHolder)
@@ -153,7 +144,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 	};
 
 	//拍照回呼
-	Camera.PictureCallback _pictureCallback = new Camera.PictureCallback()
+	final Camera.PictureCallback _pictureCallback = new Camera.PictureCallback()
 	{
 		@Override
 		public void onPictureTaken(byte[] bytes, Camera camera)
@@ -167,7 +158,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 			else
 			{
 				intent.setClass(CameraActivity.this, ExpenseActivity.class);
-				intent.putExtra("pictureBytes", bytes);
+				intent.putExtra(Globals.Expense.PICTURE_BYTES, bytes);
 			}
 			startActivity(intent);
 			CameraActivity.this.finish();

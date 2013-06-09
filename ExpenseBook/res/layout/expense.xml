@@ -13,7 +13,10 @@
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentRight="true"
 			android:layout_above="@+id/linearLayout"
-			android:padding="5dp">
+			android:layout_marginLeft="@dimen/activity_horizontal_margin"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:layout_marginBottom="@dimen/activity_vertical_margin"
+			android:layout_marginTop="@dimen/activity_vertical_margin">
 
 		<TableLayout
 				android:layout_width="fill_parent"
@@ -48,14 +51,15 @@
 						android:text="@string/expense_view_spend"
 						android:id="@+id/textView2"
 						android:layout_gravity="center_vertical|left"
-						/>
+						android:textColor="@color/font"/>
 
 				<EditText
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:inputType="numberDecimal"
 						android:id="@+id/expense_edit_spend"
-						android:ems="10"/>
+						android:ems="10"
+						android:textColor="@color/font"/>
 			</TableRow>
 
 			<TableRow
@@ -69,7 +73,7 @@
 						android:text="@string/expense_view_date"
 						android:id="@+id/textView"
 						android:layout_gravity="center_vertical|left"
-						/>
+						android:textColor="@color/font"/>
 
 				<EditText
 						android:layout_width="match_parent"
@@ -77,7 +81,7 @@
 						android:inputType="date"
 						android:ems="10"
 						android:id="@+id/expense_edit_date"
-						/>
+						android:textColor="@color/font"/>
 			</TableRow>
 
 			<TableRow
@@ -91,7 +95,7 @@
 						android:text="@string/expense_view_category"
 						android:id="@+id/textView3"
 						android:layout_gravity="center_vertical|left"
-						/>
+						android:textColor="@color/font"/>
 
 				<Spinner
 						android:layout_width="match_parent"
@@ -111,13 +115,14 @@
 						android:text="@string/expense_view_note"
 						android:id="@+id/textView4"
 						android:layout_gravity="center_vertical|left"
-						/>
+						android:textColor="@color/font"/>
 
 				<EditText
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:id="@+id/expense_edit_note"
-						/>
+						android:inputType="text"
+						android:textColor="@color/font"/>
 			</TableRow>
 
 		</TableLayout>
