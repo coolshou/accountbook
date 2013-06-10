@@ -9,7 +9,7 @@
 	<string name="menu_exit">離開程式</string>
 
     <string name="main_button_create_new_epense">新增</string>
-    <string name="main_button_browse_statistics">瀏覽</string>
+    <string name="main_button_browse">瀏覽</string>
     <string name="main_button_upload_database">上傳</string>
 	<string name="main_view_talk">您好！我是累死雞\n本月您已經花了 %d 元\n…</string>
 
@@ -23,15 +23,15 @@
     <string name="camera_button_save">儲存</string>
     <string name="camera_button_continue">繼續</string>
 
-	<string name="statistics_button_edit">編輯</string>
-	<string name="statistics_button_delete">刪除</string>
-	<string name="statistics_view_spend">金額：</string>
-	<string name="statistics_view_unit">元</string>
+	<string name="browse_button_edit">編輯</string>
+	<string name="browse_button_delete">刪除</string>
+	<string name="browse_view_spend">金額：</string>
+	<string name="browse_view_unit">元</string>
 
-	<string name="statistics_dialog_delete_title">注意</string>
-	<string name="statistics_dialog_delete_message">確認要刪除嗎？</string>
-	<string name="statistics_dialog_delete_confirm">刪除</string>
-	<string name="statistics_dialog_delete_cancel">取消</string>
+	<string name="browse_dialog_delete_title">注意</string>
+	<string name="browse_dialog_delete_message">確認要刪除嗎？</string>
+	<string name="browse_dialog_delete_confirm">刪除</string>
+	<string name="browse_dialog_delete_cancel">取消</string>
 
     <string name="message_save_successfully">儲存成功！</string>
     <string name="message_save_failed">資料儲存失敗</string>

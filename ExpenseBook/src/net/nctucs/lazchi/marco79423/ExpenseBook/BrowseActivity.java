@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,7 +24,7 @@ import java.util.List;
 
 import static android.widget.AdapterView.*;
 
-public class StatisticsActivity extends Activity implements View.OnClickListener, OnItemClickListener
+public class BrowseActivity extends Activity implements View.OnClickListener, OnItemClickListener
 {
 	private ListView _expenseListView;
 
@@ -42,7 +41,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.statistics);
+		setContentView(R.layout.browse);
 
 		_expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
 		_expenseListView.setOnItemClickListener(this);
@@ -50,10 +49,10 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		_expenseSqlModel = new ExpenseSqlModel(this);
 		_categorySqlModel = new CategorySqlModel(this);
 
-		Button editButton = (Button) findViewById(R.id.statistics_button_edit);
+		Button editButton = (Button) findViewById(R.id.browse_button_edit);
 		editButton.setOnClickListener(this);
 
-		Button deleteButton = (Button) findViewById(R.id.statistics_button_delete);
+		Button deleteButton = (Button) findViewById(R.id.browse_button_delete);
 		deleteButton.setOnClickListener(this);
 	}
 
@@ -86,8 +85,8 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 	{
 		switch(view.getId())
 		{
-			case R.id.statistics_button_edit: _onEditButtonClicked(); break;
-			case R.id.statistics_button_delete: _onDeleteButtonClicked(); break;
+			case R.id.browse_button_edit: _onEditButtonClicked(); break;
+			case R.id.browse_button_delete: _onDeleteButtonClicked(); break;
 		}
 	}
 
@@ -127,10 +126,10 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		}
 
 		//確認視窗
-		AlertDialog.Builder builder = new AlertDialog.Builder(StatisticsActivity.this);
-		builder.setTitle(R.string.statistics_dialog_delete_title);
-		builder.setMessage(R.string.statistics_dialog_delete_message);
-		builder.setPositiveButton(R.string.statistics_dialog_delete_confirm, new DialogInterface.OnClickListener()
+		AlertDialog.Builder builder = new AlertDialog.Builder(BrowseActivity.this);
+		builder.setTitle(R.string.browse_dialog_delete_title);
+		builder.setMessage(R.string.browse_dialog_delete_message);
+		builder.setPositiveButton(R.string.browse_dialog_delete_confirm, new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i)
@@ -140,7 +139,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 			}
 		});
 
-		builder.setNegativeButton(R.string.statistics_dialog_delete_cancel, null);
+		builder.setNegativeButton(R.string.browse_dialog_delete_cancel, null);
 		builder.create().show();
 	}
 
@@ -191,7 +190,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 		_dataAdapter = new SimpleAdapter(
 			this,
 			_expenses,
-			R.layout.statistics_item_expense,
+			R.layout.browse_item_expense,
 			new String[] {
 				Globals.Expense.PICTURE_BYTES,
 				Globals.Expense.SPEND,
@@ -199,10 +198,10 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 				Globals.Expense.NOTE
 			},
 			new int[] {
-				R.id.statistics_item_view_picture,
-				R.id.statistics_item_spend,
-				R.id.statistics_item_view_date,
-				R.id.statistics_item_view_category
+				R.id.browse_item_view_picture,
+				R.id.browse_item_spend,
+				R.id.browse_item_view_date,
+				R.id.browse_item_view_category
 			}
 		);
 		_dataAdapter.setViewBinder(_simepleViewBinder);

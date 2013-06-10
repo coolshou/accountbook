@@ -219,7 +219,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		//移動到統計頁面
 		Intent intent = new Intent();
-		intent.setClass(this, StatisticsActivity.class);
+		intent.setClass(this, BrowseActivity.class);
 		startActivity(intent);
 
 		finish();

@@ -88,7 +88,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 			null,
 			Globals.ExpenseTable.DATE + " DESC, " + Globals.ExpenseTable.ID + " DESC"
 		);
-		
+
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())
 		{

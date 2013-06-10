@@ -4,13 +4,13 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:id="@+id/statistics_item_layout"
+              android:id="@+id/browse_item_layout"
 		>
 
 	<ImageView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:id="@+id/statistics_item_view_picture"
+			android:id="@+id/browse_item_view_picture"
 			android:src="@drawable/ic_launcher"
 			android:padding="5dp"
 			android:layout_weight="4"
@@ -26,7 +26,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:text="@string/statistics_view_spend"
+				android:text="@string/browse_view_spend"
 				android:id="@+id/textView"
 				android:textColor="@color/font"/>
 
@@ -34,7 +34,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:id="@+id/statistics_item_spend"
+				android:id="@+id/browse_item_spend"
 				android:text="@string/sample_spend"
 				android:layout_alignTop="@+id/textView"
 				android:layout_toRightOf="@+id/textView"
@@ -46,12 +46,12 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:text="@string/statistics_view_unit"
+				android:text="@string/browse_view_unit"
 				android:id="@+id/textView3"
-				android:layout_alignTop="@+id/statistics_item_spend"
+				android:layout_alignTop="@+id/browse_item_spend"
 				android:layout_alignParentRight="true"
 				android:layout_marginRight="11dp"
-				android:layout_toRightOf="@+id/statistics_item_spend"
+				android:layout_toRightOf="@+id/browse_item_spend"
 				android:textColor="@color/font"/>
 
 		<TextView
@@ -59,7 +59,7 @@
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:text="@string/sample_date"
-				android:id="@+id/statistics_item_view_date"
+				android:id="@+id/browse_item_view_date"
 				android:layout_alignLeft="@+id/textView"
 				android:layout_below="@+id/textView"
 				android:textColor="@color/font"/>
@@ -69,8 +69,8 @@
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:text="@string/sample_date"
-				android:id="@+id/statistics_item_view_category"
-				android:layout_toRightOf="@+id/statistics_item_view_date"
+				android:id="@+id/browse_item_view_category"
+				android:layout_toRightOf="@+id/browse_item_view_date"
 				android:layout_alignParentEnd="false"
 				android:layout_marginLeft="10dp"
 				android:layout_below="@+id/textView3"

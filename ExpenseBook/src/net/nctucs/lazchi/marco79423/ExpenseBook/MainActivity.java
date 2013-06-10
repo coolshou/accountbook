@@ -53,12 +53,12 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.main);
 
 	    Button createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
-	    Button browseStatisticsButton = (Button) findViewById(R.id.main_button_browse_statistics);
+	    Button browseButton = (Button) findViewById(R.id.main_button_browse);
 	    Button syncWithDropboxButton = (Button) findViewById(R.id.main_button_upload_database);
 	    _talkTextView = (TextView) findViewById(R.id.main_view_talk);
 
 	    createNewExpenseButton.setOnClickListener(this);
-	    browseStatisticsButton.setOnClickListener(this);
+	    browseButton.setOnClickListener(this);
 	    syncWithDropboxButton.setOnClickListener(this);
 
 	    _expenseSqlModel = new ExpenseSqlModel(this);
@@ -138,7 +138,7 @@ public class MainActivity extends Activity implements OnClickListener
 		switch(view.getId())
 		{
 			case R.id.main_button_new_expense: _onCreateNewExpenseButtonClicked(); break;
-			case R.id.main_button_browse_statistics: _onBrowseStatisticsButtonClicked(); break;
+			case R.id.main_button_browse: _onBrowseButtonClicked(); break;
 			case R.id.main_button_upload_database: _onUploadDatabaseButtonClicked(); break;
 		}
 	}
@@ -260,10 +260,10 @@ public class MainActivity extends Activity implements OnClickListener
 		startActivity(intent);
 	}
 
-	private void _onBrowseStatisticsButtonClicked()
+	private void _onBrowseButtonClicked()
 	{
 		Intent intent = new Intent();
-		intent.setClass(this, StatisticsActivity.class);
+		intent.setClass(this, BrowseActivity.class);
 		startActivity(intent);
 	}
 

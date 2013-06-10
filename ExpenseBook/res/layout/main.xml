@@ -25,19 +25,19 @@
 				android:textColor="@color/font_white"
 				android:drawableLeft="@android:drawable/ic_menu_camera"
 				android:layout_weight="1"
-				android:padding="3dp"/>
+				/>
 
 		<Button
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="@string/main_button_browse_statistics"
-	            android:id="@+id/main_button_browse_statistics"
+	            android:text="@string/main_button_browse"
+	            android:id="@+id/main_button_browse"
 	            android:background="@color/main"
 	            android:textColor="@color/font_white"
 	            android:drawableLeft="@android:drawable/ic_menu_view"
 	            android:layout_weight="1"
 	            android:layout_marginLeft="1dp"
-	            android:padding="3dp"/>
+				/>
 
 		<Button
 		        android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 		        android:drawableLeft="@android:drawable/ic_menu_upload"
 		        android:layout_weight="1"
 		        android:layout_marginLeft="1dp"
-		        android:padding="3dp"/>
+				/>
 
 	</LinearLayout>
 

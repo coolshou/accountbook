@@ -50,7 +50,7 @@
 		    	<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-	    <activity android:name=".StatisticsActivity"/>
+	    <activity android:name=".BrowseActivity"/>
 
 	    <service
 		  	android:name="com.dropbox.sync.android.DbxSyncService"

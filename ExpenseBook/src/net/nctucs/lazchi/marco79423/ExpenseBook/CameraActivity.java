@@ -153,7 +153,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 			if(_isQuickSave)
 			{
 				_quickSaveExpense(bytes);
-				intent.setClass(CameraActivity.this, StatisticsActivity.class);
+				intent.setClass(CameraActivity.this, BrowseActivity.class);
 			}
 			else
 			{
