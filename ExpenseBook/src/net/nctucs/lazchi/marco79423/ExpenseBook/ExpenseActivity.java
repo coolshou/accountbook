@@ -90,14 +90,43 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		_expenseSqlModel.close();
 	}
 
+	/*
+	 * 事件
+	 */
+
 	@Override
 	public void onClick(View view)
 	{
 		switch(view.getId())
 		{
-			case R.id.expense_button_cancel: finish(); break;
+			case R.id.expense_button_cancel: onBackPressed(); break;
 			case R.id.expense_button_save: _onSaveButtonClicked(); break;
 		}
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		Intent intent = new Intent();
+
+		Bundle bundle = getIntent().getExtras();
+		long id = bundle.getLong(Globals.Expense.ID, -1);
+
+		//新增或是編輯
+		if(id == -1)
+		{
+			intent.setClass(this, MainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
+		}
+		else
+		{
+			intent.setClass(this, BrowseActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		}
+		finish();
 	}
 
 	@Override
@@ -221,6 +250,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		Intent intent = new Intent();
 		intent.setClass(this, BrowseActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
 		finish();
 	}

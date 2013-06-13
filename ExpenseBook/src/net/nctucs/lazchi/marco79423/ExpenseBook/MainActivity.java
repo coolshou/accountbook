@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 //Android
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Activity;
@@ -44,6 +46,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private ExpenseSqlModel _expenseSqlModel;
 	private DbxAccountManager _dbxAccountManager;
 
+	AnimatorSet _dialogAnimatorSet;
 	/*
 	 * 生命週期
 	 */
@@ -74,7 +77,8 @@ public class MainActivity extends Activity implements OnClickListener
 
 	    //dialog
 	    _dialogFrameLayout = (FrameLayout) findViewById(R.id.main_layout_dialog);
-	    _dialogFrameLayout.setAlpha(0f);
+		_dialogAnimatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.main_dialog);
+	    _dialogAnimatorSet.setTarget(_dialogFrameLayout);
 	}
 
 	@Override
@@ -84,8 +88,7 @@ public class MainActivity extends Activity implements OnClickListener
 		_expenseSqlModel.open();
 		_setTalkTextView();
 
-		_dialogFrameLayout.animate().alpha(1f).setDuration(1500);
-		//.setListener(null);
+		_dialogAnimatorSet.start();
 	}
 
 	@Override
@@ -93,8 +96,6 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		super.onPause();
 		_expenseSqlModel.close();
-
-		_dialogFrameLayout.setAlpha(0f);
 	}
 	/*
      * Menu
@@ -276,6 +277,8 @@ public class MainActivity extends Activity implements OnClickListener
 		Intent intent = new Intent();
 		intent.setClass(this, BrowseActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
+		finish();
 	}
 
 	private void _setTalkTextView()

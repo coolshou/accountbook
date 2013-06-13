@@ -86,7 +86,7 @@ public class CategorySqlModel extends AbstractSqlModel
 	List<String> _addDefaultCategories()
 	{
 		//設定預設類別
-		String[] categories = {"未分類", "食", "衣", "住", "行", "育", "樂"};
+		String[] categories = {"未分類", "飲食", "衣物", "住宿", "行動", "教育", "娛樂"};
 		for(String category : categories)
 			addCategory(category, 0);
 		return getAllCategoryNames();

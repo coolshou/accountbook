@@ -54,6 +54,16 @@ public class CameraActivity extends Activity implements View.OnClickListener
 		}
 	}
 
+	@Override
+	public void onBackPressed()
+	{
+		Intent intent = new Intent();
+		intent.setClass(this, MainActivity.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+		finish();
+	}
+
 	private void _onSaveButtonClicked()
 	{
 		_isQuickSave = true;
@@ -161,7 +171,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 				intent.putExtra(Globals.Expense.PICTURE_BYTES, bytes);
 			}
 			startActivity(intent);
-			CameraActivity.this.finish();
+			finish();
 		}
 	};
 }

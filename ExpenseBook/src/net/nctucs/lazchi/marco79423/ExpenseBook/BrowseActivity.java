@@ -90,6 +90,16 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		}
 	}
 
+	@Override
+	public void onBackPressed()
+	{
+		Intent intent = new Intent();
+		intent.setClass(this, MainActivity.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+		finish();
+	}
+
 	private void _onEditButtonClicked()
 	{
 		Resources resources = getResources();
@@ -112,6 +122,7 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 
 		intent.setClass(this, ExpenseActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
 		finish();
 	}
