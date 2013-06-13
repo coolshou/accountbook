@@ -1,20 +1,17 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
-import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.widget.Toast;
 
-import android.util.Log;
 
 class ExpenseSqlModel extends AbstractSqlModel
 {
@@ -39,11 +36,11 @@ class ExpenseSqlModel extends AbstractSqlModel
 	{
 		ContentValues values = new ContentValues();
 
-		values.put(Globals.ExpenseTable.PICTURE, pictureBytes);
+		values.put(Globals.ExpenseTable.PICTURE_BYTES, pictureBytes);
 		values.put(Globals.ExpenseTable.SPEND, spend);
 
 		if(dateString.length() != 0)
-			values.put(Globals.ExpenseTable.DATE, dateString);
+			values.put(Globals.ExpenseTable.DATE_STRING, dateString);
 
 		values.put(Globals.ExpenseTable.CATEGORY_ID, categoryId);
 
@@ -66,15 +63,15 @@ class ExpenseSqlModel extends AbstractSqlModel
 		return _database.delete(Globals.ExpenseTable.TABLE, Globals.ExpenseTable.ID + "=" + id, null);
 	}
 
-	public List<ContentValues> getAllExpenses()
+	public List<HashMap<String, Object>> getAllExpenses()
 	{
-		List<ContentValues> expenses = new ArrayList<ContentValues>();
+		List<HashMap<String, Object>> expenses = new ArrayList<HashMap<String, Object>>();
 
 		final String[] ALL_FIELDS = {
 			Globals.ExpenseTable.ID,
-			Globals.ExpenseTable.PICTURE,
+			Globals.ExpenseTable.PICTURE_BYTES,
 			Globals.ExpenseTable.SPEND,
-			Globals.ExpenseTable.DATE,
+			Globals.ExpenseTable.DATE_STRING,
 			Globals.ExpenseTable.CATEGORY_ID,
 			Globals.ExpenseTable.NOTE
 		};
@@ -86,21 +83,21 @@ class ExpenseSqlModel extends AbstractSqlModel
 			null,
 			null,
 			null,
-			Globals.ExpenseTable.DATE + " DESC, " + Globals.ExpenseTable.ID + " DESC"
+			Globals.ExpenseTable.DATE_STRING + " DESC, " + Globals.ExpenseTable.ID + " DESC"
 		);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())
 		{
-			ContentValues values = new ContentValues();
-			values.put(Globals.ExpenseTable.ID, cursor.getLong(0));
-			values.put(Globals.ExpenseTable.PICTURE, cursor.getBlob(1));
-			values.put(Globals.ExpenseTable.SPEND, cursor.getLong(2));
-			values.put(Globals.ExpenseTable.DATE, cursor.getString(3));
-			values.put(Globals.ExpenseTable.CATEGORY_ID, cursor.getLong(4));
-			values.put(Globals.ExpenseTable.NOTE, cursor.getString(5));
+			HashMap<String,Object> expense = new HashMap<String,Object>();
+			expense.put(Globals.ExpenseTable.ID, cursor.getLong(0));
+			expense.put(Globals.ExpenseTable.PICTURE_BYTES, cursor.getBlob(1));
+			expense.put(Globals.ExpenseTable.SPEND, cursor.getLong(2));
+			expense.put(Globals.ExpenseTable.DATE_STRING, cursor.getString(3));
+			expense.put(Globals.ExpenseTable.CATEGORY_ID, cursor.getLong(4));
+			expense.put(Globals.ExpenseTable.NOTE, cursor.getString(5));
 
-			expenses.add(values);
+			expenses.add(expense);
 			cursor.moveToNext();
 		}
 
@@ -114,7 +111,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 
 		final String[] FIELDS = {
 				Globals.ExpenseTable.SPEND,
-				Globals.ExpenseTable.DATE,
+				Globals.ExpenseTable.DATE_STRING,
 		};
 
 		Calendar calendar = Calendar.getInstance();

@@ -34,7 +34,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:id="@+id/browse_item_spend"
+				android:id="@+id/browse_item_view_spend"
 				android:text="@string/sample_spend"
 				android:layout_alignTop="@+id/textView"
 				android:layout_toRightOf="@+id/textView"
@@ -48,10 +48,10 @@
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:text="@string/browse_view_unit"
 				android:id="@+id/textView3"
-				android:layout_alignTop="@+id/browse_item_spend"
+				android:layout_alignTop="@+id/browse_item_view_spend"
 				android:layout_alignParentRight="true"
 				android:layout_marginRight="11dp"
-				android:layout_toRightOf="@+id/browse_item_spend"
+				android:layout_toRightOf="@+id/browse_item_view_spend"
 				android:textColor="@color/font"/>
 
 		<TextView
@@ -68,7 +68,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:text="@string/sample_date"
+				android:text="@string/sample_category"
 				android:id="@+id/browse_item_view_category"
 				android:layout_toRightOf="@+id/browse_item_view_date"
 				android:layout_alignParentEnd="false"

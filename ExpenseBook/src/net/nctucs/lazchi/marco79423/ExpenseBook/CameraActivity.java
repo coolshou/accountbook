@@ -60,7 +60,7 @@ public class CameraActivity extends Activity implements View.OnClickListener
 		Intent intent = new Intent();
 		intent.setClass(this, MainActivity.class);
 		startActivity(intent);
-		overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 		finish();
 	}
 

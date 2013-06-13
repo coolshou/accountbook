@@ -40,13 +40,9 @@ public class MainActivity extends Activity implements OnClickListener
 {
 	private static final int _REQUEST_LINK_TO_DROPBOX = 0;
 
-	private TextView _talkTextView;
-	private FrameLayout _dialogFrameLayout;
-
-	private ExpenseSqlModel _expenseSqlModel;
 	private DbxAccountManager _dbxAccountManager;
-
 	AnimatorSet _dialogAnimatorSet;
+
 	/*
 	 * 生命週期
 	 */
@@ -57,16 +53,22 @@ public class MainActivity extends Activity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+	    //新增按鈕
 	    Button createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
+	    createNewExpenseButton.setOnClickListener(MainActivity.this);
+
+	    //瀏覽按鈕
 	    Button browseButton = (Button) findViewById(R.id.main_button_browse);
-	    Button syncWithDropboxButton = (Button) findViewById(R.id.main_button_upload_database);
-	    _talkTextView = (TextView) findViewById(R.id.main_view_talk);
+	    browseButton.setOnClickListener(MainActivity.this);
 
-	    createNewExpenseButton.setOnClickListener(this);
-	    browseButton.setOnClickListener(this);
-	    syncWithDropboxButton.setOnClickListener(this);
+	    //上傳按鈕
+	    Button updateDatabaseButton = (Button) findViewById(R.id.main_button_upload_database);
+	    updateDatabaseButton.setOnClickListener(MainActivity.this);
 
-	    _expenseSqlModel = new ExpenseSqlModel(this);
+	    //dialog
+	    FrameLayout dialogFrameLayout = (FrameLayout) findViewById(R.id.main_layout_dialog);
+		_dialogAnimatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.main_dialog);
+	    _dialogAnimatorSet.setTarget(dialogFrameLayout);
 
 	    //Dropbox
 	    _dbxAccountManager = DbxAccountManager.getInstance(
@@ -74,29 +76,17 @@ public class MainActivity extends Activity implements OnClickListener
 			    Globals.DROPBOX_KEY ,
 			    Globals.DROPBOX_SECRET
 	    );
-
-	    //dialog
-	    _dialogFrameLayout = (FrameLayout) findViewById(R.id.main_layout_dialog);
-		_dialogAnimatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.main_dialog);
-	    _dialogAnimatorSet.setTarget(_dialogFrameLayout);
 	}
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		_expenseSqlModel.open();
+
+		//設定累死雞的對話內容
 		_setTalkTextView();
-
-		_dialogAnimatorSet.start();
 	}
 
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		_expenseSqlModel.close();
-	}
 	/*
      * Menu
      */
@@ -137,9 +127,9 @@ public class MainActivity extends Activity implements OnClickListener
 		{
 			case _REQUEST_LINK_TO_DROPBOX:
 				if(resultCode == Activity.RESULT_OK)
-					Toast.makeText(this, R.string.message_link_to_dropbox_successful, Toast.LENGTH_LONG).show();
+					Toast.makeText(MainActivity.this, R.string.message_link_to_dropbox_successful, Toast.LENGTH_LONG).show();
 				else
-					Toast.makeText(this, R.string.message_link_to_dropbox_failed, Toast.LENGTH_LONG).show();
+					Toast.makeText(MainActivity.this, R.string.message_link_to_dropbox_failed, Toast.LENGTH_LONG).show();
 				break;
 		}
 	}
@@ -161,7 +151,7 @@ public class MainActivity extends Activity implements OnClickListener
 	 */
 	private void _onLinkToDropboxItemClicked()
 	{
-		_dbxAccountManager.startLink(this, _REQUEST_LINK_TO_DROPBOX);
+		_dbxAccountManager.startLink(MainActivity.this, _REQUEST_LINK_TO_DROPBOX);
 	}
 
 	private void _onLogoutFromDropboxItemClicked()
@@ -174,11 +164,10 @@ public class MainActivity extends Activity implements OnClickListener
 		Resources resource = getResources();
 		if(!_dbxAccountManager.hasLinkedAccount())
 		{
-			Toast.makeText(this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
 			return;
 		}
 
-		_expenseSqlModel.close();
 		try
 		{
 			DbxFileSystem dbxFileSystem = DbxFileSystem.forAccount(_dbxAccountManager.getLinkedAccount());
@@ -186,7 +175,7 @@ public class MainActivity extends Activity implements OnClickListener
 
 			if(!dbxFileSystem.exists(dbxDatabasePath))
 			{
-				Toast.makeText(this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
+				Toast.makeText(MainActivity.this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
 				return;
 			}
 
@@ -208,17 +197,13 @@ public class MainActivity extends Activity implements OnClickListener
 			toStream.close();
 			dbxDatabaseFile.close();
 
-			Toast.makeText(this, resource.getString(R.string.message_download_successful), Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_download_successful), Toast.LENGTH_LONG).show();
 
 			_setTalkTextView();
 		}
 		catch(Exception e)
 		{
-			Toast.makeText(this, resource.getString(R.string.message_download_failed), Toast.LENGTH_LONG).show();
-		}
-		finally
-		{
-			_expenseSqlModel.open();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_download_failed), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -227,11 +212,10 @@ public class MainActivity extends Activity implements OnClickListener
 		Resources resource = getResources();
 		if(!_dbxAccountManager.hasLinkedAccount())
 		{
-			Toast.makeText(this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_must_link_to_dropbox), Toast.LENGTH_LONG).show();
 			return;
 		}
 
-		_expenseSqlModel.close();
 		try
 		{
 			DbxFileSystem dbxFileSystem = DbxFileSystem.forAccount(_dbxAccountManager.getLinkedAccount());
@@ -253,38 +237,42 @@ public class MainActivity extends Activity implements OnClickListener
 				dbxDatabaseFile.close();
 			}
 
-			Toast.makeText(this, resource.getString(R.string.message_upload_successful), Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_upload_successful), Toast.LENGTH_LONG).show();
 		}
 		catch(Exception e)
 		{
-			Toast.makeText(this, resource.getString(R.string.message_upload_failed), Toast.LENGTH_LONG).show();
-		}
-		finally
-		{
-			_expenseSqlModel.open();
+			Toast.makeText(MainActivity.this, resource.getString(R.string.message_upload_failed), Toast.LENGTH_LONG).show();
 		}
 	}
 
 	private void _onCreateNewExpenseButtonClicked()
 	{
 		Intent intent = new Intent();
-		intent.setClass(this, CameraActivity.class);
+		intent.setClass(MainActivity.this, CameraActivity.class);
 		startActivity(intent);
 	}
 
 	private void _onBrowseButtonClicked()
 	{
 		Intent intent = new Intent();
-		intent.setClass(this, BrowseActivity.class);
+		intent.setClass(MainActivity.this, BrowseActivity.class);
 		startActivity(intent);
-		overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 		finish();
 	}
 
 	private void _setTalkTextView()
 	{
 		Resources resource = getResources();
-		long sum = _expenseSqlModel.getSumOfMonthlyExpenses();
-		_talkTextView.setText(String.format(resource.getString(R.string.main_view_talk), sum));
+
+		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(MainActivity.this);
+		expenseSqlModel.open();
+		long sum = expenseSqlModel.getSumOfMonthlyExpenses();
+		expenseSqlModel.close();
+
+		TextView talkTextView = (TextView) findViewById(R.id.main_view_talk);
+		talkTextView.setText(String.format(resource.getString(R.string.main_view_talk), sum));
+
+		_dialogAnimatorSet.start();
 	}
 }

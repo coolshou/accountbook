@@ -1,5 +1,7 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -26,34 +28,32 @@ import static android.widget.AdapterView.*;
 
 public class BrowseActivity extends Activity implements View.OnClickListener, OnItemClickListener
 {
-	private ListView _expenseListView;
-
-	private ExpenseSqlModel _expenseSqlModel;
-	private CategorySqlModel _categorySqlModel;
-
 	private View _selectedView;
 	private int _selectedPosition = -1;
 	private SimpleAdapter _dataAdapter;
 
-	private ArrayList<HashMap<String, Object>> _expenses;
+	private List<HashMap<String, Object>> _expenses;
 
+	AnimatorSet _listAnimatorSet;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.browse);
 
-		_expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
-		_expenseListView.setOnItemClickListener(this);
-
-		_expenseSqlModel = new ExpenseSqlModel(this);
-		_categorySqlModel = new CategorySqlModel(this);
-
+		//編輯按鈕
 		Button editButton = (Button) findViewById(R.id.browse_button_edit);
-		editButton.setOnClickListener(this);
+		editButton.setOnClickListener(BrowseActivity.this);
 
+		//刪除按鈕
 		Button deleteButton = (Button) findViewById(R.id.browse_button_delete);
-		deleteButton.setOnClickListener(this);
+		deleteButton.setOnClickListener(BrowseActivity.this);
+
+		//設定清單動畫
+		ListView expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
+		expenseListView.setOnItemClickListener(BrowseActivity.this);
+		_listAnimatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(BrowseActivity.this, R.animator.browse_list);
+		_listAnimatorSet.setTarget(expenseListView);
 	}
 
 	@Override
@@ -61,19 +61,8 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 	{
 		super.onResume();
 
-		_expenseSqlModel.open();
-		_categorySqlModel.open();
-
+		//設定清單
 		_setExpenseListView();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-
-		_expenseSqlModel.close();
-		_categorySqlModel.close();
 	}
 
 	/*
@@ -94,9 +83,9 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 	public void onBackPressed()
 	{
 		Intent intent = new Intent();
-		intent.setClass(this, MainActivity.class);
+		intent.setClass(BrowseActivity.this, MainActivity.class);
 		startActivity(intent);
-		overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 		finish();
 	}
 
@@ -105,7 +94,7 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		Resources resources = getResources();
 		if(_selectedPosition == -1)
 		{
-			Toast.makeText(this, resources.getString(R.string.message_select_item_first), Toast.LENGTH_LONG).show();
+			Toast.makeText(BrowseActivity.this, resources.getString(R.string.message_select_item_first), Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -123,7 +112,6 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		intent.setClass(this, ExpenseActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-
 		finish();
 	}
 
@@ -175,29 +163,25 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 
 	void _setExpenseListView()
 	{
-		_expenses = new ArrayList<HashMap<String, Object>>();
-		List<ContentValues> expenseValues = _expenseSqlModel.getAllExpenses();
+		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(BrowseActivity.this);
+		CategorySqlModel categorySqlModel = new CategorySqlModel(BrowseActivity.this);
 
-		for(ContentValues expenseValue: expenseValues)
+		expenseSqlModel.open();
+		categorySqlModel.open();
+
+		_expenses = expenseSqlModel.getAllExpenses();
+
+		//設定分類資料
+		for(int i = 0; i < _expenses.size(); i++)
 		{
-			HashMap<String,Object> expense = new HashMap<String,Object>();
-
-			byte [] pictureBytes = expenseValue.getAsByteArray(Globals.ExpenseTable.PICTURE);
-			final long id = expenseValue.getAsLong(Globals.ExpenseTable.ID);
-			final long spend = expenseValue.getAsLong(Globals.ExpenseTable.SPEND);
-			final String dateString = expenseValue.getAsString(Globals.ExpenseTable.DATE);
-			final String category = _categorySqlModel.getCategoryName(expenseValue.getAsLong(Globals.ExpenseTable.CATEGORY_ID));
-			final String note = expenseValue.getAsString(Globals.ExpenseTable.NOTE);
-
-			expense.put(Globals.Expense.ID, id);
-			expense.put(Globals.Expense.PICTURE_BYTES, pictureBytes);
-			expense.put(Globals.Expense.SPEND, spend);
-			expense.put(Globals.Expense.DATE_STRING, dateString);
-			expense.put(Globals.Expense.CATEGORY, category);
-			expense.put(Globals.Expense.NOTE, note);
-			_expenses.add(expense);
+			String categoryName = categorySqlModel.getCategoryName((Long)_expenses.get(i).get(Globals.ExpenseTable.CATEGORY_ID));
+			_expenses.get(i).put(Globals.Expense.CATEGORY, categoryName);
 		}
 
+		expenseSqlModel.close();
+		categorySqlModel.close();
+
+		//設定清單資料
 		_dataAdapter = new SimpleAdapter(
 			this,
 			_expenses,
@@ -206,27 +190,38 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 				Globals.Expense.PICTURE_BYTES,
 				Globals.Expense.SPEND,
 				Globals.Expense.DATE_STRING,
-				Globals.Expense.NOTE
+				Globals.Expense.CATEGORY
 			},
 			new int[] {
 				R.id.browse_item_view_picture,
-				R.id.browse_item_spend,
+				R.id.browse_item_view_spend,
 				R.id.browse_item_view_date,
 				R.id.browse_item_view_category
 			}
 		);
 		_dataAdapter.setViewBinder(_simepleViewBinder);
-		_expenseListView.setAdapter(_dataAdapter);
+
+		ListView expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
+		expenseListView.setAdapter(_dataAdapter);
+
+		//開啟動畫
+		_listAnimatorSet.start();
 	}
 
 	private void _deleteExpense(long id)
 	{
 		Resources resources = getResources();
-		if(_expenseSqlModel.removeExpense(id) == 0)
+
+		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(BrowseActivity.this);
+		expenseSqlModel.open();
+		if(expenseSqlModel.removeExpense(id) == 0)
 		{
 			Toast.makeText(this, resources.getString(R.string.message_delete_item_failed), Toast.LENGTH_LONG).show();
+			expenseSqlModel.close();
 			return;
 		}
+		expenseSqlModel.close();
+
 		_expenses.remove(_selectedPosition);
 		_dataAdapter.notifyDataSetChanged();
 
