@@ -27,6 +27,7 @@ import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 //工具
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private static final int _REQUEST_LINK_TO_DROPBOX = 0;
 
 	private TextView _talkTextView;
+	private FrameLayout _dialogFrameLayout;
 
 	private ExpenseSqlModel _expenseSqlModel;
 	private DbxAccountManager _dbxAccountManager;
@@ -69,6 +71,10 @@ public class MainActivity extends Activity implements OnClickListener
 			    Globals.DROPBOX_KEY ,
 			    Globals.DROPBOX_SECRET
 	    );
+
+	    //dialog
+	    _dialogFrameLayout = (FrameLayout) findViewById(R.id.main_layout_dialog);
+	    _dialogFrameLayout.setAlpha(0f);
 	}
 
 	@Override
@@ -77,6 +83,9 @@ public class MainActivity extends Activity implements OnClickListener
 		super.onResume();
 		_expenseSqlModel.open();
 		_setTalkTextView();
+
+		_dialogFrameLayout.animate().alpha(1f).setDuration(1500);
+		//.setListener(null);
 	}
 
 	@Override
@@ -84,6 +93,8 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		super.onPause();
 		_expenseSqlModel.close();
+
+		_dialogFrameLayout.setAlpha(0f);
 	}
 	/*
      * Menu
