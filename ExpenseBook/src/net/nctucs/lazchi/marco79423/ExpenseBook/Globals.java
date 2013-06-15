@@ -17,7 +17,7 @@ class Globals
 		public static String ID = "_id";
 		public static String PICTURE_BYTES = "picture_bytes";
 		public static String SPEND = "spend";
-		public static String DATE_STRING = "dateString";
+		public static String DATE_STRING = "date_string";
 		public static String CATEGORY = "category";
 		public static String NOTE = "note";
 	}
