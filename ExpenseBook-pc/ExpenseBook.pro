@@ -15,11 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     globals.cpp \
-    expensesqlmodel.cpp
+    expensesqlmodel.cpp \
+    expenselistitemdelegate.cpp \
+    picturelabel.cpp
 
 HEADERS  += mainwindow.h \
     globals.h \
-    expensesqlmodel.h
+    expensesqlmodel.h \
+    expenselistitemdelegate.h \
+    picturelabel.h
 
 FORMS    += mainwindow.ui
 

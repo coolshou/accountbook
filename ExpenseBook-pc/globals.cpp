@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QSize>
+#include <QColor>
 
 namespace ExpenseBook
 {
@@ -53,6 +54,32 @@ namespace ExpenseBook
 
     const QSize pictureSizeInExpenseListView()
     {
-        return QSize(25, 15);
+        return QSize(100, 60);
     }
+
+    const QColor mainColor()
+    {
+        return QColor(56, 140, 168);
+    }
+
+    const QColor backgroundColor()
+    {
+        return QColor(200, 200, 200);
+    }
+
+    const QColor fontColor()
+    {
+        return QColor(85, 85, 85);
+    }
+
+    const QColor fontWhiteColor()
+    {
+        return QColor(255, 255, 255);
+    }
+
+    const QString dateFormat()
+    {
+        return "yyyy/MM/dd";
+    }
+
 }

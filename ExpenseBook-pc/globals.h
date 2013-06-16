@@ -3,6 +3,7 @@
 
 class QString;
 class QSize;
+class QColor;
 
 namespace ExpenseBook
 {
@@ -22,11 +23,20 @@ namespace ExpenseBook
     //const QString categoryTableFields();
 
     //Expense 時間格式
-    //const QString dateFormat();
+    const QString dateFormat();
 
     //ExpenseList
     const char* pictureFormat();
     const QSize pictureSizeInExpenseListView();
+
+    //Role
+    enum Role { IdRole=9, PictureRole, SpendRole, DateRole, CategoryRole, NoteRole };
+
+    //Color
+    const QColor mainColor();
+    const QColor backgroundColor();
+    const QColor fontColor();
+    const QColor fontWhiteColor();
 }
 
 
