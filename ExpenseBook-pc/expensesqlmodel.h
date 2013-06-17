@@ -7,6 +7,7 @@
 class ExpenseSqlModel : public QSqlQueryModel
 {
     Q_OBJECT
+
 public:
     explicit ExpenseSqlModel(QObject * parent = 0);
 

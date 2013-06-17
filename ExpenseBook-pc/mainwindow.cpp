@@ -10,11 +10,13 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QRect>
 
 //SQL
 #include <QtSQl>
 
 //工具
+#include <QIntValidator>
 #include <QTimer>
 #include <QDebug>
 
@@ -23,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     _ui->setupUi(this);
     _ui->expenseWidget->hide();
+
+    QIntValidator *validator = new QIntValidator(this);
+    validator->setBottom(0);
+    _ui->spendLineEdit->setValidator(validator);
     _ui->dateDateEdit->setDisplayFormat(ExpenseBook::dateFormat());
     _ui->dateDateEdit->setCalendarPopup(true);
 
@@ -68,7 +74,7 @@ void MainWindow::_prepareDatabase()
         settings.setValue(ExpenseBook::databasePathSetting(), databasePath);
     }
 
-    _ui->databasePathLineEdit->setText(databasePath);
+    _ui->databasePathLabel->setText(databasePath);
 
     QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(databasePath);
@@ -84,25 +90,20 @@ void MainWindow::_prepareDatabase()
 
 void MainWindow::_onAddExpenseButtonClicked()
 {
-    _ui->expenseWidget->show();
     _ui->pictureLabel->setOriginPixmap(QPixmap(":/images/empty_picture.jpg"));
     _ui->spendLineEdit->clear();
     _ui->dateDateEdit->setDate(QDate::currentDate());
-
-    QSqlQueryModel *categorySqlModel = new QSqlQueryModel(this);
-    categorySqlModel->setQuery("SELECT category FROM categories");
-    _ui->categoryComboBox->setModel(categorySqlModel);
-
+    _ui->categoryComboBox->setModel(_getCategorySqlModel());
     _ui->noteTextEdit->clear();
 
     _ui->deletePushButton->setDisabled(true);
 
     _currentMode = AddExpenseMode;
+    _showExpenseWidget();
 }
 
 void MainWindow::_onExpenseListItemSelected(QModelIndex index)
 {
-    _ui->expenseWidget->show();
     ExpenseSqlModel *expenseSqlModel = qobject_cast<ExpenseSqlModel*>(_ui->expenseListView->model());
 
     _currentExpenseId = expenseSqlModel->data(index, ExpenseBook::IdRole).toLongLong();
@@ -118,8 +119,7 @@ void MainWindow::_onExpenseListItemSelected(QModelIndex index)
     _ui->spendLineEdit->setText(QString::number(spend));
     _ui->dateDateEdit->setDate(QDate::fromString(dateString, ExpenseBook::dateFormat()));
 
-    QSqlQueryModel *categorySqlModel = new QSqlQueryModel(this);
-    categorySqlModel->setQuery("SELECT category FROM categories");
+    QSqlQueryModel *categorySqlModel = _getCategorySqlModel();
     _ui->categoryComboBox->setModel(categorySqlModel);
 
     for(int i=0; categorySqlModel->rowCount(); i++)
@@ -136,6 +136,7 @@ void MainWindow::_onExpenseListItemSelected(QModelIndex index)
 
     _ui->deletePushButton->setDisabled(false);
 
+    _showExpenseWidget();
     _currentMode = EditExpenseMode;
 }
 
@@ -180,26 +181,12 @@ void MainWindow::_onSaveButtonClicked()
 
     if(_currentMode == AddExpenseMode)
     {
-        QString queryString =
-                "INSERT INTO expenses (picture_bytes, spend, date_string, category_id, note) VALUES (?, ?, ?, ?, ?)";
-        query.prepare(queryString);
-        query.bindValue(0, pictureBytes);
-        query.bindValue(1, spend);
-        query.bindValue(2, dateString);
-        query.bindValue(3, categoryId);
-        query.bindValue(4, note);
+        query.prepare(ExpenseBook::insertExpenseString());
     }
     else if(_currentMode == EditExpenseMode)
     {
-        QString queryString =
-                "UPDATE expenses SET picture_bytes=?, spend=?, date_string=?, category_id=?, note=? WHERE _id =?";
-        query.prepare(queryString);
-        query.bindValue(0, pictureBytes);
-        query.bindValue(1, spend);
-        query.bindValue(2, dateString);
-        query.bindValue(3, categoryId);
-        query.bindValue(4, note);
-        query.bindValue(5, _currentExpenseId);
+        query.prepare(ExpenseBook::editExpenseString());
+        query.bindValue(":_id", _currentExpenseId);
     }
     else
     {
@@ -207,26 +194,58 @@ void MainWindow::_onSaveButtonClicked()
         return;
     }
 
-    QSqlDatabase database = QSqlDatabase::database();
+    query.bindValue(":picture_bytes", pictureBytes);
+    query.bindValue(":spend", spend);
+    query.bindValue(":date_string", dateString);
+    query.bindValue(":category_id", categoryId);
+    query.bindValue(":note", note);
+
     if(!query.exec())
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
 
     _setExpenseListView();
-    _ui->expenseWidget->hide();
+
+    _hideExpenseWidget();
 }
 
 void MainWindow::_onDeleteButtonClicked()
 {
-    QString queryString = "DELETE FROM expenses WHERE _id=?";
-    QSqlQuery query(queryString);
-    query.bindValue(0, _currentExpenseId);
+    QSqlQuery query(ExpenseBook::deleteExpenseString());
+    query.addBindValue(_currentExpenseId);
 
-    QSqlDatabase database = QSqlDatabase::database();
     if(!query.exec())
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
 
     _setExpenseListView();
+
+    _hideExpenseWidget();
+}
+
+void MainWindow::_hideExpenseWidget()
+{
     _ui->expenseWidget->hide();
+}
+
+void MainWindow::_showExpenseWidget()
+{
+    _ui->expenseWidget->show();
+
+    /*
+    QRect expenseWidgetRect = _ui->expenseWidget->geometry();
+    QRect expenseListViewRect = _ui->expenseListView->geometry();
+
+    QPropertyAnimation *expenseWidgetAnimation = new QPropertyAnimation(_ui->expenseWidget, "geometry");
+    expenseWidgetAnimation->setDuration(300);
+    expenseWidgetAnimation->setStartValue(QRect(QPoint(expenseListViewRect.topRight()), QSize(0, expenseWidgetRect.height())));
+    expenseWidgetAnimation->setEndValue(expenseWidgetRect);
+
+    QPropertyAnimation *expenseListViewAnimation = new QPropertyAnimation(_ui->expenseListView, "geometry");
+    expenseListViewAnimation->setDuration(300);
+    expenseListViewAnimation->setStartValue(expenseListViewRect);
+    expenseListViewAnimation->setEndValue(QRect(expenseListViewRect.topLeft(), QSize(350, expenseListViewRect.height())));
+
+    //expenseWidgetAnimation->start();
+    expenseListViewAnimation->start();*/
 }
 
 QString MainWindow::_getDatabasePathFromSettings() const
@@ -255,7 +274,7 @@ QString MainWindow::_getDatabasePathFromFileDialog() const
 
 void MainWindow::_returnNormalModel()
 {
-    _ui->expenseWidget->hide();
+    _hideExpenseWidget();
     _ui->expenseListView->clearSelection();
 
     _currentMode = NormalMode;
@@ -263,30 +282,28 @@ void MainWindow::_returnNormalModel()
 
 void MainWindow::_createDatabaseTables()
 {
-    QSqlDatabase database = QSqlDatabase::database();
-
     QSqlQuery query;
-    if(!query.exec(ExpenseBook::createExpenseTable()))
-        qDebug() << database.lastError();
+    if(!query.exec(ExpenseBook::createExpenseTableString()))
+        qDebug() << query.lastError();
 
-    if(!query.exec(ExpenseBook::createCategoryTable()))
-        qDebug() << database.lastError();
+    if(!query.exec(ExpenseBook::createCategoryTableString()))
+        qDebug() << query.lastError();
 
     //設定 default category
     if(!query.exec("insert into categories(category) values('未分類');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('飲食');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('衣物');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('住宿');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('行動');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('教育');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
     if(!query.exec("insert into categories(category) values('娛樂');"))
-        qDebug() << database.lastError();
+        qDebug() << query.lastError();
 }
 
 void MainWindow::_setExpenseListView()
@@ -294,4 +311,11 @@ void MainWindow::_setExpenseListView()
     ExpenseSqlModel *expenseModel = new ExpenseSqlModel(this);
     _ui->expenseListView->setModel(expenseModel);
     _ui->expenseListView->setItemDelegate(new ExpenseListItemDelegate(this));
+}
+
+QSqlQueryModel *MainWindow::_getCategorySqlModel()
+{
+    QSqlQueryModel *categorySqlModel = new QSqlQueryModel(this);
+    categorySqlModel->setQuery("SELECT category FROM categories");
+    return categorySqlModel;
 }

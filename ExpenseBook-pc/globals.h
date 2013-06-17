@@ -1,6 +1,9 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <typeinfo>
+#include <QByteArray>
+
 class QString;
 class QSize;
 class QColor;
@@ -16,8 +19,12 @@ namespace ExpenseBook
     const QString databasePathSetting();
 
     //Database
-    const QString createExpenseTable();
-    const QString createCategoryTable();
+    const QString createExpenseTableString();
+    const QString createCategoryTableString();
+
+    const QString insertExpenseString();
+    const QString editExpenseString();
+    const QString deleteExpenseString();
 
     //const QString expenseTableFields();
     //const QString categoryTableFields();

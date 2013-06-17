@@ -10,6 +10,7 @@ ExpenseSqlModel::ExpenseSqlModel(QObject *parent)
 {
     setQuery("SELECT _id, picture_bytes, spend, date_string, category_id, note FROM expenses ORDER BY date_string DESC, _id DESC");
 
+
     QSqlQuery query;
     query.exec("SELECT _id, category FROM categories");
     while(query.next())
@@ -59,6 +60,5 @@ qlonglong ExpenseSqlModel::getCategoryIdfromCategory(QString category) const
     }
     return -1;
 }
-
 
 

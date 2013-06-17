@@ -41,8 +41,10 @@ void ExpenseListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     QRect pictureRect(rect.x() + 5, rect.y() + 5, 64, 48); //4:3
     painter->drawPixmap(pictureRect, picture);
 
-
-    pen.setColor(ExpenseBook::fontColor());
+    if(option.state & QStyle::State_Selected)
+        pen.setColor(ExpenseBook::fontWhiteColor());
+    else
+        pen.setColor(ExpenseBook::fontColor());
     painter->setPen(pen);
 
     QFont font;

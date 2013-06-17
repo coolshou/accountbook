@@ -26,7 +26,7 @@ namespace ExpenseBook
         return "databasePath";
     }
 
-    const QString createExpenseTable()
+    const QString createExpenseTableString()
     {
         return "CREATE TABLE IF NOT EXISTS expenses( "
         "   _id INTEGER NOT NULL PRIMARY KEY, "
@@ -38,7 +38,7 @@ namespace ExpenseBook
         ");";
     }
 
-    const QString createCategoryTable()
+    const QString createCategoryTableString()
     {
         return "CREATE TABLE IF NOT EXISTS categories( "
         "   _id INTEGER NOT NULL PRIMARY KEY, "
@@ -80,6 +80,22 @@ namespace ExpenseBook
     const QString dateFormat()
     {
         return "yyyy/MM/dd";
+    }
+
+    const QString insertExpenseString()
+    {
+        return "INSERT INTO expenses(picture_bytes, spend, date_string, category_id, note) VALUES (:picture_bytes, :spend, :date_string, :category_id, :note);";
+    }
+
+    const QString editExpenseString()
+    {
+        return "UPDATE expenses SET picture_bytes=:picture_bytes, spend=:spend, date_string=:date_string, category_id=:category_id, note=:note WHERE _id=:_id;";
+    }
+
+    const QString deleteExpenseString()
+    {
+        //_id 可能有 bug ，只好用 ? 代替
+        return "DELETE FROM expenses WHERE _id=?;";
     }
 
 }

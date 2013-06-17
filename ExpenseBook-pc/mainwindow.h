@@ -9,6 +9,8 @@ namespace Ui
     class MainWindow;
 }
 
+class QSqlQueryModel;
+
 class MainWindow : public QWidget
 {
     Q_OBJECT
@@ -35,6 +37,9 @@ private slots:
     void _onSaveButtonClicked();
     void _onDeleteButtonClicked();
 
+    void _hideExpenseWidget();
+    void _showExpenseWidget();
+
 private:
     Ui::MainWindow *_ui;
     Mode _currentMode;
@@ -46,6 +51,8 @@ private:
     void _returnNormalModel();
     void _createDatabaseTables();
     void _setExpenseListView();
+
+    QSqlQueryModel *_getCategorySqlModel();
 };
 
 #endif // MAINWINDOW_H
