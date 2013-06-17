@@ -38,10 +38,12 @@ private slots:
 private:
     Ui::MainWindow *_ui;
     Mode _currentMode;
+    qlonglong _currentExpenseId;
 
     QString _getDatabasePathFromSettings() const;
     QString _getDatabasePathFromFileDialog() const;
 
+    void _returnNormalModel();
     void _createDatabaseTables();
     void _setExpenseListView();
 };

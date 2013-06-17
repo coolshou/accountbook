@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_ui->expenseListView, SIGNAL(clicked(QModelIndex)), this, SLOT(_onExpenseListItemSelected(QModelIndex)));
     connect(_ui->changeDatabasePathPushButton, SIGNAL(clicked()), this, SLOT(_onChangeDatabasePathButtonClicked()));
     connect(_ui->savePushButton, SIGNAL(clicked()), this, SLOT(_onSaveButtonClicked()));
+    connect(_ui->deletePushButton, SIGNAL(clicked()), SLOT(_onDeleteButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -46,7 +47,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 {
     switch(keyEvent->key())
     {
-    case Qt::Key_Escape: _ui->expenseWidget->hide(); _currentMode = NormalMode; break;
+    case Qt::Key_Escape: _returnNormalModel(); break;
     }
 }
 
@@ -104,8 +105,10 @@ void MainWindow::_onExpenseListItemSelected(QModelIndex index)
     _ui->expenseWidget->show();
     ExpenseSqlModel *expenseSqlModel = qobject_cast<ExpenseSqlModel*>(_ui->expenseListView->model());
 
+    _currentExpenseId = expenseSqlModel->data(index, ExpenseBook::IdRole).toLongLong();
+
     QPixmap picture = expenseSqlModel->data(index, ExpenseBook::PictureRole).value<QPixmap>();
-    qlonglong spend = expenseSqlModel->data(index, ExpenseBook::SpendRole).toInt();
+    qlonglong spend = expenseSqlModel->data(index, ExpenseBook::SpendRole).toLongLong();
 
     QString dateString = expenseSqlModel->data(index, ExpenseBook::DateRole).toString();
     QString category = expenseSqlModel->data(index, ExpenseBook::CategoryRole).toString();
@@ -173,22 +176,40 @@ void MainWindow::_onSaveButtonClicked()
         qDebug() << "沒有這個分類" << _ui->categoryComboBox->currentText();
 
     QString note = _ui->noteTextEdit->toPlainText();
+    QSqlQuery query;
 
     if(_currentMode == AddExpenseMode)
     {
         QString queryString =
                 "INSERT INTO expenses (picture_bytes, spend, date_string, category_id, note) VALUES (?, ?, ?, ?, ?)";
-        QSqlQuery query(queryString);
+        query.prepare(queryString);
         query.bindValue(0, pictureBytes);
         query.bindValue(1, spend);
         query.bindValue(2, dateString);
         query.bindValue(3, categoryId);
         query.bindValue(4, note);
-
-        QSqlDatabase database = QSqlDatabase::database();
-        if(!query.exec())
-            qDebug() << database.lastError();
     }
+    else if(_currentMode == EditExpenseMode)
+    {
+        QString queryString =
+                "UPDATE expenses SET picture_bytes=?, spend=?, date_string=?, category_id=?, note=? WHERE _id =?";
+        query.prepare(queryString);
+        query.bindValue(0, pictureBytes);
+        query.bindValue(1, spend);
+        query.bindValue(2, dateString);
+        query.bindValue(3, categoryId);
+        query.bindValue(4, note);
+        query.bindValue(5, _currentExpenseId);
+    }
+    else
+    {
+        qDebug() << "沒有這個 currentModel" << _currentMode;
+        return;
+    }
+
+    QSqlDatabase database = QSqlDatabase::database();
+    if(!query.exec())
+        qDebug() << database.lastError();
 
     _setExpenseListView();
     _ui->expenseWidget->hide();
@@ -196,6 +217,16 @@ void MainWindow::_onSaveButtonClicked()
 
 void MainWindow::_onDeleteButtonClicked()
 {
+    QString queryString = "DELETE FROM expenses WHERE _id=?";
+    QSqlQuery query(queryString);
+    query.bindValue(0, _currentExpenseId);
+
+    QSqlDatabase database = QSqlDatabase::database();
+    if(!query.exec())
+        qDebug() << database.lastError();
+
+    _setExpenseListView();
+    _ui->expenseWidget->hide();
 }
 
 QString MainWindow::_getDatabasePathFromSettings() const
@@ -220,6 +251,14 @@ QString MainWindow::_getDatabasePathFromFileDialog() const
     if(dialog.exec())
         databasePath = dialog.selectedFiles()[0];
     return databasePath;
+}
+
+void MainWindow::_returnNormalModel()
+{
+    _ui->expenseWidget->hide();
+    _ui->expenseListView->clearSelection();
+
+    _currentMode = NormalMode;
 }
 
 void MainWindow::_createDatabaseTables()
