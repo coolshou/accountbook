@@ -84,9 +84,9 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 	{
 		Intent intent = new Intent();
 		intent.setClass(BrowseActivity.this, MainActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-		finish();
 	}
 
 	private void _onEditButtonClicked()
@@ -112,7 +112,6 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		intent.setClass(this, ExpenseActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-		finish();
 	}
 
 	private void _onDeleteButtonClicked()

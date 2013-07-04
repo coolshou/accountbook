@@ -36,5 +36,5 @@ void PictureLabel::onClicked()
 void PictureLabel::setOriginPixmap(QPixmap picture)
 {
     _originPicture = picture;
-    QLabel::setPixmap(picture.scaled(400, 300, Qt::KeepAspectRatio));
+    QLabel::setPixmap(picture.scaled(280, 210, Qt::KeepAspectRatio));
 }

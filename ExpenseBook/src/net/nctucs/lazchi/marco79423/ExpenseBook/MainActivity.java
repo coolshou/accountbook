@@ -14,13 +14,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 //介面
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
 
-import android.widget.Button;
 
 //Dropbox
 import com.dropbox.sync.android.DbxAccountManager;
@@ -36,7 +32,7 @@ import android.widget.Toast;
 
 //功能
 
-public class MainActivity extends Activity implements OnClickListener
+public class MainActivity extends Activity
 {
 	private static final int _REQUEST_LINK_TO_DROPBOX = 0;
 
@@ -52,18 +48,6 @@ public class MainActivity extends Activity implements OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-	    //新增按鈕
-	    Button createNewExpenseButton = (Button) findViewById(R.id.main_button_new_expense);
-	    createNewExpenseButton.setOnClickListener(MainActivity.this);
-
-	    //瀏覽按鈕
-	    Button browseButton = (Button) findViewById(R.id.main_button_browse);
-	    browseButton.setOnClickListener(MainActivity.this);
-
-	    //上傳按鈕
-	    Button updateDatabaseButton = (Button) findViewById(R.id.main_button_upload_database);
-	    updateDatabaseButton.setOnClickListener(MainActivity.this);
 
 	    //dialog
 	    FrameLayout dialogFrameLayout = (FrameLayout) findViewById(R.id.main_layout_dialog);
@@ -107,10 +91,13 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		switch(item.getItemId())
 		{
+			case R.id.menu_create_new_expense: _onCreateNewExpenseItemClicked(); break;
+			case R.id.menu_browse: _onBrowseItemClicked(); break;
+			case R.id.menu_upload_database: _onUploadDatabaseItemClicked(); break;
 			case R.id.menu_download_database_from_dropbox: _onDownloadDatabaseFromDropboxItemClicked(); break;
 			case R.id.menu_link_to_dropbox: _onLinkToDropboxItemClicked(); break;
 			case R.id.menu_logout_from_dropbox: _onLogoutFromDropboxItemClicked(); break;
-			case R.id.menu_exit: finish();
+			case R.id.menu_exit: finish(); break;
 			default: return false;
 		}
 		return true;
@@ -131,17 +118,6 @@ public class MainActivity extends Activity implements OnClickListener
 				else
 					Toast.makeText(MainActivity.this, R.string.message_link_to_dropbox_failed, Toast.LENGTH_LONG).show();
 				break;
-		}
-	}
-
-	@Override
-	public void onClick(View view)
-	{
-		switch(view.getId())
-		{
-			case R.id.main_button_new_expense: _onCreateNewExpenseButtonClicked(); break;
-			case R.id.main_button_browse: _onBrowseButtonClicked(); break;
-			case R.id.main_button_upload_database: _onUploadDatabaseButtonClicked(); break;
 		}
 	}
 
@@ -207,7 +183,7 @@ public class MainActivity extends Activity implements OnClickListener
 		}
 	}
 
-	private  void _onUploadDatabaseButtonClicked()
+	private  void _onUploadDatabaseItemClicked()
 	{
 		Resources resource = getResources();
 		if(!_dbxAccountManager.hasLinkedAccount())
@@ -245,20 +221,19 @@ public class MainActivity extends Activity implements OnClickListener
 		}
 	}
 
-	private void _onCreateNewExpenseButtonClicked()
+	private void _onCreateNewExpenseItemClicked()
 	{
 		Intent intent = new Intent();
 		intent.setClass(MainActivity.this, CameraActivity.class);
 		startActivity(intent);
 	}
 
-	private void _onBrowseButtonClicked()
+	private void _onBrowseItemClicked()
 	{
 		Intent intent = new Intent();
 		intent.setClass(MainActivity.this, BrowseActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-		finish();
 	}
 
 	private void _setTalkTextView()

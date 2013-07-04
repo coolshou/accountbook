@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName(ExpenseBook::application());
 
     MainWindow w;
-    w.setFixedSize(800, 600);
+    w.setFixedSize(400, 600);
     w.show();
     
     return a.exec();

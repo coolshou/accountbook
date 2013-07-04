@@ -3,14 +3,14 @@
 
     <string name="app_name">累死雞記帳</string>
 
+	<string name="menu_create_new_expense">新增</string>
+	<string name="menu_browse">瀏覽</string>
+	<string name="menu_upload_database">上傳</string>
     <string name="menu_link_to_dropbox">連接 Dropbox</string>
 	<string name="menu_logout_from_dropbox">登出</string>
 	<string name="menu_download_database_from_dropbox">下載帳本</string>
 	<string name="menu_exit">離開程式</string>
 
-    <string name="main_button_create_new_epense">新增</string>
-    <string name="main_button_browse">瀏覽</string>
-    <string name="main_button_upload_database">上傳</string>
 	<string name="main_view_talk">您好！我是累死雞\n本月您已經花了 %d 元\n…</string>
 
     <string name="expense_view_spend">金額：</string>

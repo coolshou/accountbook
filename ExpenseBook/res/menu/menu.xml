@@ -2,6 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
 	<item
+		android:id="@+id/menu_create_new_expense"
+	    android:title="新增"
+	    android:icon="@drawable/ic_menu_add"
+	    android:showAsAction="always"/>
+	<item
+		android:id="@+id/menu_browse"
+		android:title="瀏覽"
+		android:icon="@drawable/ic_menu_browse"
+		android:showAsAction="always"/>
+
+	<item
 		android:id="@+id/menu_link_to_dropbox"
 		android:title="@string/menu_link_to_dropbox"/>
 

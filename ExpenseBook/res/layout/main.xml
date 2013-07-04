@@ -16,41 +16,6 @@
 	        android:gravity="top"
 	        android:layout_alignParentEnd="false">
 
-		<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/main_button_create_new_epense"
-				android:id="@+id/main_button_new_expense"
-				android:background="@color/main"
-				android:textColor="@color/font_white"
-				android:drawableLeft="@android:drawable/ic_menu_camera"
-				android:layout_weight="1"
-				/>
-
-		<Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/main_button_browse"
-	            android:id="@+id/main_button_browse"
-	            android:background="@color/main"
-	            android:textColor="@color/font_white"
-	            android:drawableLeft="@android:drawable/ic_menu_view"
-	            android:layout_weight="1"
-	            android:layout_marginLeft="1dp"
-				/>
-
-		<Button
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/main_button_upload_database"
-		        android:id="@+id/main_button_upload_database"
-		        android:background="@color/main"
-		        android:textColor="@color/font_white"
-		        android:drawableLeft="@android:drawable/ic_menu_upload"
-		        android:layout_weight="1"
-		        android:layout_marginLeft="1dp"
-				/>
-
 	</LinearLayout>
 
 	<ImageView

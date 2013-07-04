@@ -253,10 +253,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		//移動到統計頁面
 		Intent intent = new Intent();
 		intent.setClass(this, BrowseActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
-		finish();
 	}
 
 	private final DatePickerDialog.OnDateSetListener _dateSetListener = new DatePickerDialog.OnDateSetListener()

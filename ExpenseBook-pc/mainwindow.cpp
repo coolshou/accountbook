@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     :QWidget(parent), _ui(new Ui::MainWindow), _currentMode(NormalMode)
 {
     _ui->setupUi(this);
-    _ui->expenseWidget->hide();
 
     QIntValidator *validator = new QIntValidator(this);
     validator->setBottom(0);
@@ -46,7 +45,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showEvent(QShowEvent *)
 {
-    QTimer::singleShot(1000, this, SLOT(_prepareDatabase()));
+    QTimer::singleShot(300, this, SLOT(_prepareDatabase()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
@@ -99,6 +98,7 @@ void MainWindow::_onAddExpenseButtonClicked()
     _ui->deletePushButton->setDisabled(true);
 
     _currentMode = AddExpenseMode;
+    _ui->savePushButton->setText("儲存");
     _showExpenseWidget();
 }
 
@@ -136,8 +136,9 @@ void MainWindow::_onExpenseListItemSelected(QModelIndex index)
 
     _ui->deletePushButton->setDisabled(false);
 
-    _showExpenseWidget();
     _currentMode = EditExpenseMode;
+    _ui->savePushButton->setText("修改");
+    _showExpenseWidget();
 }
 
 void MainWindow::_onChangeDatabasePathButtonClicked()
@@ -223,29 +224,28 @@ void MainWindow::_onDeleteButtonClicked()
 
 void MainWindow::_hideExpenseWidget()
 {
-    _ui->expenseWidget->hide();
+
+    QRect expenseWidgetRect = _ui->expenseWidget->geometry();
+
+    QPropertyAnimation *expenseWidgetAnimation = new QPropertyAnimation(_ui->expenseWidget, "geometry");
+    expenseWidgetAnimation->setDuration(100);
+    expenseWidgetAnimation->setStartValue(QRect(QPoint(expenseWidgetRect.topLeft()), expenseWidgetRect.size()));
+    expenseWidgetAnimation->setEndValue(QRect(QPoint(expenseWidgetRect.topRight()), expenseWidgetRect.size()));
+
+    expenseWidgetAnimation->start();
+    //_ui->expenseWidget->hide();
 }
 
 void MainWindow::_showExpenseWidget()
 {
-    _ui->expenseWidget->show();
-
-    /*
     QRect expenseWidgetRect = _ui->expenseWidget->geometry();
-    QRect expenseListViewRect = _ui->expenseListView->geometry();
 
     QPropertyAnimation *expenseWidgetAnimation = new QPropertyAnimation(_ui->expenseWidget, "geometry");
-    expenseWidgetAnimation->setDuration(300);
-    expenseWidgetAnimation->setStartValue(QRect(QPoint(expenseListViewRect.topRight()), QSize(0, expenseWidgetRect.height())));
-    expenseWidgetAnimation->setEndValue(expenseWidgetRect);
+    expenseWidgetAnimation->setDuration(100);
+    expenseWidgetAnimation->setStartValue(QRect(QPoint(400, 40), expenseWidgetRect.size()));
+    expenseWidgetAnimation->setEndValue(QRect(QPoint(0, 40), expenseWidgetRect.size()));
 
-    QPropertyAnimation *expenseListViewAnimation = new QPropertyAnimation(_ui->expenseListView, "geometry");
-    expenseListViewAnimation->setDuration(300);
-    expenseListViewAnimation->setStartValue(expenseListViewRect);
-    expenseListViewAnimation->setEndValue(QRect(expenseListViewRect.topLeft(), QSize(350, expenseListViewRect.height())));
-
-    //expenseWidgetAnimation->start();
-    expenseListViewAnimation->start();*/
+    expenseWidgetAnimation->start();
 }
 
 QString MainWindow::_getDatabasePathFromSettings() const
