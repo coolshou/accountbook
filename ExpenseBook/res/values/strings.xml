@@ -20,6 +20,9 @@
     <string name="expense_button_save">儲存</string>
     <string name="expense_button_cancel">取消</string>
 
+	<string name="calculator_button_confirm">確定</string>
+	<string name="calculator_button_cancel">取消</string>
+
     <string name="camera_button_save">儲存</string>
     <string name="camera_button_continue">繼續</string>
 

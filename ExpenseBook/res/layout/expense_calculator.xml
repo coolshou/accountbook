@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="300dp"
+              android:layout_height="340dp"
               android:background="@color/main"
               android:orientation="vertical"
               android:paddingLeft="5dp"
               android:paddingTop="5dp"
-              android:paddingRight="5dp">
+              android:paddingRight="5dp"
+		>
 
 	<LinearLayout
 			android:layout_width="fill_parent"
@@ -17,20 +18,19 @@
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:text="100"
-				android:id="@+id/textView"
-				android:textSize="50dp"
+				android:id="@+id/calculator_view_result"
+				android:textSize="40dp"
 				android:textColor="@color/font"
 				android:layout_weight="4"/>
 
-		<ImageView
+		<ImageButton
 				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:id="@+id/imageView"
+				android:layout_height="fill_parent"
+				android:id="@+id/calculator_button_back"
 				android:src="@drawable/back"
+				android:background="#ffffff"
 				android:layout_weight="1"
-				android:layout_marginRight="5dp"/>
+				android:scaleType="fitCenter"/>
 
 	</LinearLayout>
 
@@ -49,9 +49,9 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="+"
-					android:id="@+id/button"
+					android:id="@+id/calculator_button_plus"
 					android:layout_column="0"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:background="@color/main"
 					android:layout_weight="1"
 					android:textColor="@color/font_white"/>
@@ -60,9 +60,9 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="x"
-					android:id="@+id/button3"
+					android:id="@+id/calculator_button_multiply"
 					android:layout_column="1"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:background="@color/main"
 					android:layout_weight="1"
 					android:textColor="@color/font_white"/>
@@ -71,9 +71,9 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="-"
-					android:id="@+id/button2"
+					android:id="@+id/calculator_button_minus"
 					android:layout_column="2"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:background="@color/main"
 					android:layout_weight="1"
 					android:textColor="@color/font_white"/>
@@ -88,33 +88,33 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="1"
-					android:id="@+id/button_1"
+					android:id="@+id/calculator_button_1"
 					android:layout_column="0"
 					android:background="#ffffff"
 					android:textColor="@color/font"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="2"
-					android:id="@+id/button_2"
+					android:id="@+id/calculator_button_2"
 					android:layout_column="1"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="3"
-					android:id="@+id/button_3"
+					android:id="@+id/calculator_button_3"
 					android:layout_column="2"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 		</TableRow>
 
@@ -126,33 +126,33 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="4"
-					android:id="@+id/button_4"
+					android:id="@+id/calculator_button_4"
 					android:layout_column="0"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="5"
-					android:id="@+id/button_5"
+					android:id="@+id/calculator_button_5"
 					android:layout_column="1"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="6"
-					android:id="@+id/button_6"
+					android:id="@+id/calculator_button_6"
 					android:layout_column="2"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 		</TableRow>
 
@@ -164,72 +164,71 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="7"
-					android:id="@+id/button_7"
+					android:id="@+id/calculator_button_7"
 					android:layout_column="0"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="8"
-					android:id="@+id/button_8"
+					android:id="@+id/calculator_button_8"
 					android:layout_column="1"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="9"
-					android:id="@+id/button_9"
+					android:id="@+id/calculator_button_9"
 					android:layout_column="2"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 		</TableRow>
 
 		<TableRow
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				>
-
-			<Button
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="."
-					android:id="@+id/button_dot"
-					android:layout_column="0"
-					android:textColor="@color/font"
-					android:background="#ffffff"
-					android:textSize="45dp"
-					android:layout_weight="1"/>
+				android:weightSum="4">
 
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="0"
-					android:id="@+id/button_0"
-					android:layout_column="1"
+					android:id="@+id/calculator_button_0"
+					android:layout_column="0"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="00"
-					android:id="@+id/button_0"
+					android:id="@+id/calculator_button_00"
+					android:layout_column="1"
+					android:textColor="@color/font"
+					android:background="#ffffff"
+					android:textSize="40dp"
+					android:layout_weight="1"/>
+
+			<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:layout_column="2"
 					android:textColor="@color/font"
 					android:background="#ffffff"
-					android:textSize="45dp"
+					android:textSize="40dp"
 					android:layout_weight="1"/>
+
 		</TableRow>
 
 	</TableLayout>
@@ -243,8 +242,8 @@
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="確認"
-				android:id="@+id/button4"
+				android:text="@string/calculator_button_confirm"
+				android:id="@+id/calculator_button_confirm"
 				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:background="@color/main"
@@ -253,9 +252,9 @@
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="取消"
-				android:id="@+id/button5"
-				android:layout_gravity="center|left"
+				android:text="@string/calculator_button_cancel"
+				android:id="@+id/calculator_button_cancel"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:textColor="@color/font_white"
 				android:background="@color/main"
