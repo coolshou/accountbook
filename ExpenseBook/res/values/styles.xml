@@ -11,6 +11,7 @@
             backward-compatibility can go here.
         -->
 	    <item name="android:actionBarStyle">@style/ActionBar</item>
+
     </style>
 
 	<style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">

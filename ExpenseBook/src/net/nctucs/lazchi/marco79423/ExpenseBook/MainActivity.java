@@ -223,9 +223,11 @@ public class MainActivity extends Activity
 
 	private void _onCreateNewExpenseItemClicked()
 	{
-		Intent intent = new Intent();
-		intent.setClass(MainActivity.this, CameraActivity.class);
-		startActivity(intent);
+		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(0);
+		calculatorFragment.show(getFragmentManager(), "calculator");
+		//Intent intent = new Intent();
+		//intent.setClass(MainActivity.this, CameraActivity.class);
+		//startActivity(intent);
 	}
 
 	private void _onBrowseItemClicked()
