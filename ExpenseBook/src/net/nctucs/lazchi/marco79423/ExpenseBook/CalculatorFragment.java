@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +20,9 @@ public class CalculatorFragment extends DialogFragment
 {
 	private TextView _resultTextView;
 
-	/*private Button backButton;
-	private List<Button> numberButtons;
-	private Button dotButton;
-	private Button confirmButton;
-	Button cancelButton;*/
+	public enum CalculatorMode {NormalMode, PlusMode, MultiplyMode};
+	private CalculatorMode _calculatorMode;
+	private long _value, _holdValue;
 
 	static CalculatorFragment newInstance(long value)
 	{
@@ -42,13 +41,16 @@ public class CalculatorFragment extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		long value = (Long)getArguments().get("value");
+		_value = (Long) getArguments().get("value");
+		_holdValue = 0;
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View view = inflater.inflate(R.layout.expense_calculator, null);
 
+		_calculatorMode = CalculatorMode.NormalMode;
+
 		_resultTextView = (TextView)view.findViewById(R.id.calculator_view_result);
-		_resultTextView.setText(String.valueOf(value));
+		_resultTextView.setText(String.valueOf(_value));
 
 		//設定計算機的按鍵
 		int[] buttonIdList = new int[] {
@@ -62,14 +64,13 @@ public class CalculatorFragment extends DialogFragment
 				R.id.calculator_button_7,
 				R.id.calculator_button_8,
 				R.id.calculator_button_9,
-				R.id.calculator_button_00,
 				R.id.calculator_button_plus,
-				R.id.calculator_button_minus,
 				R.id.calculator_button_multiply,
-				R.id.calculator_button_back
+				R.id.calculator_button_equal,
+				R.id.calculator_button_clear
 		};
 
-		for(int i=0; i < buttonIdList.length - 1; i++)
+		for(int i=0; i < buttonIdList.length; i++)
 		{
 			Button button = (Button)view.findViewById(buttonIdList[i]);
 			switch(i)
@@ -78,12 +79,15 @@ public class CalculatorFragment extends DialogFragment
 				case 3:	case 4:	case 5:
 				case 6:	case 7:	case 8:
 				case 9: button.setOnClickListener(new CalculatorOnClickListener(String.valueOf(i))); break;
-				case 10: button.setOnClickListener(new CalculatorOnClickListener("00")); break;
-				case 11: button.setOnClickListener(new CalculatorOnClickListener("+")); break;
-				case 12: button.setOnClickListener(new CalculatorOnClickListener("-")); break;
-				case 13: button.setOnClickListener(new CalculatorOnClickListener("x")); break;
+				case 10: button.setOnClickListener(new CalculatorOnClickListener("plus")); break;
+				case 11: button.setOnClickListener(new CalculatorOnClickListener("multiply")); break;
+				case 12: button.setOnClickListener(new CalculatorOnClickListener("equal")); break;
+				case 13: button.setOnClickListener(new CalculatorOnClickListener("clear")); break;
 			}
 		}
+
+		ImageButton imageButton = (ImageButton) view.findViewById(R.id.calculator_button_back);
+		imageButton.setOnClickListener(new CalculatorOnClickListener("back"));
 
 		builder.setView(view);
 
@@ -92,25 +96,84 @@ public class CalculatorFragment extends DialogFragment
 
 	class CalculatorOnClickListener implements View.OnClickListener
 	{
-		private String _value;
+		private String _key;
+		private CalculatorMode _mode;
+		private long _lastValue;
+		private CalculatorMode _lastMode;
 
-		CalculatorOnClickListener(String value)
+		CalculatorOnClickListener(String key)
 		{
-			_value = value;
+			_key = key;
+			_lastValue = 0;
+			_lastMode = CalculatorMode.NormalMode;
+
+			if(key.equals("plus"))
+				_mode = CalculatorMode.PlusMode;
+			else if(key.equals("multiply"))
+				_mode = CalculatorMode.MultiplyMode;
+			else
+				_mode = CalculatorMode.NormalMode;
 		}
 
 		@Override
 		public void onClick(View view)
 		{
-			String result = _resultTextView.getText().toString();
-
-			if(result.equals("0"))
+			if(_key.matches("\\d")) //如果是數字的話
 			{
-				if(!_value.equals("0") && !_value.equals("00") && !_value.equals("+") && !_value.equals("-") && !_value.equals("x"))
-					_resultTextView.setText(_value);
+				if(_value == 0)
+					_value = Long.parseLong(_key);
+				else
+					_value = 10 * _value + Long.parseLong(_key);
+				_resultTextView.setText(String.valueOf(_value));
 			}
-			else
-				_resultTextView.setText(result + _value);
+			else if(_key.equals("back"))
+			{
+				String resultString = _resultTextView.getText().toString();
+				if(resultString.length() > 0)
+					resultString = resultString.substring(0, resultString.length() - 1);
+
+				_resultTextView.setText(resultString);
+				_value = (resultString.length() > 0) ? Long.parseLong(resultString) : 0;
+			}
+			else if(_key.equals("equal"))
+			{
+				if(_calculatorMode != CalculatorMode.NormalMode)
+				{
+					_lastMode = _calculatorMode;
+					_lastValue = _value;
+
+					_calculatorMode = CalculatorMode.NormalMode;
+				}
+
+				if(_lastMode == CalculatorMode.PlusMode)
+					_holdValue += _lastValue;
+				else if(_lastMode == CalculatorMode.MultiplyMode)
+					_holdValue *= _lastValue;
+
+				_value = 0;
+				_resultTextView.setText(String.valueOf(_holdValue));
+			}
+			else if(_key.equals("clear"))
+			{
+				_value = 0;
+				_holdValue = 0;
+				_resultTextView.setText(String.valueOf(_value));
+			}
+			else if(_key.equals("plus") || _key.equals("multiply"))
+			{
+				if(_calculatorMode != CalculatorMode.NormalMode)
+				{
+					if(_mode == CalculatorMode.PlusMode)
+						_holdValue += _value;
+					else if(_mode == CalculatorMode.MultiplyMode)
+						_holdValue *= _value;
+				}
+
+				_calculatorMode = _mode;
+				_holdValue = _value;
+				_value = 0;
+				_resultTextView.setText(String.valueOf(_holdValue));
+			}
 		}
 	};
 }

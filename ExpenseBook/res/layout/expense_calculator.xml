@@ -21,7 +21,8 @@
 				android:id="@+id/calculator_view_result"
 				android:textSize="40dp"
 				android:textColor="@color/font"
-				android:layout_weight="4"/>
+				android:layout_weight="4"
+				android:singleLine="true"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -70,8 +71,8 @@
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="-"
-					android:id="@+id/calculator_button_minus"
+					android:text="c"
+					android:id="@+id/calculator_button_clear"
 					android:layout_column="2"
 					android:textSize="40dp"
 					android:background="@color/main"
@@ -196,8 +197,7 @@
 
 		<TableRow
 				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:weightSum="4">
+				android:layout_height="fill_parent">
 
 			<Button
 					android:layout_width="wrap_content"
@@ -212,8 +212,6 @@
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="00"
-					android:id="@+id/calculator_button_00"
 					android:layout_column="1"
 					android:textColor="@color/font"
 					android:background="#ffffff"
@@ -223,6 +221,8 @@
 			<Button
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:text="="
+					android:id="@+id/calculator_button_equal"
 					android:layout_column="2"
 					android:textColor="@color/font"
 					android:background="#ffffff"
