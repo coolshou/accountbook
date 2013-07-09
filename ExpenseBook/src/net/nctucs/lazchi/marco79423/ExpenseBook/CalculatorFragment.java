@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class CalculatorFragment extends DialogFragment
@@ -22,14 +23,15 @@ public class CalculatorFragment extends DialogFragment
 
 	public enum CalculatorMode {NormalMode, PlusMode, MultiplyMode};
 	private CalculatorMode _calculatorMode;
-	private long _value, _holdValue;
 
-	static CalculatorFragment newInstance(long value)
+	private BigInteger _value, _holdValue;
+
+	static CalculatorFragment newInstance(String value)
 	{
 		CalculatorFragment calculatorFragment = new CalculatorFragment();
 
 		Bundle args = new Bundle();
-		args.putLong("value", value);
+		args.putString("value", value);
 		calculatorFragment.setArguments(args);
 
 		return calculatorFragment;
@@ -41,8 +43,8 @@ public class CalculatorFragment extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		_value = (Long) getArguments().get("value");
-		_holdValue = 0;
+		_value = new BigInteger((String)getArguments().get("value"));
+		_holdValue = new BigInteger("0");
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View view = inflater.inflate(R.layout.expense_calculator, null);
@@ -89,6 +91,35 @@ public class CalculatorFragment extends DialogFragment
 		ImageButton imageButton = (ImageButton) view.findViewById(R.id.calculator_button_back);
 		imageButton.setOnClickListener(new CalculatorOnClickListener("back"));
 
+		//確認按鈕
+		Button confirmButton = (Button) view.findViewById(R.id.calculator_button_confirm);
+		confirmButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				MainActivity mainActivity = (MainActivity)getActivity();
+				if(_calculatorMode == CalculatorMode.NormalMode)
+					mainActivity.getData(new BigInteger(_resultTextView.getText().toString()));
+				else if(_calculatorMode == CalculatorMode.PlusMode)
+					mainActivity.getData(_holdValue.add(_value));
+				else
+					mainActivity.getData(_holdValue.multiply(_value));
+				CalculatorFragment.this.getFragmentManager().beginTransaction().remove(CalculatorFragment.this).commit();
+			}
+		});
+
+		//取消按鈕
+		Button cancelButton = (Button) view.findViewById(R.id.calculator_button_cancel);
+		cancelButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				CalculatorFragment.this.getFragmentManager().beginTransaction().remove(CalculatorFragment.this).commit();
+			}
+		});
+
 		builder.setView(view);
 
 		return builder.create();
@@ -98,13 +129,15 @@ public class CalculatorFragment extends DialogFragment
 	{
 		private String _key;
 		private CalculatorMode _mode;
-		private long _lastValue;
+
+		//for equal
+		private BigInteger _lastValue;
 		private CalculatorMode _lastMode;
 
 		CalculatorOnClickListener(String key)
 		{
 			_key = key;
-			_lastValue = 0;
+			_lastValue = new BigInteger("0");
 			_lastMode = CalculatorMode.NormalMode;
 
 			if(key.equals("plus"))
@@ -120,11 +153,11 @@ public class CalculatorFragment extends DialogFragment
 		{
 			if(_key.matches("\\d")) //如果是數字的話
 			{
-				if(_value == 0)
-					_value = Long.parseLong(_key);
+				if(_value.equals(new BigInteger("0")))
+					_value = new BigInteger(_key);
 				else
-					_value = 10 * _value + Long.parseLong(_key);
-				_resultTextView.setText(String.valueOf(_value));
+					_value = _value.multiply(new BigInteger("10")).add(new BigInteger(_key));
+				_resultTextView.setText(_value.toString());
 			}
 			else if(_key.equals("back"))
 			{
@@ -133,10 +166,11 @@ public class CalculatorFragment extends DialogFragment
 					resultString = resultString.substring(0, resultString.length() - 1);
 
 				_resultTextView.setText(resultString);
-				_value = (resultString.length() > 0) ? Long.parseLong(resultString) : 0;
+				_value = new BigInteger((resultString.length() > 0) ? resultString : "0");
 			}
 			else if(_key.equals("equal"))
 			{
+
 				if(_calculatorMode != CalculatorMode.NormalMode)
 				{
 					_lastMode = _calculatorMode;
@@ -146,33 +180,37 @@ public class CalculatorFragment extends DialogFragment
 				}
 
 				if(_lastMode == CalculatorMode.PlusMode)
-					_holdValue += _lastValue;
+					_holdValue = _holdValue.add(_lastValue);
 				else if(_lastMode == CalculatorMode.MultiplyMode)
-					_holdValue *= _lastValue;
+					_holdValue = _holdValue.multiply(_lastValue);
 
-				_value = 0;
-				_resultTextView.setText(String.valueOf(_holdValue));
+				_value = new BigInteger("0");
+				_resultTextView.setText(_holdValue.toString());
 			}
 			else if(_key.equals("clear"))
 			{
-				_value = 0;
-				_holdValue = 0;
+				_value = new BigInteger("0");
+				_holdValue = new BigInteger("0");
 				_resultTextView.setText(String.valueOf(_value));
 			}
 			else if(_key.equals("plus") || _key.equals("multiply"))
 			{
 				if(_calculatorMode != CalculatorMode.NormalMode)
 				{
-					if(_mode == CalculatorMode.PlusMode)
-						_holdValue += _value;
-					else if(_mode == CalculatorMode.MultiplyMode)
-						_holdValue *= _value;
+					if(_lastMode == CalculatorMode.PlusMode)
+						_holdValue = _holdValue.add(_lastValue);
+					else if(_lastMode == CalculatorMode.MultiplyMode)
+						_holdValue = _holdValue.multiply(_lastValue);
+				}
+				else
+				{
+					_holdValue = _value;
 				}
 
+				_value = new BigInteger("0");
 				_calculatorMode = _mode;
-				_holdValue = _value;
-				_value = 0;
-				_resultTextView.setText(String.valueOf(_holdValue));
+				_resultTextView.setText(_holdValue.toString());
+
 			}
 		}
 	};

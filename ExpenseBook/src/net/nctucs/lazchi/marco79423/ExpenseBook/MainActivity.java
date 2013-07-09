@@ -4,6 +4,7 @@ package net.nctucs.lazchi.marco79423.ExpenseBook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.math.BigInteger;
 
 //Android
 import android.animation.AnimatorInflater;
@@ -221,10 +222,16 @@ public class MainActivity extends Activity
 		}
 	}
 
+	public void getData(BigInteger result)
+	{
+		Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+	}
+
 	private void _onCreateNewExpenseItemClicked()
 	{
-		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(0);
+		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance("0");
 		calculatorFragment.show(getFragmentManager(), "calculator");
+
 		//Intent intent = new Intent();
 		//intent.setClass(MainActivity.this, CameraActivity.class);
 		//startActivity(intent);
