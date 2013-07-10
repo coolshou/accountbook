@@ -36,7 +36,9 @@ class ExpenseSqlModel extends AbstractSqlModel
 	{
 		ContentValues values = new ContentValues();
 
-		values.put(Globals.ExpenseTable.PICTURE_BYTES, pictureBytes);
+		if(pictureBytes != null)
+			values.put(Globals.ExpenseTable.PICTURE_BYTES, pictureBytes);
+
 		values.put(Globals.ExpenseTable.SPEND, spend);
 
 		if(dateString.length() != 0)
@@ -50,13 +52,13 @@ class ExpenseSqlModel extends AbstractSqlModel
 		return values;
 	}
 
-	public long addExpense(byte[] pictureBytes)
+	/*public long addExpense(byte[] pictureBytes)
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
 		String dateString = formatter.format(new Date());
 
 		return addExpense(pictureBytes, 0, dateString, 1, "");
-	}
+	}*/
 
 	public int removeExpense(long id)
 	{

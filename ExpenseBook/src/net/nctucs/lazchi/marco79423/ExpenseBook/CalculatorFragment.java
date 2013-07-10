@@ -26,12 +26,14 @@ public class CalculatorFragment extends DialogFragment
 
 	private BigInteger _value, _holdValue;
 
-	static CalculatorFragment newInstance(String value)
+	static CalculatorFragment newInstance(long value)
 	{
 		CalculatorFragment calculatorFragment = new CalculatorFragment();
 
 		Bundle args = new Bundle();
-		args.putString("value", value);
+
+		String valueString = String.valueOf(value);
+		args.putString("valueString", valueString);
 		calculatorFragment.setArguments(args);
 
 		return calculatorFragment;
@@ -43,7 +45,7 @@ public class CalculatorFragment extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		_value = new BigInteger((String)getArguments().get("value"));
+		_value = new BigInteger((String)getArguments().get("valueString"));
 		_holdValue = new BigInteger("0");
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -98,13 +100,16 @@ public class CalculatorFragment extends DialogFragment
 			@Override
 			public void onClick(View view)
 			{
-				MainActivity mainActivity = (MainActivity)getActivity();
+				ExpenseActivity expenseActivity = (ExpenseActivity)getActivity();
+				BigInteger result;
 				if(_calculatorMode == CalculatorMode.NormalMode)
-					mainActivity.getData(new BigInteger(_resultTextView.getText().toString()));
+					result = new BigInteger(_resultTextView.getText().toString());
 				else if(_calculatorMode == CalculatorMode.PlusMode)
-					mainActivity.getData(_holdValue.add(_value));
+					result = _holdValue.add(_value);
 				else
-					mainActivity.getData(_holdValue.multiply(_value));
+					result = _holdValue.multiply(_value);
+
+				expenseActivity.setSpendEditText(result.longValue());
 				CalculatorFragment.this.getFragmentManager().beginTransaction().remove(CalculatorFragment.this).commit();
 			}
 		});

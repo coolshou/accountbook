@@ -1,5 +1,6 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,6 +46,19 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		Button cancelButton = (Button) findViewById(R.id.expense_button_cancel);
 		cancelButton.setOnClickListener(this);
 
+		//設定花費的 listener
+		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+		spendEditText.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent)
+			{
+				if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+					_showCalculatorFragment();
+				return true;
+			}
+		});
+
 		//設定日期的 listener
 		EditText dateEditText = (EditText) findViewById(R.id.expense_edit_date);
 		dateEditText.setOnTouchListener(new View.OnTouchListener()
@@ -52,8 +66,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			@Override
 			public boolean onTouch(View view, MotionEvent motionEvent)
 			{
-				showDialog(_DATE_DIALOG_ID);
-				return false;
+				if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+					showDialog(_DATE_DIALOG_ID);
+				return true;
 			}
 		});
 	}
@@ -64,6 +79,10 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		super.onResume();
 
 		_prepareExpenseForm();
+
+		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+		if(Long.parseLong(spendEditText.getText().toString()) == 0)
+			_showCalculatorFragment();
 	}
 
 
@@ -129,37 +148,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 	private void _prepareExpenseForm()
 	{
-		Bundle bundle = getIntent().getExtras();
 
-		//設定照片
-		_pictureBytes = bundle.getByteArray(Globals.Expense.PICTURE_BYTES);
-		if(_pictureBytes != null)
-		{
-			ImageView pictureImageView = (ImageView) findViewById(R.id.expense_view_picture);
-			Bitmap picture = BitmapFactory.decodeByteArray(_pictureBytes, 0, _pictureBytes.length);
-			pictureImageView.setImageBitmap(picture);
-		}
-
-		//設定花費
-		long spend = bundle.getLong(Globals.Expense.SPEND, -1);
-		if(spend != -1)
-		{
-			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-			spendEditText.setText(String.valueOf(spend));
-		}
-
-		//設定時間
-		String dateString = bundle.getString(Globals.Expense.DATE_STRING);
-		if(dateString == null)
-		{
-			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
-			dateString = formatter.format(new Date());
-		}
-
-		EditText dateEditText = (EditText) findViewById(R.id.expense_edit_date);
-		dateEditText.setText(dateString);
-
-		//取得分類名稱
+		//設定分類
 		CategorySqlModel categorySqlModel = new CategorySqlModel(this);
 		categorySqlModel.open();
 		List<String> categoryNames = categorySqlModel.getAllCategoryNames();
@@ -168,26 +158,72 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expense_spinner);
 		for(String categoryName : categoryNames)
 			adapter.add(categoryName);
-
 		adapter.setDropDownViewResource(R.layout.expense_spinner);
 
-		//設定分類
 		Spinner categorySpinner = (Spinner) findViewById(R.id.expense_edit_category);
 		categorySpinner.setAdapter(adapter);
 
-		String category = bundle.getString(Globals.Expense.CATEGORY);
-		if(category != null)
-		{
-			int categoryId = categoryNames.indexOf(category);
-			categorySpinner.setSelection(categoryId);
-		}
+		//設定資料
+		Bundle bundle = getIntent().getExtras();
 
-		//設定筆記
-		String note = bundle.getString(Globals.Expense.NOTE);
-		if(note != null)
+		if(bundle == null)
 		{
-			EditText noteEditText = (EditText) findViewById(R.id.expense_edit_note);
-			noteEditText.setText(note);
+			//設定預設花費
+			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+			spendEditText.setText("0");
+
+			//設定預設時間
+			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+			String dateString = formatter.format(new Date());
+
+			EditText dateEditText = (EditText) findViewById(R.id.expense_edit_date);
+			dateEditText.setText(dateString);
+		}
+		else
+		{
+			//設定照片
+			_pictureBytes = bundle.getByteArray(Globals.Expense.PICTURE_BYTES);
+			if(_pictureBytes != null)
+			{
+	            ImageView pictureImageView = (ImageView) findViewById(R.id.expense_view_picture);
+				Bitmap picture = BitmapFactory.decodeByteArray(_pictureBytes, 0, _pictureBytes.length);
+				pictureImageView.setImageBitmap(picture);
+			}
+
+			//設定花費
+			long spend = bundle.getLong(Globals.Expense.SPEND, -1);
+			if(spend != -1)
+			{
+				EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+				spendEditText.setText(String.valueOf(spend));
+			}
+
+			//設定時間
+			String dateString = bundle.getString(Globals.Expense.DATE_STRING);
+			if(dateString == null)
+			{
+				SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
+				dateString = formatter.format(new Date());
+			}
+
+			EditText dateEditText = (EditText) findViewById(R.id.expense_edit_date);
+			dateEditText.setText(dateString);
+
+			//設定分類
+			String category = bundle.getString(Globals.Expense.CATEGORY);
+			if(category != null)
+			{
+				int categoryId = categoryNames.indexOf(category);
+				categorySpinner.setSelection(categoryId);
+			}
+
+			//設定筆記
+			String note = bundle.getString(Globals.Expense.NOTE);
+			if(note != null)
+			{
+				EditText noteEditText = (EditText) findViewById(R.id.expense_edit_note);
+				noteEditText.setText(note);
+			}
 		}
 	}
 
@@ -235,17 +271,16 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		EditText noteEditText = (EditText) findViewById(R.id.expense_edit_note);
 		note = noteEditText.getText().toString();
 
-		Bundle bundle = getIntent().getExtras();
-		long id = bundle.getLong(Globals.Expense.ID, -1);
-
 		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(this);
 		expenseSqlModel.open();
 
+		Bundle bundle = getIntent().getExtras();
+
 		//新增或是編輯
-		if(id == -1)
+		if(bundle == null)
 			expenseSqlModel.addExpense(_pictureBytes, spend, dateString, categoryId, note);
 		else
-			expenseSqlModel.editExpense(id, _pictureBytes, spend, dateString, categoryId, note);
+			expenseSqlModel.editExpense(bundle.getLong(Globals.Expense.ID), _pictureBytes, spend, dateString, categoryId, note);
 		expenseSqlModel.close();
 
 		Toast.makeText(this, resource.getString(R.string.message_save_successfully), Toast.LENGTH_LONG).show();
@@ -256,6 +291,28 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+	}
+
+	public void setSpendEditText(long spend)
+	{
+		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+		spendEditText.setText(String.valueOf(spend));
+	}
+
+	private void _showCalculatorFragment()
+	{
+		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+		long spend;
+		try
+		{
+			spend = Long.parseLong(spendEditText.getText().toString());
+		}
+		catch(NumberFormatException e)
+		{
+			spend = 0;
+		}
+		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(spend);
+		calculatorFragment.show(getFragmentManager(), "calculator");
 	}
 
 	private final DatePickerDialog.OnDateSetListener _dateSetListener = new DatePickerDialog.OnDateSetListener()

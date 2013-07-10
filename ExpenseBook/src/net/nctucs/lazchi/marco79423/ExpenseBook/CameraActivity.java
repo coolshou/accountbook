@@ -78,10 +78,10 @@ public class CameraActivity extends Activity implements View.OnClickListener
 
 	private void _quickSaveExpense(byte[] bytes)
 	{
-		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(this);
+		/*ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(this);
 		expenseSqlModel.open();
 		expenseSqlModel.addExpense(bytes);
-		expenseSqlModel.close();
+		expenseSqlModel.close();*/
 	}
 
 	private final SurfaceHolder.Callback _surfaceCallBack = new SurfaceHolder.Callback()
