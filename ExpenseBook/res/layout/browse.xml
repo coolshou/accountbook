@@ -5,36 +5,6 @@
                 android:layout_height="match_parent"
                 android:background="@color/background">
 
-	<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:id="@+id/linearLayout"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
-			android:layout_marginBottom="3dp">
-
-		<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/browse_button_edit"
-				android:id="@+id/browse_button_edit"
-				android:layout_gravity="center"
-				android:textColor="@color/font_white"
-				android:background="@color/main"
-				android:layout_weight="1"/>
-
-		<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/browse_button_delete"
-				android:id="@+id/browse_button_delete"
-				android:layout_gravity="center"
-				android:background="@color/main"
-				android:textColor="@color/font_white"
-				android:layout_weight="1"
-				android:layout_marginLeft="1dp"/>
-	</LinearLayout>
-
 	<FrameLayout
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -44,13 +14,12 @@
 		<ListView
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:id="@+id/statistics_list_expense"
+				android:id="@+id/browse_list_expense"
 				android:layout_gravity="center"
 				android:choiceMode="singleChoice"
 				android:clickable="false"
 				android:drawSelectorOnTop="false"
-				android:background="@color/background"
-				/>
+				android:background="@color/background"/>
 
 		<ImageView
 				android:layout_width="50dp"

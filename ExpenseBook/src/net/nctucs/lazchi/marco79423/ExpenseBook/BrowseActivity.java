@@ -11,6 +11,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,12 +29,9 @@ import java.util.List;
 
 import static android.widget.AdapterView.*;
 
-public class BrowseActivity extends Activity implements View.OnClickListener, OnItemClickListener
+public class BrowseActivity extends Activity implements OnItemClickListener
 {
-	private View _selectedView;
-	private int _selectedPosition = -1;
 	private SimpleAdapter _dataAdapter;
-
 	private List<HashMap<String, Object>> _expenses;
 
 	AnimatorSet _listAnimatorSet;
@@ -42,18 +42,20 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		setContentView(R.layout.browse);
 
 		//編輯按鈕
-		Button editButton = (Button) findViewById(R.id.browse_button_edit);
-		editButton.setOnClickListener(BrowseActivity.this);
+		//Button editButton = (Button) findViewById(R.id.browse_button_edit);
+		//editButton.setOnClickListener(BrowseActivity.this);
 
 		//刪除按鈕
-		Button deleteButton = (Button) findViewById(R.id.browse_button_delete);
-		deleteButton.setOnClickListener(BrowseActivity.this);
+		//Button deleteButton = (Button) findViewById(R.id.browse_button_delete);
+		//deleteButton.setOnClickListener(BrowseActivity.this);
 
 		//設定清單動畫
-		ListView expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
+		ListView expenseListView = (ListView) findViewById(R.id.browse_list_expense);
 		expenseListView.setOnItemClickListener(BrowseActivity.this);
 		_listAnimatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(BrowseActivity.this, R.animator.browse_list);
 		_listAnimatorSet.setTarget(expenseListView);
+
+		registerForContextMenu(expenseListView);
 	}
 
 	@Override
@@ -70,16 +72,6 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 	 */
 
 	@Override
-	public void onClick(View view)
-	{
-		switch(view.getId())
-		{
-			case R.id.browse_button_edit: _onEditButtonClicked(); break;
-			case R.id.browse_button_delete: _onDeleteButtonClicked(); break;
-		}
-	}
-
-	@Override
 	public void onBackPressed()
 	{
 		Intent intent = new Intent();
@@ -89,16 +81,39 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
-	private void _onEditButtonClicked()
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
 	{
-		Resources resources = getResources();
-		if(_selectedPosition == -1)
-		{
-			Toast.makeText(BrowseActivity.this, resources.getString(R.string.message_select_item_first), Toast.LENGTH_LONG).show();
-			return;
-		}
+		menu.setHeaderTitle("您想刪除這筆支出嗎？");
+		menu.add(0, Menu.FIRST, 0, "刪除");
+		menu.add(0, Menu.FIRST + 1, 1, "取消");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
 
-		HashMap<String, Object> expense = _expenses.get(_selectedPosition);
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		if(item.getItemId() == Menu.FIRST + 1)
+			return true;
+
+		//刪除該筆支出
+		AdapterContextMenuInfo  info = (AdapterContextMenuInfo) item.getMenuInfo();
+		int _selectedPosition = info.position;
+
+		long id = (Long)_expenses.get(_selectedPosition).get(Globals.Expense.ID);
+		_deleteExpenseFromDatabase(id);
+
+		_expenses.remove(_selectedPosition);
+		_dataAdapter.notifyDataSetChanged();
+
+		return true;
+	}
+
+
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
+	{
+		HashMap<String, Object> expense = _expenses.get(position);
 
 		//移動到統計頁面
 		Intent intent = new Intent();
@@ -112,52 +127,6 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		intent.setClass(this, ExpenseActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-	}
-
-	private void _onDeleteButtonClicked()
-	{
-		Resources resources = getResources();
-		if(_selectedPosition == -1)
-		{
-			Toast.makeText(this, resources.getString(R.string.message_select_item_first), Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		//確認視窗
-		AlertDialog.Builder builder = new AlertDialog.Builder(BrowseActivity.this);
-		builder.setTitle(R.string.browse_dialog_delete_title);
-		builder.setMessage(R.string.browse_dialog_delete_message);
-		builder.setPositiveButton(R.string.browse_dialog_delete_confirm, new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i)
-			{
-				long id = (Long)_expenses.get(_selectedPosition).get(Globals.Expense.ID);
-				_deleteExpense(id);
-			}
-		});
-
-		builder.setNegativeButton(R.string.browse_dialog_delete_cancel, null);
-		builder.create().show();
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
-	{
-		if(_selectedView == view)
-		{
-			_selectedView.setBackgroundResource(R.color.background);
-			_selectedView = null;
-			_selectedPosition = -1;
-		}
-		else
-		{
-			if(_selectedView != null)
-				_selectedView.setBackgroundResource(R.color.background);
-			view.setBackgroundResource(R.color.main);
-			_selectedView = view;
-			_selectedPosition = position;
-		}
 	}
 
 	void _setExpenseListView()
@@ -200,14 +169,14 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		);
 		_dataAdapter.setViewBinder(_simepleViewBinder);
 
-		ListView expenseListView = (ListView) findViewById(R.id.statistics_list_expense);
+		ListView expenseListView = (ListView) findViewById(R.id.browse_list_expense);
 		expenseListView.setAdapter(_dataAdapter);
 
 		//開啟動畫
 		_listAnimatorSet.start();
 	}
 
-	private void _deleteExpense(long id)
+	private void _deleteExpenseFromDatabase(long id)
 	{
 		Resources resources = getResources();
 
@@ -221,12 +190,7 @@ public class BrowseActivity extends Activity implements View.OnClickListener, On
 		}
 		expenseSqlModel.close();
 
-		_expenses.remove(_selectedPosition);
-		_dataAdapter.notifyDataSetChanged();
 
-		_selectedView.setBackgroundResource(R.color.background);
-		_selectedView = null;
-		_selectedPosition = -1;
 
 		Toast.makeText(this, resources.getString(R.string.message_delete_item_successful), Toast.LENGTH_LONG).show();
 	}

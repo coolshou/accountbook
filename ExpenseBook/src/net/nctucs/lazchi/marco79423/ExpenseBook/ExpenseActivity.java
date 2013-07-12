@@ -103,21 +103,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	@Override
 	public void onBackPressed()
 	{
-		Intent intent = new Intent();
-
-		Bundle bundle = getIntent().getExtras();
-		long id = bundle.getLong(Globals.Expense.ID, -1);
-
-		//新增或是編輯
-		if(id == -1)
-			intent.setClass(this, MainActivity.class);
-		else
-			intent.setClass(this, BrowseActivity.class);
-
-		startActivity(intent);
+		super.onBackPressed();
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
-		finish();
 	}
 
 	@Override
