@@ -5,7 +5,7 @@ class Globals
 	public static final String LOG_TAG = "累死雞記帳";
 
 	public static final String DATABASE_NAME = "accountbook.db";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
 
 	public static final String DROPBOX_KEY = "7hrz989zzhcyr9t";
 	public static final String DROPBOX_SECRET = "zcyop6imgp7oq5i";
@@ -16,7 +16,7 @@ class Globals
 	{
 		public static String ID = "_id";
 		public static String PICTURE_BYTES = "picture_bytes";
-		public static String SPEND = "spend";
+		public static String SPEND_STRING = "spend_string";
 		public static String DATE_STRING = "date_string";
 		public static String CATEGORY = "category";
 		public static String NOTE = "note";
@@ -28,7 +28,7 @@ class Globals
 
 		public static final String ID = Expense.ID;
 		public static final String PICTURE_BYTES = Expense.PICTURE_BYTES;
-		public static final String SPEND = Expense.SPEND;
+		public static final String SPEND_STRING = Expense.SPEND_STRING;
 		public static final String DATE_STRING = Expense.DATE_STRING;
 		public static final String CATEGORY_ID = "category_id";
 		public static final String NOTE = Expense.NOTE;
@@ -37,7 +37,7 @@ class Globals
 			"CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
 			ID + " INTEGER NOT NULL PRIMARY KEY," +
 			PICTURE_BYTES + " BLOB," +
-			SPEND + " NUMERIC," +
+			SPEND_STRING + " TEXT," +
 			DATE_STRING + " DATE," +
 			CATEGORY_ID + " NUMERIC," +
 			NOTE + " TEXT);";

@@ -81,7 +81,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		_prepareExpenseForm();
 
 		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		if(Long.parseLong(spendEditText.getText().toString()) == 0)
+		if(spendEditText.getText().toString().equals("0"))
 			_showCalculatorFragment();
 	}
 
@@ -178,12 +178,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			}
 
 			//設定花費
-			long spend = bundle.getLong(Globals.Expense.SPEND, -1);
-			if(spend != -1)
-			{
-				EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-				spendEditText.setText(String.valueOf(spend));
-			}
+			String spendString = bundle.getString(Globals.Expense.SPEND_STRING, "0");
+			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+			spendEditText.setText(spendString);
 
 			//設定時間
 			String dateString = bundle.getString(Globals.Expense.DATE_STRING);
@@ -218,21 +215,15 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	{
 		Resources resource = getResources();
 
-		long spend = 0;
+		String spendString = "0";
 		String dateString = null;
 		long categoryId = 0;
 		String note = "";
 
 		//設定金額
-		try
-		{
-			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-			spend = Long.parseLong(spendEditText.getText().toString());
-		}
-		catch(NumberFormatException e)
-		{
-			spend = 0;
-		}
+		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
+		spendString = spendEditText.getText().toString();
+
 
 		//設定時間
 		EditText dateEditText = (EditText) findViewById(R.id.expense_edit_date);
@@ -265,9 +256,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		//新增或是編輯
 		if(bundle == null)
-			expenseSqlModel.addExpense(_pictureBytes, spend, dateString, categoryId, note);
+			expenseSqlModel.addExpense(_pictureBytes, spendString, dateString, categoryId, note);
 		else
-			expenseSqlModel.editExpense(bundle.getLong(Globals.Expense.ID), _pictureBytes, spend, dateString, categoryId, note);
+			expenseSqlModel.editExpense(bundle.getLong(Globals.Expense.ID), _pictureBytes, spendString, dateString, categoryId, note);
 		expenseSqlModel.close();
 
 		Toast.makeText(this, resource.getString(R.string.message_save_successfully), Toast.LENGTH_LONG).show();
@@ -280,10 +271,10 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
-	public void setSpendEditText(long spend)
+	public void setSpendEditText(BigInteger spend)
 	{
 		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		spendEditText.setText(String.valueOf(spend));
+		spendEditText.setText(spend.toString());
 	}
 
 	private void _showCalculatorFragment()

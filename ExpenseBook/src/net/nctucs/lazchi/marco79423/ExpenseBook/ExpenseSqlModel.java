@@ -1,5 +1,6 @@
 package net.nctucs.lazchi.marco79423.ExpenseBook;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,26 +21,26 @@ class ExpenseSqlModel extends AbstractSqlModel
 		super(context);
 	}
 
-	public long addExpense(byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
+	public long addExpense(byte[] pictureBytes, String spendString, String dateString, long categoryId, String note)
 	{
-		ContentValues values = _prepareContentValues(pictureBytes, spend, dateString, categoryId, note);
+		ContentValues values = _prepareContentValues(pictureBytes, spendString, dateString, categoryId, note);
 		return _database.insert(Globals.ExpenseTable.TABLE, null, values);
 	}
 
-	public int editExpense(long id, byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
+	public int editExpense(long id, byte[] pictureBytes, String spend, String dateString, long categoryId, String note)
 	{
 		ContentValues values = _prepareContentValues(pictureBytes, spend, dateString, categoryId, note);
 		return _database.update(Globals.ExpenseTable.TABLE, values, Globals.ExpenseTable.ID + "=" + id, null);
 	}
 
-	private ContentValues _prepareContentValues(byte[] pictureBytes, long spend, String dateString, long categoryId, String note)
+	private ContentValues _prepareContentValues(byte[] pictureBytes, String spendString, String dateString, long categoryId, String note)
 	{
 		ContentValues values = new ContentValues();
 
 		if(pictureBytes != null)
 			values.put(Globals.ExpenseTable.PICTURE_BYTES, pictureBytes);
 
-		values.put(Globals.ExpenseTable.SPEND, spend);
+		values.put(Globals.ExpenseTable.SPEND_STRING, spendString);
 
 		if(dateString.length() != 0)
 			values.put(Globals.ExpenseTable.DATE_STRING, dateString);
@@ -51,14 +52,6 @@ class ExpenseSqlModel extends AbstractSqlModel
 
 		return values;
 	}
-
-	/*public long addExpense(byte[] pictureBytes)
-	{
-		SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
-		String dateString = formatter.format(new Date());
-
-		return addExpense(pictureBytes, 0, dateString, 1, "");
-	}*/
 
 	public int removeExpense(long id)
 	{
@@ -72,7 +65,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 		final String[] ALL_FIELDS = {
 			Globals.ExpenseTable.ID,
 			Globals.ExpenseTable.PICTURE_BYTES,
-			Globals.ExpenseTable.SPEND,
+			Globals.ExpenseTable.SPEND_STRING,
 			Globals.ExpenseTable.DATE_STRING,
 			Globals.ExpenseTable.CATEGORY_ID,
 			Globals.ExpenseTable.NOTE
@@ -94,7 +87,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 			HashMap<String,Object> expense = new HashMap<String,Object>();
 			expense.put(Globals.ExpenseTable.ID, cursor.getLong(0));
 			expense.put(Globals.ExpenseTable.PICTURE_BYTES, cursor.getBlob(1));
-			expense.put(Globals.ExpenseTable.SPEND, cursor.getLong(2));
+			expense.put(Globals.ExpenseTable.SPEND_STRING, cursor.getString(2));
 			expense.put(Globals.ExpenseTable.DATE_STRING, cursor.getString(3));
 			expense.put(Globals.ExpenseTable.CATEGORY_ID, cursor.getLong(4));
 			expense.put(Globals.ExpenseTable.NOTE, cursor.getString(5));
@@ -112,7 +105,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 		long sum = 0;
 
 		final String[] FIELDS = {
-				Globals.ExpenseTable.SPEND,
+				Globals.ExpenseTable.SPEND_STRING,
 				Globals.ExpenseTable.DATE_STRING,
 		};
 

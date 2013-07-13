@@ -109,7 +109,7 @@ public class CalculatorFragment extends DialogFragment
 				else
 					result = _holdValue.multiply(_value);
 
-				expenseActivity.setSpendEditText(result.longValue());
+				expenseActivity.setSpendEditText(result);
 				CalculatorFragment.this.getFragmentManager().beginTransaction().remove(CalculatorFragment.this).commit();
 			}
 		});

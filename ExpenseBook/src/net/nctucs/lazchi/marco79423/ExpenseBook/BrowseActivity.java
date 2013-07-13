@@ -119,7 +119,7 @@ public class BrowseActivity extends Activity implements OnItemClickListener
 		Intent intent = new Intent();
 		intent.putExtra(Globals.Expense.ID, (Long)expense.get(Globals.Expense.ID));
 		intent.putExtra(Globals.Expense.PICTURE_BYTES, (byte[])expense.get(Globals.Expense.PICTURE_BYTES));
-		intent.putExtra(Globals.Expense.SPEND, (Long)expense.get(Globals.Expense.SPEND));
+		intent.putExtra(Globals.Expense.SPEND_STRING, (String)expense.get(Globals.Expense.SPEND_STRING));
 		intent.putExtra(Globals.Expense.DATE_STRING, (String)expense.get(Globals.Expense.DATE_STRING));
 		intent.putExtra(Globals.Expense.CATEGORY, (String)expense.get(Globals.Expense.CATEGORY));
 		intent.putExtra(Globals.Expense.NOTE, (String)expense.get(Globals.Expense.NOTE));
@@ -156,7 +156,7 @@ public class BrowseActivity extends Activity implements OnItemClickListener
 			R.layout.browse_item_expense,
 			new String[] {
 				Globals.Expense.PICTURE_BYTES,
-				Globals.Expense.SPEND,
+				Globals.Expense.SPEND_STRING,
 				Globals.Expense.DATE_STRING,
 				Globals.Expense.CATEGORY
 			},
