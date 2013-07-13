@@ -280,16 +280,9 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	private void _showCalculatorFragment()
 	{
 		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		long spend;
-		try
-		{
-			spend = Long.parseLong(spendEditText.getText().toString());
-		}
-		catch(NumberFormatException e)
-		{
-			spend = 0;
-		}
-		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(spend);
+		String spendString = spendEditText.getText().toString();
+
+		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(new BigInteger(spendString));
 		calculatorFragment.show(getFragmentManager(), "calculator");
 	}
 

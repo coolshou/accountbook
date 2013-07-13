@@ -26,13 +26,13 @@ public class CalculatorFragment extends DialogFragment
 
 	private BigInteger _value, _holdValue;
 
-	static CalculatorFragment newInstance(long value)
+	static CalculatorFragment newInstance(BigInteger value)
 	{
 		CalculatorFragment calculatorFragment = new CalculatorFragment();
 
 		Bundle args = new Bundle();
 
-		String valueString = String.valueOf(value);
+		String valueString = value.toString();
 		args.putString("valueString", valueString);
 		calculatorFragment.setArguments(args);
 
