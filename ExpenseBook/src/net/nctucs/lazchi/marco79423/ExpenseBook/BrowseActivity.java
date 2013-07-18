@@ -41,14 +41,6 @@ public class BrowseActivity extends Activity implements OnItemClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.browse);
 
-		//編輯按鈕
-		//Button editButton = (Button) findViewById(R.id.browse_button_edit);
-		//editButton.setOnClickListener(BrowseActivity.this);
-
-		//刪除按鈕
-		//Button deleteButton = (Button) findViewById(R.id.browse_button_delete);
-		//deleteButton.setOnClickListener(BrowseActivity.this);
-
 		//設定清單動畫
 		ListView expenseListView = (ListView) findViewById(R.id.browse_list_expense);
 		expenseListView.setOnItemClickListener(BrowseActivity.this);
