@@ -100,9 +100,9 @@ class ExpenseSqlModel extends AbstractSqlModel
 		return expenses;
 	}
 
-	public long getSumOfMonthlyExpenses()
+	public String getSumStringOfMonthlyExpenses()
 	{
-		long sum = 0;
+		BigInteger sum = new BigInteger("0");
 
 		final String[] FIELDS = {
 				Globals.ExpenseTable.SPEND_STRING,
@@ -123,7 +123,7 @@ class ExpenseSqlModel extends AbstractSqlModel
 				Date date = formatter.parse(cursor.getString(1));
 				calendar.setTime(date);
 				if(currentYear == calendar.get(Calendar.YEAR) && currentMonth == calendar.get(Calendar.MONTH))
-					sum += cursor.getLong(0);
+					sum = sum.add(new BigInteger(cursor.getString(0)));
 			}
 			catch(ParseException e)
 			{
@@ -133,6 +133,6 @@ class ExpenseSqlModel extends AbstractSqlModel
 		}
 
 		cursor.close();
-		return sum;
+		return sum.toString();
 	}
 }

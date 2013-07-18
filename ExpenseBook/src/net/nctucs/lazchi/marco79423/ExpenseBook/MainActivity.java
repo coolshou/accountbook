@@ -243,11 +243,11 @@ public class MainActivity extends Activity
 
 		ExpenseSqlModel expenseSqlModel = new ExpenseSqlModel(MainActivity.this);
 		expenseSqlModel.open();
-		long sum = expenseSqlModel.getSumOfMonthlyExpenses();
+		String sumString = expenseSqlModel.getSumStringOfMonthlyExpenses();
 		expenseSqlModel.close();
 
 		TextView talkTextView = (TextView) findViewById(R.id.main_view_talk);
-		talkTextView.setText(String.format(resource.getString(R.string.main_view_talk), sum));
+		talkTextView.setText(String.format(resource.getString(R.string.main_view_talk), sumString));
 
 		_dialogAnimatorSet.start();
 	}
