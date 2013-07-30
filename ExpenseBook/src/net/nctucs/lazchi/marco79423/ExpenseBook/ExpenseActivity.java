@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,7 +25,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExpenseActivity extends Activity implements View.OnClickListener
@@ -32,6 +36,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 	private static final int _DATE_DIALOG_ID = 0;
 
 	private byte[] _pictureBytes;
+	private String _currentCheckedCategoryName;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -47,8 +52,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		cancelButton.setOnClickListener(this);
 
 		//設定花費的 listener
-		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		spendEditText.setOnTouchListener(new View.OnTouchListener()
+		TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+		spendTextView.setOnTouchListener(new View.OnTouchListener()
 		{
 			@Override
 			public boolean onTouch(View view, MotionEvent motionEvent)
@@ -56,6 +61,18 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 				if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
 					_showCalculatorFragment();
 				return true;
+			}
+		});
+
+		//設定分類的 listener
+		RadioGroup categoryRadioGroup = (RadioGroup) findViewById(R.id.expense_radio_category);
+		categoryRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(RadioGroup radioGroup, int id)
+			{
+				Button button = (RadioButton)findViewById(id);
+				_currentCheckedCategoryName = button.getText().toString();
 			}
 		});
 
@@ -80,8 +97,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 		_prepareExpenseForm();
 
-		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		if(spendEditText.getText().toString().equals("0"))
+		TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+		if(spendTextView.getText().toString().equals("0"))
 			_showCalculatorFragment();
 	}
 
@@ -142,13 +159,16 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		List<String> categoryNames = categorySqlModel.getAllCategoryNames();
 		categorySqlModel.close();
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expense_spinner);
+		RadioGroup categoryRadioGroup = (RadioGroup) findViewById(R.id.expense_radio_category);
 		for(String categoryName : categoryNames)
-			adapter.add(categoryName);
-		adapter.setDropDownViewResource(R.layout.expense_spinner);
+		{
+			RadioButton button = new RadioButton(this);
+			button.setText(categoryName);
+			button.setTextSize(25);
+			button.setTextColor(getResources().getColor(R.color.font));
+			categoryRadioGroup.addView(button);
+		}
 
-		Spinner categorySpinner = (Spinner) findViewById(R.id.expense_edit_category);
-		categorySpinner.setAdapter(adapter);
 
 		//設定資料
 		Bundle bundle = getIntent().getExtras();
@@ -156,8 +176,12 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		if(bundle == null)
 		{
 			//設定預設花費
-			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-			spendEditText.setText("0");
+			TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+			spendTextView.setText("0");
+
+			//設定預設分類
+			RadioButton button = (RadioButton)categoryRadioGroup.getChildAt(0);
+			button.setChecked(true);
 
 			//設定預設時間
 			SimpleDateFormat formatter = new SimpleDateFormat(Globals.DATE_FORMAT);
@@ -179,8 +203,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 			//設定花費
 			String spendString = bundle.getString(Globals.Expense.SPEND_STRING, "0");
-			EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-			spendEditText.setText(spendString);
+			TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+			spendTextView.setText(spendString);
 
 			//設定時間
 			String dateString = bundle.getString(Globals.Expense.DATE_STRING);
@@ -194,11 +218,12 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			dateEditText.setText(dateString);
 
 			//設定分類
-			String category = bundle.getString(Globals.Expense.CATEGORY);
-			if(category != null)
+			String categoryName = bundle.getString(Globals.Expense.CATEGORY);
+			if(categoryName != null)
 			{
-				int categoryId = categoryNames.indexOf(category);
-				categorySpinner.setSelection(categoryId);
+				int categoryId = categoryNames.indexOf(categoryName);
+				RadioButton button = (RadioButton)categoryRadioGroup.getChildAt(categoryId);
+				button.setChecked(true);
 			}
 
 			//設定筆記
@@ -221,8 +246,8 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 		String note = "";
 
 		//設定金額
-		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		spendString = spendEditText.getText().toString();
+		TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+		spendString = spendTextView.getText().toString();
 
 
 		//設定時間
@@ -235,8 +260,7 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 			CategorySqlModel categorySqlModel = new CategorySqlModel(this);
 			categorySqlModel.open();
 
-			Spinner categorySpinner = (Spinner) findViewById(R.id.expense_edit_category);
-			categoryId = categorySqlModel.getCategoryId(categorySpinner.getSelectedItem().toString());
+			categoryId = categorySqlModel.getCategoryId(_currentCheckedCategoryName);
 			categorySqlModel.close();
 		}
 		catch(NullPointerException e)
@@ -273,14 +297,14 @@ public class ExpenseActivity extends Activity implements View.OnClickListener
 
 	public void setSpendEditText(BigInteger spend)
 	{
-		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		spendEditText.setText(spend.toString());
+		TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+		spendTextView.setText(spend.toString());
 	}
 
 	private void _showCalculatorFragment()
 	{
-		EditText spendEditText = (EditText) findViewById(R.id.expense_edit_spend);
-		String spendString = spendEditText.getText().toString();
+		TextView spendTextView = (TextView) findViewById(R.id.expense_view_spend);
+		String spendString = spendTextView.getText().toString();
 
 		CalculatorFragment calculatorFragment = CalculatorFragment.newInstance(new BigInteger(spendString));
 		calculatorFragment.show(getFragmentManager(), "calculator");

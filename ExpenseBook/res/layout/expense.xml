@@ -5,11 +5,163 @@
                 android:layout_height="match_parent"
                 android:background="@color/background">
 
+
+	<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/scrollView"
+			android:layout_marginBottom="@dimen/activity_vertical_margin"
+			android:layout_alignParentBottom="false"
+			android:layout_alignParentLeft="false"
+			android:layout_alignParentTop="true"
+			android:layout_above="@+id/linearLayout"
+			android:layout_marginLeft="@dimen/activity_horizontal_margin"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:layout_marginTop="@dimen/activity_vertical_margin">
+
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="20dp"
+					android:layout_weight="1">
+
+				<ImageView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:id="@+id/expense_view_picture"
+						android:layout_gravity="center"
+						android:src="@drawable/ic_launcher"
+						android:background="@color/main"
+						android:adjustViewBounds="true"
+						android:padding="5dp"
+						android:layout_weight="1"/>
+
+				<LinearLayout
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:layout_gravity="bottom">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:id="@+id/expense_view_spend"
+							android:layout_marginLeft="10dp"
+							android:layout_gravity="bottom"
+							android:textSize="40dp"
+							android:text="@string/sample_spend"
+							android:gravity="right"
+							android:layout_marginRight="5dp"
+							android:textColor="@color/font"/>
+
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="@string/browse_view_unit"
+							android:id="@+id/textView2"
+							android:layout_gravity="bottom"
+							android:textSize="40dp"
+							android:textColor="@color/font"/>
+				</LinearLayout>
+			</LinearLayout>
+
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/expense_view_category"
+					android:id="@+id/textView3"
+					android:layout_gravity="center_vertical|left"
+					android:textColor="@color/font"
+					android:textSize="30dp"/>
+
+			<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/imageView"
+					android:background="@color/main"
+					android:adjustViewBounds="false"/>
+
+			<RadioGroup
+					android:layout_width="match_parent"
+					android:layout_height="fill_parent"
+					android:id="@+id/expense_radio_category"
+					android:layout_gravity="center">
+			</RadioGroup>
+
+			<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/imageView2"
+					android:background="@color/main"
+					android:adjustViewBounds="false"/>
+
+			<TableLayout
+					android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+
+				<TableRow>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:text="@string/expense_view_date"
+						android:id="@+id/textView"
+						android:layout_gravity="center_vertical|left"
+						android:textColor="@color/font"
+						android:layout_column="0"
+						android:textSize="30dp"/>
+
+					<EditText
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="date"
+						android:ems="10"
+						android:id="@+id/expense_edit_date"
+						android:textColor="@color/font"
+						android:layout_column="1"/>
+				</TableRow>
+
+				<TableRow>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:text="@string/expense_view_note"
+						android:id="@+id/textView4"
+						android:layout_gravity="center_vertical|left"
+						android:textColor="@color/font"
+						android:layout_column="0"
+						android:textSize="30dp"/>
+
+					<EditText
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/expense_edit_note"
+						android:inputType="text"
+						android:textColor="@color/font"
+						android:layout_column="1"/>
+				</TableRow>
+
+			</TableLayout>
+
+		</LinearLayout>
+	</ScrollView>
+
 	<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/linearLayout"
-			android:layout_alignParentTop="true"
+			android:layout_alignParentBottom="true"
 			android:layout_alignParentLeft="true">
 
 		<Button
@@ -33,127 +185,5 @@
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"/>
 	</LinearLayout>
-
-	<ScrollView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:id="@+id/scrollView"
-			android:layout_below="@+id/linearLayout"
-			android:layout_centerHorizontal="true"
-			android:layout_alignParentBottom="true"
-			android:layout_marginTop="@dimen/activity_vertical_margin"
-			android:layout_marginLeft="@dimen/activity_horizontal_margin"
-			android:layout_marginRight="@dimen/activity_horizontal_margin"
-			android:layout_marginBottom="@dimen/activity_vertical_margin">
-
-		<TableLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:stretchColumns="0,1">
-
-			<TableRow
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent">
-
-				<ImageView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:id="@+id/expense_view_picture"
-						android:layout_gravity="center"
-						android:src="@drawable/ic_launcher"
-						android:background="@color/main"
-						android:adjustViewBounds="true"
-						android:padding="5dp"
-						android:layout_span="2"
-						/>
-			</TableRow>
-
-			<TableRow
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent">
-
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:text="@string/expense_view_spend"
-						android:id="@+id/textView2"
-						android:layout_gravity="center_vertical|left"
-						android:textColor="@color/font"/>
-
-				<EditText
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:inputType="numberDecimal"
-						android:id="@+id/expense_edit_spend"
-						android:ems="10"
-						android:textColor="@color/font"/>
-			</TableRow>
-
-			<TableRow
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent">
-
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:text="@string/expense_view_date"
-						android:id="@+id/textView"
-						android:layout_gravity="center_vertical|left"
-						android:textColor="@color/font"/>
-
-				<EditText
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:inputType="date"
-						android:ems="10"
-						android:id="@+id/expense_edit_date"
-						android:textColor="@color/font"/>
-			</TableRow>
-
-			<TableRow
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent">
-
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:text="@string/expense_view_category"
-						android:id="@+id/textView3"
-						android:layout_gravity="center_vertical|left"
-						android:textColor="@color/font"/>
-
-				<Spinner
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:id="@+id/expense_edit_category"
-						/>
-			</TableRow>
-
-			<TableRow
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent">
-
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:text="@string/expense_view_note"
-						android:id="@+id/textView4"
-						android:layout_gravity="center_vertical|left"
-						android:textColor="@color/font"/>
-
-				<EditText
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:id="@+id/expense_edit_note"
-						android:inputType="text"
-						android:textColor="@color/font"/>
-			</TableRow>
-
-		</TableLayout>
-	</ScrollView>
 
 </RelativeLayout>

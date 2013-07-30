@@ -15,7 +15,7 @@
 
     <string name="expense_view_spend">金額：</string>
 	<string name="expense_view_date">時間：</string>
-    <string name="expense_view_category">分類：</string>
+    <string name="expense_view_category">分類</string>
     <string name="expense_view_note">筆記：</string>
     <string name="expense_button_save">儲存</string>
     <string name="expense_button_cancel">取消</string>
