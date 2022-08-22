@@ -13,7 +13,7 @@
 #include <QRect>
 
 //SQL
-#include <QtSQl>
+#include <QtSql>
 
 //工具
 #include <QIntValidator>
