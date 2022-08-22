@@ -20,7 +20,7 @@ SOURCES += \
     src/statisticstab.cpp \
     src/settingtab.cpp \
     src/expensetab.cpp \
-    src/strings.cpp \
+    src/accountbook.cpp \
     src/expensemodel.cpp
 
 HEADERS  += \
@@ -29,7 +29,7 @@ HEADERS  += \
     src/settingtab.h \
     src/expensetab.h \
     src/globals.h \
-    src/strings.h \
+    src/accountbook.h \
     src/expensemodel.h
 
 FORMS    += \

@@ -1,7 +1,7 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "globals.h"
-#include "strings.h"
+#include "accountbook.h"
 #include "settingtab.h"
 
 #include <QDebug>

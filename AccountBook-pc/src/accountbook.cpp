@@ -1,4 +1,4 @@
-#include "strings.h"
+#include "accountbook.h"
 
 #include <QString>
 

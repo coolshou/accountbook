@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "mainwidget.h"
-#include "strings.h"
+#include "accountbook.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +13,6 @@ int main(int argc, char *argv[])
 
     MainWidget w;
     w.show();
-    
+
     return a.exec();
 }
