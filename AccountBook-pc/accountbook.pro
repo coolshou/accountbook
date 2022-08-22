@@ -12,29 +12,31 @@ TARGET = accountbook
 TEMPLATE = app
 
 CONFIG += c++11
+INCLUDEPATH += src
 
-SOURCES += main.cpp\
-    mainwidget.cpp \
-    statisticstab.cpp \
-    settingtab.cpp \
-    expensetab.cpp \
-    strings.cpp \
-    expensemodel.cpp
+SOURCES += \
+    src/main.cpp\
+    src/mainwidget.cpp \
+    src/statisticstab.cpp \
+    src/settingtab.cpp \
+    src/expensetab.cpp \
+    src/strings.cpp \
+    src/expensemodel.cpp
 
 HEADERS  += \
-    mainwidget.h \
-    statisticstab.h \
-    settingtab.h \
-    expensetab.h \
-    globals.h \
-    strings.h \
-    expensemodel.h
+    src/mainwidget.h \
+    src/statisticstab.h \
+    src/settingtab.h \
+    src/expensetab.h \
+    src/globals.h \
+    src/strings.h \
+    src/expensemodel.h
 
 FORMS    += \
-    mainwidget.ui \
-    statisticstab.ui \
-    expensetab.ui \
-    settingtab.ui
+    src/mainwidget.ui \
+    src/statisticstab.ui \
+    src/expensetab.ui \
+    src/settingtab.ui
 
 OTHER_FILES +=
 
